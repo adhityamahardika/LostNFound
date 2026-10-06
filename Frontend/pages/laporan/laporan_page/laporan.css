@@ -1,20 +1,24 @@
 :root {
-    --bg-main: #111f28;
-    --bg-card: #1a2c38;
-    --accent-teal: #5fd2d0;
-    --text-white: #ffffff;
-    --text-gray: #9ba3a9;
-    --border-color: #2a3f4c;
+    /* Palet Light Theme dari Wireframe */
+    --bg-main: #e8f4f8;      /* Biru/cyan sangat muda untuk latar web */
+    --bg-card: #ffffff;      /* Putih untuk kartu dan form */
+    --primary-teal: #4db6ac; /* Warna utama (teal/biru kehijauan) */
+    --image-placeholder: #b2dfdb; /* Teal muda untuk kotak foto */
     
-    /* Warna Status */
-    --status-hilang: #ff8a65;
-    --status-ditemukan: #81c784;
-    --status-dikembalikan: #e0e0e0;
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --border-color: #cccccc;
+
+    /* Warna Label Status */
+    --bg-hilang: #ffe5d9;    /* Peach */
+    --text-hilang: #d9534f;
+    --bg-ditemukan: #2b2d42; /* Navy */
+    --text-ditemukan: #ffffff;
 }
 
 body {
     background-color: var(--bg-main);
-    color: var(--text-white);
+    color: var(--text-dark);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
@@ -40,7 +44,7 @@ h1 {
     gap: 20px;
     align-items: flex-end;
     margin-bottom: 20px;
-    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .filter-group {
@@ -51,20 +55,20 @@ h1 {
 }
 
 .filter-group label {
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: bold;
     margin-bottom: 8px;
-    color: var(--text-white);
+    color: var(--text-dark);
 }
 
 .filter-group select, 
 .filter-group input {
-    background-color: var(--bg-main);
-    color: var(--text-white);
+    background-color: #f9f9f9;
+    color: var(--text-dark);
     border: 1px solid var(--border-color);
     padding: 10px;
     border-radius: 6px;
     outline: none;
-    color-scheme: dark;
 }
 
 .filter-actions {
@@ -73,8 +77,8 @@ h1 {
 }
 
 .btn-terapkan {
-    background-color: var(--accent-teal);
-    color: var(--bg-main);
+    background-color: var(--primary-teal);
+    color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
@@ -84,8 +88,8 @@ h1 {
 
 .btn-reset {
     background-color: transparent;
-    color: var(--text-white);
-    border: 1px solid var(--accent-teal);
+    color: var(--text-dark);
+    border: 1px solid var(--text-gray);
     padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
@@ -105,20 +109,20 @@ h1 {
 }
 
 .status-btn {
-    background-color: transparent;
-    color: var(--text-white);
+    background-color: var(--bg-card);
+    color: var(--text-dark);
     border: 1px solid var(--border-color);
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
     transition: 0.2s;
+    font-weight: bold;
 }
 
 .status-btn.active {
-    background-color: var(--accent-teal);
-    color: var(--bg-main);
-    border-color: var(--accent-teal);
-    font-weight: bold;
+    background-color: var(--primary-teal);
+    color: white;
+    border-color: var(--primary-teal);
 }
 
 /* Grid & Cards */
@@ -134,61 +138,163 @@ h1 {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .card-image {
     height: 150px;
-    background-color: var(--bg-card);
+    background-color: var(--image-placeholder);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 60px; /* Untuk emoji simulasi gambar */
+    font-size: 50px; 
+    border-bottom: 1px dashed var(--border-color); /* Garis putus-putus seperti di wireframe */
 }
 
 .card-content {
     padding: 15px;
-    border-top: 1px solid var(--border-color);
 }
 
 .badge {
     display: inline-block;
-    padding: 4px 8px;
+    padding: 4px 12px;
     font-size: 12px;
-    border-radius: 4px;
+    border-radius: 12px;
     margin-bottom: 10px;
     font-weight: bold;
-    border: 1px solid;
 }
 
-.badge.hilang { color: var(--status-hilang); border-color: var(--status-hilang); }
-.badge.ditemukan { color: var(--status-ditemukan); border-color: var(--status-ditemukan); }
-.badge.dikembalikan { color: var(--status-dikembalikan); border-color: var(--status-dikembalikan); }
+/* Pewarnaan Badge spesifik dari Wireframe */
+.badge.hilang { 
+    background-color: var(--bg-hilang); 
+    color: var(--text-hilang); 
+}
+.badge.ditemukan { 
+    background-color: var(--bg-ditemukan); 
+    color: var(--text-ditemukan); 
+}
 
 .card-title {
     font-size: 16px;
     margin: 0 0 5px 0;
+    color: var(--text-dark);
 }
 
 .card-info {
-    font-size: 12px;
+    font-size: 13px;
     color: var(--text-gray);
     margin-bottom: 15px;
 }
 
+/* --- PERBAGUS TOMBOL LIHAT DETAIL --- */
 .btn-detail {
     display: block;
     width: 100%;
     text-align: center;
     padding: 10px;
+    margin-top: 15px;
     background: transparent;
-    color: var(--accent-teal);
-    border: 1px solid var(--accent-teal);
+    color: var(--primary-teal);
+    border: 1px solid var(--primary-teal);
     border-radius: 20px;
-    text-decoration: none;
+    font-weight: bold;
     cursor: pointer;
-    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
+
 .btn-detail:hover {
-    background: var(--accent-teal);
-    color: var(--bg-main);
+    background: var(--primary-teal);
+    color: white;
+}
+
+/* --- GAYA MODAL / POPUP --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Latar belakang gelap transparan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Agar muncul paling depan */
+    backdrop-filter: blur(3px); /* Efek blur estetik di background */
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    padding: 30px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh; /* Maksimal tinggi 90% layar */
+    overflow-y: auto; /* Bisa di-scroll kalau isinya panjang */
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-gray);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--text-dark);
+}
+
+/* --- GAYA ISI DALAM MODAL (Dari Detail Barang) --- */
+.modal-detail-flex {
+    display: flex;
+    gap: 30px;
+}
+.modal-gallery {
+    flex: 1;
+    background-color: var(--image-placeholder);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    min-height: 300px;
+}
+.modal-info {
+    flex: 1;
+}
+.modal-info h2 {
+    margin: 10px 0;
+    font-size: 24px;
+}
+.modal-info p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+.btn-kembali {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+.btn-kembali:hover {
+    background: #f5f5f5;
+}
+
+/* Responsif Modal Mobile */
+@media (max-width: 768px) {
+    .modal-detail-flex {
+        flex-direction: column;
+    }
+    .modal-gallery {
+        min-height: 200px;
+        font-size: 60px;
+    }
 }

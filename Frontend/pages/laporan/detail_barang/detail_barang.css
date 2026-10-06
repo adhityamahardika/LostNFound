@@ -1,0 +1,248 @@
+:root {
+    --bg-main: #e8f4f8;      
+    --bg-card: #ffffff;      
+    --primary-teal: #4db6ac; 
+    --primary-dark: #3a8a82;
+    --image-placeholder: #b2dfdb; 
+    
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --border-color: #e0e0e0;
+    
+    --bg-ditemukan: #2b2d42; 
+    --text-ditemukan: #ffffff;
+
+    --bg-warning: #fff8e1; /* Kuning pucat untuk kotak klaim */
+    --text-warning: #8f6d00;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.detail-card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.detail-content {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+/* Kolom Kiri: Galeri */
+.gallery-section {
+    flex: 1;
+    max-width: 450px;
+}
+
+.main-image {
+    background-color: var(--image-placeholder);
+    border-radius: 12px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    margin-bottom: 15px;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 10px;
+}
+
+.thumbnail {
+    width: 60px;
+    height: 60px;
+    background-color: var(--image-placeholder);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.thumbnail.active {
+    border-color: var(--primary-teal);
+    background-color: #e0f2f1;
+}
+
+/* Kolom Kanan: Info */
+.info-section {
+    flex: 1;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+.badge.ditemukan { background-color: var(--bg-ditemukan); color: var(--text-ditemukan); }
+
+.item-title {
+    font-size: 28px;
+    margin: 0 0 5px 0;
+}
+
+.item-id {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin: 0 0 20px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.info-row {
+    display: flex;
+}
+
+.info-label {
+    flex: 0 0 150px;
+    color: var(--text-gray);
+    font-size: 14px;
+}
+
+.info-value {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.item-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.claim-warning {
+    background-color: var(--bg-warning);
+    color: var(--text-warning);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Tombol */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-teal);
+    color: white;
+    border: none;
+}
+.btn-primary:hover { background-color: var(--primary-dark); }
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover { background-color: #f5f5f5; }
+
+/* Timeline Status */
+.timeline-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-gray);
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-step.active {
+    color: var(--primary-teal);
+    font-weight: bold;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+}
+.timeline-step.active .dot {
+    background-color: var(--primary-teal);
+}
+
+.timeline-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--border-color);
+    margin: 0 -15px;
+    margin-top: -24px; /* Naik sejajar dengan dot */
+    z-index: 1;
+}
+.timeline-line.active {
+    background-color: var(--primary-teal);
+}
+
+/* Responsif untuk Mobile */
+@media (max-width: 768px) {
+    .detail-content {
+        flex-direction: column;
+    }
+    .gallery-section {
+        max-width: 100%;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+}
