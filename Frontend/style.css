@@ -190,6 +190,9 @@
   cursor: pointer;
   list-style: none;
   user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .faq__item summary::-webkit-details-marker {
@@ -198,10 +201,10 @@
 
 .faq__item summary::after {
   content: '+';
-  float: right;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--primary);
+  line-height: 1;
 }
 
 .faq__item[open] summary::after {
