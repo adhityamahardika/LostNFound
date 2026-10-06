@@ -1,0 +1,194 @@
+:root {
+    --bg-main: #111f28;
+    --bg-card: #1a2c38;
+    --accent-teal: #5fd2d0;
+    --text-white: #ffffff;
+    --text-gray: #9ba3a9;
+    --border-color: #2a3f4c;
+    
+    /* Warna Status */
+    --status-hilang: #ff8a65;
+    --status-ditemukan: #81c784;
+    --status-dikembalikan: #e0e0e0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Kotak Filter */
+.filter-box {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-group label {
+    font-size: 12px;
+    margin-bottom: 8px;
+    color: var(--text-white);
+}
+
+.filter-group select, 
+.filter-group input {
+    background-color: var(--bg-main);
+    color: var(--text-white);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 6px;
+    outline: none;
+    color-scheme: dark;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-terapkan {
+    background-color: var(--accent-teal);
+    color: var(--bg-main);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-reset {
+    background-color: transparent;
+    color: var(--text-white);
+    border: 1px solid var(--accent-teal);
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Tabs Status */
+.summary-text {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.status-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.status-btn {
+    background-color: transparent;
+    color: var(--text-white);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.status-btn.active {
+    background-color: var(--accent-teal);
+    color: var(--bg-main);
+    border-color: var(--accent-teal);
+    font-weight: bold;
+}
+
+/* Grid & Cards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    height: 150px;
+    background-color: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px; /* Untuk emoji simulasi gambar */
+}
+
+.card-content {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.badge.hilang { color: var(--status-hilang); border-color: var(--status-hilang); }
+.badge.ditemukan { color: var(--status-ditemukan); border-color: var(--status-ditemukan); }
+.badge.dikembalikan { color: var(--status-dikembalikan); border-color: var(--status-dikembalikan); }
+
+.card-title {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+}
+
+.card-info {
+    font-size: 12px;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+}
+
+.btn-detail {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background: transparent;
+    color: var(--accent-teal);
+    border: 1px solid var(--accent-teal);
+    border-radius: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+.btn-detail:hover {
+    background: var(--accent-teal);
+    color: var(--bg-main);
+}

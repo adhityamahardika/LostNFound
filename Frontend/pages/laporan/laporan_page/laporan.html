@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Laporan - Temu Kembali</title>
+    <link rel="stylesheet" href="daftar-laporan.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Laporan terbaru</h1>
+
+        <!-- Kotak Filter Utama -->
+        <div class="filter-box">
+            <div class="filter-group">
+                <label>Jenis barang</label>
+                <select id="filter-jenis">
+                    <option value="Semua">Semua jenis</option>
+                    <option value="Aksesoris">Aksesoris</option>
+                    <option value="Kendaraan">Kendaraan</option>
+                    <option value="Dokumen">Dokumen</option>
+                    <option value="Elektronik">Elektronik</option>
+                    <option value="Tas">Tas</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Lokasi ditemukan</label>
+                <select id="filter-lokasi">
+                    <option value="Semua">Semua lokasi</option>
+                    <option value="Kantin Utama">Kantin Utama</option>
+                    <option value="Gedung B">Gedung B</option>
+                    <option value="Perpustakaan">Perpustakaan</option>
+                    <option value="Lab Komputer">Lab Komputer</option>
+                    <option value="Aula">Aula</option>
+                    <option value="Parkiran Timur">Parkiran Timur</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Dari tanggal</label>
+                <input type="date" id="filter-start-date">
+            </div>
+            <div class="filter-group">
+                <label>Sampai tanggal</label>
+                <input type="date" id="filter-end-date">
+            </div>
+            <div class="filter-actions">
+                <button class="btn-terapkan" onclick="applyFilters()">Terapkan</button>
+                <button class="btn-reset" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Info & Filter Status -->
+        <p class="summary-text" id="summary-text">Menampilkan 6 dari 6 laporan</p>
+        <div class="status-tabs">
+            <button class="status-btn active" onclick="filterByStatus('Semua', this)">Semua</button>
+            <button class="status-btn" onclick="filterByStatus('Hilang', this)">Hilang</button>
+            <button class="status-btn" onclick="filterByStatus('Ditemukan', this)">Ditemukan</button>
+            <button class="status-btn" onclick="filterByStatus('Dikembalikan', this)">Dikembalikan</button>
+        </div>
+
+        <!-- Grid Container untuk Kartu -->
+        <div class="grid-container" id="card-container">
+            <!-- Kartu akan di-generate oleh JavaScript di sini -->
+        </div>
+    </div>
+
+    <script src="daftar-laporan.js"></script>
+</body>
+</html>
