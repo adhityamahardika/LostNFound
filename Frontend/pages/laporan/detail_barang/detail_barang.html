@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Barang - Temu Kembali</title>
+    <link rel="stylesheet" href="detail_barang.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">Detail barang</h1>
+
+        <div class="detail-card">
+            <div class="detail-content">
+                <!-- Kolom Kiri: Galeri Foto -->
+                <div class="gallery-section">
+                    <div class="main-image" id="main-image">
+                        🔑
+                    </div>
+                    <div class="thumbnail-list">
+                        <div class="thumbnail active" onclick="changeImage('🔑', this)">🔑</div>
+                        <div class="thumbnail" onclick="changeImage('📍', this)">📍</div>
+                        <div class="thumbnail" onclick="changeImage('📷', this)">📷</div>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Informasi Barang -->
+                <div class="info-section">
+                    <span class="badge ditemukan">Ditemukan</span>
+                    <h2 class="item-title">Kunci motor Honda</h2>
+                    <p class="item-id">Kode laporan LF-0928-014</p>
+
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <span class="info-label">Jenis barang</span>
+                            <span class="info-value">Kunci</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Tanggal ditemukan</span>
+                            <span class="info-value">Senin, 28 September 2026</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Perkiraan waktu</span>
+                            <span class="info-value">Sekitar 08.30</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Lokasi ditemukan</span>
+                            <span class="info-value">Gedung B, Lantai 2 (dekat tangga timur)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Barang sekarang di</span>
+                            <span class="info-value">Pos satpam, gerbang utama</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Dilaporkan oleh</span>
+                            <span class="info-value">Ayu, mahasiswa</span>
+                        </div>
+                    </div>
+
+                    <p class="item-desc">
+                        Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.
+                    </p>
+
+                    <!-- Kotak Peringatan Klaim -->
+                    <div class="claim-warning">
+                        <strong>Ini barangmu?</strong><br>
+                        Kamu akan diminta menyebutkan ciri yang tidak terlihat di foto sebelum bisa menghubungi penemu.
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-primary" onclick="alert('Membuka form verifikasi klaim...')">Klaim barang ini</button>
+                        <a href="daftar-laporan.html" class="btn-secondary">Kembali ke daftar</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bagian Bawah: Timeline Status -->
+            <div class="timeline-section">
+                <div class="timeline-step active">
+                    <div class="dot"></div>
+                    <span>Dilaporkan</span>
+                </div>
+                <div class="timeline-line active"></div>
+                
+                <div class="timeline-step active">
+                    <div class="dot"></div>
+                    <span>Dititipkan</span>
+                </div>
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-step">
+                    <div class="dot"></div>
+                    <span>Diklaim</span>
+                </div>
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-step">
+                    <div class="dot"></div>
+                    <span>Dikembalikan</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="detail_barang.js"></script>
+</body>
+</html>
