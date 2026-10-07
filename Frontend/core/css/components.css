@@ -1,0 +1,153 @@
+/*  REUSABLE COMPONENTS  */
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: .7rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform .15s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--primary);
+}
+
+.btn--secondary {
+  background: transparent;
+  border-color: var(--muted);
+  color: var(--ink);
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: .15rem .7rem;
+  border-radius: 6px;
+  font-size: .8rem;
+  font-weight: 700;
+  border: 1.5px solid currentColor;
+}
+
+.badge--hilang {
+  background: var(--hilang);
+  color: white;
+  border: none;
+}
+
+.badge--ditemukan {
+  background: var(--ditemukan);
+  color: white;
+  border: none;
+}
+
+.badge--kembali {
+  color: var(--kembali);
+}
+
+/* Item Cards */
+.grid {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.item-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, border-color .2s;
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.item-card__image {
+  display: grid;
+  place-items: center;
+  height: 180px;
+  background: #B8E6E6;
+  color: var(--muted);
+  font-size: .9rem;
+  padding: 1rem;
+  border-bottom: 2px dashed #A0D8D8;
+}
+
+.item-card__body {
+  padding: 1rem 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  flex: 1;
+}
+
+.item-card__title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.item-card__meta {
+  margin: 0;
+  font-size: .88rem;
+  color: var(--muted);
+}
+
+/* Footer */
+.site-footer {
+  border-top: none;
+  background: #1A1A2E;
+  padding-block: 3rem;
+  margin-top: 0;
+  color: #9CA3AF;
+  font-size: .92rem;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.site-footer h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: .6rem;
+}
+
+.site-footer p {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.site-footer a {
+  text-decoration: none;
+  color: #9CA3AF;
+  display: block;
+  margin-top: .4rem;
+}
+
+.site-footer a:hover {
+  color: #ffffff;
+}
+
+/* Responsive footer */
+@media (min-width: 720px) {
+  .footer-grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
