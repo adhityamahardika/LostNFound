@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Profil Saya – Temu Kembali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../core/css/main.css">
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+  <!-- Header Navigasi (Persis Sesuai Wireframe) -->
+  <header class="site-nav-wrapper">
+    <nav class="container site-nav" aria-label="Navigasi Utama">
+      <a class="brand-group" href="../../index.html">
+        <span class="brand-logo-box">tk</span>
+        <span class="brand-title">Temu Kembali</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="../../index.html">Beranda</a></li>
+        <li><a class="nav-link" href="../../index.html#barang">Daftar Barang</a></li>
+        <li><a class="nav-link" href="../../index.html#form-lapor">Lapor</a></li>
+        <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="btn-nav-action btn-nav-outline" href="../login/login.html" title="Keluar Akun">Keluar</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Konten Utama Profil -->
+  <main class="profile-page">
+    <div class="container">
+
+      <!-- 1. Header Identitas Pengguna -->
+      <section class="profile-header-card" aria-label="Identitas Pengguna">
+        <div class="profile-identity-row">
+          <div class="profile-user-info">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" aria-hidden="true">MW</div>
+              <span class="avatar-online-status" title="Akun Aktif"></span>
+            </div>
+            <div class="user-meta-details">
+              <h1>
+                Made Wirawan
+                <span class="badge badge-role">Mahasiswa</span>
+              </h1>
+              <p class="user-academic-line">
+                NIM <strong>2408561089</strong> · Program Studi Informatika · Fakultas MIPA
+              </p>
+              <div class="user-contacts-line">
+                <span class="contact-pill">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  made.wirawan@student.kampus.ac.id
+                </span>
+                <span class="contact-pill">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="5" y="2" width="14" height="20" rx="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                  </svg>
+                  0812-3456-7890 (Privat)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-header-actions">
+            <a href="../../index.html#form-lapor" class="btn btn-primary">
+              + Lapor Barang Baru
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Ringkasan Statistik Aktivitas -->
+      <section class="profile-stats-grid" aria-label="Statistik Aktivitas">
+        <div class="stat-card">
+          <div class="stat-icon hilang" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">1</span>
+            <span class="stat-label">Barang Hilang Aktif</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon ditemukan" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">2</span>
+            <span class="stat-label">Barang Temuan Dilaporkan</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon kembali" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">3</span>
+            <span class="stat-label">Berhasil Dikembalikan</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon klaim" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value">1</span>
+            <span class="stat-label">Klaim Terverifikasi</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Navigasi Tab Profil (Murni CSS) -->
+      <input type="radio" name="profile-tabs" id="tab-laporan" class="profile-tab-input" checked>
+      <input type="radio" name="profile-tabs" id="tab-klaim" class="profile-tab-input">
+      <input type="radio" name="profile-tabs" id="tab-settings" class="profile-tab-input">
+
+      <nav class="profile-nav-tabs" role="tablist" aria-label="Navigasi Menu Profil">
+        <label for="tab-laporan" class="tab-btn-label" role="tab">
+          Laporan Saya
+          <span class="tab-count-badge">3</span>
+        </label>
+        <label for="tab-klaim" class="tab-btn-label" role="tab">
+          Klaim Saya
+          <span class="tab-count-badge">2</span>
+        </label>
+        <label for="tab-settings" class="tab-btn-label" role="tab">
+          Pengaturan Akun & Privasi
+        </label>
+      </nav>
+
+      <!-- TAB 1: LAPORAN SAYA -->
+      <section class="profile-tab-pane" id="pane-laporan" aria-label="Daftar Laporan Saya">
+        <div class="items-list-wrapper">
+          
+          <!-- Laporan 1: Kunci motor Honda (Temuan disimpan oleh penemu) -->
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="7" cy="17" r="4"></circle>
+                    <path d="M10.8 13.2L19 5l3 3-2 2-2-2-2 2-2-2-3.2 3.2"></path>
+                  </svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>Kunci Motor Honda Vario</h3>
+                  <div class="card-meta-inline">
+                    <span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"></circle><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path></svg>
+                      Gedung B, Lantai 2 (Tangga timur)
+                    </span>
+                    <span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                      28 September 2026 · 08.30 WITA
+                    </span>
+                    <span>Kode: <strong>LF-0928-014</strong></span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-ditemukan">
+                <span class="badge-dot"></span>
+                Ditemukan (Disimpan Sendiri)
+              </span>
+            </div>
+
+            <!-- Stepper Langsung Antara Pelapor & Penemu -->
+            <div class="status-stepper" aria-label="Alur Status Barang">
+              <div class="step-node completed">
+                <span class="step-marker">✓</span>
+                <span>Dilaporkan</span>
+              </div>
+              <div class="step-node current">
+                <span class="step-marker">2</span>
+                <span>Klaim Masuk</span>
+              </div>
+              <div class="step-node">
+                <span class="step-marker">3</span>
+                <span>Chat Terbuka</span>
+              </div>
+              <div class="step-node">
+                <span class="step-marker">4</span>
+                <span>Dikembalikan</span>
+              </div>
+            </div>
+
+            <div class="secret-trait-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <div>
+                <strong>Ciri Rahasia Tercatat:</strong>
+                Gantungan karakter kucing oranye + 1 anak kunci loker perak. Jawaban ini digunakan memvalidasi pengklaim sebelum membuka chat.
+              </div>
+            </div>
+
+            <div class="card-actions-row">
+              <span style="font-size: 0.86rem; color: var(--text-muted);">
+                Ada 1 pengajuan klaim baru yang menunggu verifikasi jawaban ciri rahasia dari Anda.
+              </span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="../../index.html#detail" class="btn btn-outline btn-sm">Lihat Detail Laporan</a>
+                <a href="../../index.html#chat" class="btn btn-primary btn-sm">Periksa Klaim Masuk (1)</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Laporan 2: Dompet Cokelat (Hilang) -->
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="M2 10h20"></path>
+                  </svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>Dompet Kulit Cokelat Lipat</h3>
+                  <div class="card-meta-inline">
+                    <span>Kantin Utama Kampus (Meja Kasir)</span>
+                    <span>27 September 2026 · 12.15 WITA</span>
+                    <span>Kode: <strong>LF-0927-009</strong></span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-hilang">
+                <span class="badge-dot"></span>
+                Hilang (Aktif Dicari)
+              </span>
+            </div>
+
+            <div class="status-stepper" aria-label="Alur Status Barang">
+              <div class="step-node current"><span class="step-marker">1</span><span>Dilaporkan</span></div>
+              <div class="step-node"><span class="step-marker">2</span><span>Ditemukan</span></div>
+              <div class="step-node"><span class="step-marker">3</span><span>Verifikasi</span></div>
+              <div class="step-node"><span class="step-marker">4</span><span>Dikembalikan</span></div>
+            </div>
+
+            <div class="card-actions-row">
+              <span style="font-size: 0.86rem; color: var(--status-hilang-text); font-weight: 600;">
+                Belum ada laporan temuan dengan ciri serupa di katalog.
+              </span>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="../../index.html#barang" class="btn btn-outline btn-sm">Cari di Katalog Temuan</a>
+                <button type="button" class="btn btn-danger btn-sm">Batalkan Laporan</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Laporan 3: Earphone (Dikembalikan) -->
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                  </svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>Earphone Bluetooth Putih Case Bulat</h3>
+                  <div class="card-meta-inline">
+                    <span>Aula Gedung Widya Sabha</span>
+                    <span>24 September 2026</span>
+                    <span>Kode: <strong>LF-0924-002</strong></span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-kembali">
+                <span class="badge-dot"></span>
+                Dikembalikan (Selesai)
+              </span>
+            </div>
+
+            <div class="status-stepper" aria-label="Alur Status Barang">
+              <div class="step-node completed"><span class="step-marker">✓</span><span>Dilaporkan</span></div>
+              <div class="step-node completed"><span class="step-marker">✓</span><span>Klaim Cocok</span></div>
+              <div class="step-node completed"><span class="step-marker">✓</span><span>Chat Serah Terima</span></div>
+              <div class="step-node completed"><span class="step-marker">✓</span><span>Selesai Dikembalikan</span></div>
+            </div>
+
+            <div class="card-actions-row">
+              <span style="font-size: 0.86rem; color: var(--brand-teal); font-weight: 600;">
+                ✓ Barang telah berhasil diserahkan langsung kepada pemilik sah di kampus pada 25 September 2026.
+              </span>
+              <a href="../../index.html#detail" class="btn btn-outline btn-sm">Lihat Arsip</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- TAB 2: KLAIM SAYA -->
+      <section class="profile-tab-pane" id="pane-klaim" aria-label="Daftar Klaim Saya">
+        <div class="items-list-wrapper">
+          
+          <!-- Klaim 1: KTM a.n. Made Wirawan (Disetujui -> Chat Terbuka) -->
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>KTM a.n. Made Wirawan</h3>
+                  <div class="card-meta-inline">
+                    <span>Ditemukan oleh: <strong>Rizky (Mahasiswa)</strong></span>
+                    <span>Lokasi Ditemukan: Perpustakaan Pusat Lt. 1</span>
+                    <span>28 Sep 2026</span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-ditemukan">
+                <span class="badge-dot"></span>
+                Klaim Disetujui
+              </span>
+            </div>
+
+            <!-- Callout Hijau: Klaim Diterima & Chat Terbuka -->
+            <div class="claim-approval-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <div>
+                <strong>Verifikasi Ciri Rahasia Diterima!</strong>
+                <p>Jawaban Anda cocok dengan ciri rahasia barang. Ruang chat aman kini telah terbuka agar Anda dan penemu dapat menyepakati lokasi serta waktu serah terima di area kampus.</p>
+                <div style="display: flex; gap: 0.6rem;">
+                  <a href="../../index.html#chat" class="btn btn-primary btn-sm">
+                    Buka Chat dengan Penemu
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-actions-row">
+              <span style="font-size: 0.85rem; color: var(--text-muted);">
+                Ingat: Bertemulah di tempat umum yang ramai di dalam lingkungan kampus saat serah terima barang.
+              </span>
+            </div>
+          </article>
+
+          <!-- Klaim 2: Botol Minum (Menunggu Verifikasi) -->
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+                  </svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>Botol Minum Biru (Tupperware Eco 750ml)</h3>
+                  <div class="card-meta-inline">
+                    <span>Penemu: <strong>Budi (Lab Komputer)</strong></span>
+                    <span>Klaim Diajukan: 28 Sep 2026, 14.20 WITA</span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-klaim">
+                <span class="badge-dot"></span>
+                Menunggu Verifikasi Penemu
+              </span>
+            </div>
+
+            <div class="secret-trait-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <div>
+                <strong>Jawaban Ciri Rahasia yang Anda Kirimkan:</strong>
+                "Ada stiker siluet kucing hitam di dekat tutup botol, dan lecet kecil di sisi alas kanan botol."
+              </div>
+            </div>
+
+            <div class="card-actions-row">
+              <span style="font-size: 0.85rem; color: var(--text-muted);">
+                Chat akan terbuka otomatis jika penemu menyetujui kecocokan ciri rahasia tersebut.
+              </span>
+              <button type="button" class="btn btn-outline btn-sm">Ubah Jawaban Ciri</button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- TAB 3: PENGATURAN AKUN & PRIVASI -->
+      <section class="profile-tab-pane" id="pane-settings" aria-label="Pengaturan Akun">
+        <div class="settings-box">
+          <h3>Preferensi Privasi & Akun</h3>
+
+          <form action="#" method="post">
+            <div class="settings-group">
+              
+              <div class="setting-toggle-row">
+                <div class="info">
+                  <strong>Sembunyikan Nomor Telepon dari Publik</strong>
+                  <p>Hanya gunakan chat internal setelah klaim ciri rahasia disetujui demi keamanan privasi.</p>
+                </div>
+                <label class="custom-checkbox">
+                  <input type="checkbox" name="hide_phone" checked>
+                </label>
+              </div>
+
+              <div class="setting-toggle-row" style="border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+                <div class="info">
+                  <strong>Notifikasi Email Saat Ada Klaim Baru</strong>
+                  <p>Menerima email kampus jika ada orang yang mengklaim barang temuan yang Anda laporkan.</p>
+                </div>
+                <label class="custom-checkbox">
+                  <input type="checkbox" name="notif_email" checked>
+                </label>
+              </div>
+
+              <div class="form-group" style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+                <label for="change-old-pass" class="form-label">Kata Sandi Saat Ini</label>
+                <input type="password" id="change-old-pass" class="form-control" placeholder="Masukkan kata sandi lama">
+              </div>
+
+              <div class="form-group">
+                <label for="change-new-pass" class="form-label">Kata Sandi Baru</label>
+                <input type="password" id="change-new-pass" class="form-control" placeholder="Minimal 8 karakter unik">
+              </div>
+
+              <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                <button type="reset" class="btn btn-outline">Batal</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer (Sesuai Wireframe: Muted slate-navy bar) -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Temu Kembali</h4>
+        <p>Layanan terpusat laporan barang hilang dan temuan untuk seluruh civitas kampus.</p>
+      </div>
+      <div>
+        <h4>Navigasi</h4>
+        <p><a href="../../index.html">Beranda</a> · <a href="../../index.html#barang">Daftar Barang</a> · <a href="../../index.html#form-lapor">Lapor</a></p>
+      </div>
+      <div>
+        <h4>Bantuan</h4>
+        <p>Pertanyaan seputar alur verifikasi klaim barang & serah terima.</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Temu Kembali Kampus. Seluruh hak cipta dilindungi.</p>
+      <p>Sistem Informasi Lost & Found Civitas Kampus.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

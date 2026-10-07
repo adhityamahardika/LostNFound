@@ -1,0 +1,515 @@
+/* ==========================================================================
+   USER PROFILE PAGE STYLES
+   Matched to: Wireframe Homepage Temu Kembali.pdf
+   Tanpa Pos Satpam (Serah terima langsung pelapor-penemu terverifikasi)
+   ========================================================================== */
+
+.profile-page {
+  padding-block: 2.5rem 4rem;
+  flex: 1;
+  background: #ffffff;
+}
+
+/* ==========================================================================
+   PROFILE HEADER / IDENTITY CARD
+   ========================================================================== */
+.profile-header-card {
+  background: var(--brand-hero-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  padding: 2.25rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.profile-identity-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.profile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.profile-avatar-wrap {
+  position: relative;
+}
+
+.profile-avatar {
+  width: 82px;
+  height: 82px;
+  border-radius: var(--radius-md);
+  background: var(--brand-teal);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--brand-mint);
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-online-status {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2.5px solid #ffffff;
+}
+
+.user-meta-details h1 {
+  font-size: 1.65rem;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  color: var(--brand-navy);
+}
+
+.user-academic-line {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.user-contacts-line {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.contact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  color: var(--brand-navy);
+  font-weight: 600;
+}
+
+.contact-pill svg {
+  width: 14px;
+  height: 14px;
+  color: var(--brand-teal);
+}
+
+.profile-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   METRIC / STATS GRID
+   ========================================================================== */
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  transition: border-color var(--transition-fast);
+}
+
+.stat-card:hover {
+  border-color: var(--brand-teal);
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.stat-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.stat-icon.hilang {
+  background: var(--status-hilang-bg);
+  color: var(--status-hilang-text);
+}
+
+.stat-icon.ditemukan {
+  background: var(--status-ditemukan-bg);
+  color: var(--status-ditemukan-text);
+}
+
+.stat-icon.kembali {
+  background: var(--status-kembali-bg);
+  color: var(--status-kembali-text);
+}
+
+.stat-icon.klaim {
+  background: var(--status-klaim-bg);
+  color: var(--status-klaim-text);
+}
+
+.stat-info .stat-value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  line-height: 1.1;
+}
+
+.stat-info .stat-label {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PURE CSS PROFILE TABS (Hanya: Laporan, Klaim, Pengaturan)
+   ========================================================================== */
+.profile-tab-input {
+  display: none;
+}
+
+.profile-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--border-subtle);
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.tab-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tab-count-badge {
+  background: var(--brand-hero-bg);
+  color: var(--brand-teal);
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+#tab-laporan:checked ~ .profile-nav-tabs label[for="tab-laporan"],
+#tab-klaim:checked ~ .profile-nav-tabs label[for="tab-klaim"],
+#tab-settings:checked ~ .profile-nav-tabs label[for="tab-settings"] {
+  color: var(--brand-teal);
+  border-bottom-color: var(--brand-teal);
+}
+
+#tab-laporan:checked ~ .profile-nav-tabs label[for="tab-laporan"] .tab-count-badge,
+#tab-klaim:checked ~ .profile-nav-tabs label[for="tab-klaim"] .tab-count-badge {
+  background: var(--brand-teal);
+  color: #ffffff;
+}
+
+.profile-tab-pane {
+  display: none;
+  animation: tabFadeIn 0.2s ease-out;
+}
+
+#tab-laporan:checked ~ #pane-laporan,
+#tab-klaim:checked ~ #pane-klaim,
+#tab-settings:checked ~ #pane-settings {
+  display: block;
+}
+
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   ITEM REPORT CARDS
+   ========================================================================== */
+.items-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.item-report-card {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: border-color var(--transition-fast);
+}
+
+.item-report-card:hover {
+  border-color: var(--border-strong);
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card-main-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.item-category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-hero-bg);
+  color: var(--brand-teal);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.item-category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.card-title-group h3 {
+  font-size: 1.18rem;
+  margin-bottom: 0.25rem;
+  color: var(--brand-navy);
+}
+
+.card-meta-inline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.card-meta-inline span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.card-meta-inline svg {
+  width: 14px;
+  height: 14px;
+  color: var(--brand-teal);
+}
+
+.secret-trait-box {
+  background: #fdfaf0;
+  border: 1px dashed #e2c070;
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  font-size: 0.86rem;
+  color: #634f11;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.secret-trait-box svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #b58900;
+  margin-top: 2px;
+}
+
+/* Stepper Status (Alur Langsung: Dilaporkan -> Klaim Diajukan -> Verifikasi Cocok -> Dikembalikan) */
+.status-stepper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  position: relative;
+  margin: 0.5rem 0;
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  position: relative;
+}
+
+.step-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--border-subtle);
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.step-node.completed .step-marker {
+  background: var(--status-ditemukan-text);
+  border-color: var(--status-ditemukan-text);
+  color: #ffffff;
+}
+
+.step-node.current .step-marker {
+  background: var(--brand-teal);
+  border-color: var(--brand-teal);
+  color: #ffffff;
+}
+
+.step-node.completed {
+  color: var(--brand-navy);
+}
+
+.step-node.current {
+  color: var(--brand-teal);
+}
+
+.status-stepper::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: var(--border-subtle);
+  z-index: 1;
+}
+
+.card-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Claim Box Callout */
+.claim-approval-box {
+  background: var(--status-ditemukan-bg);
+  border: 1px solid var(--status-ditemukan-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.claim-approval-box svg {
+  width: 22px;
+  height: 22px;
+  color: var(--status-ditemukan-text);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.claim-approval-box strong {
+  display: block;
+  color: var(--status-ditemukan-text);
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.claim-approval-box p {
+  font-size: 0.88rem;
+  color: var(--brand-navy);
+  margin-bottom: 0.75rem;
+}
+
+/* Settings Form */
+.settings-box {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  max-width: 720px;
+}
+
+.settings-box h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--brand-navy);
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.setting-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.5rem;
+}
+
+.setting-toggle-row .info strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--brand-navy);
+  margin-bottom: 0.2rem;
+}
+
+.setting-toggle-row .info p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}

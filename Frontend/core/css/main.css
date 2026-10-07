@@ -1,0 +1,474 @@
+/* ==========================================================================
+   TEMU KEMBALI - Core Design System & Global Styles
+   Palette disamakan dengan Wireframe Homepage Temu Kembali.pdf:
+
+   Hasil ekstraksi pixel dari wireframe (dpi=150):
+   - Navbar bg:      #f8f8f8  (putih bersih, bukan dark)
+   - Navbar accent:  #e0f0f0  (ice mint strip)
+   - Hero bg:        #e0f0f0 + #b8e0e0  (aqua tint terang)
+   - Primary button: #286890  (ocean teal sedang)
+   - Text headings:  #202050  (navy ungu dalam)
+   - Cards:          #f8f8f8 / #ffffff
+   - Muted text:     #596780
+   - Border:         #d0e4e8
+   ========================================================================== */
+
+:root {
+  /* === PALETTE WIREFRAME === */
+  --brand-navy:       #202050;   /* Heading & dark text utama */
+  --brand-navy-dark:  #1a1a40;   /* Hover state gelap */
+  --brand-teal:       #286890;   /* Primary button, link, icon aktif */
+  --brand-teal-hover: #1e5070;   /* Hover button */
+  --brand-teal-subtle: rgba(40, 104, 144, 0.10);
+  --brand-mint:       #b8e0e0;   /* Soft aqua – border & accent fill */
+  --brand-mint-subtle: rgba(184, 224, 224, 0.35);
+  --brand-hero-bg:    #e0f0f0;   /* Hero section & panel kiri login */
+  --brand-ice-light:  #f4fafa;   /* Surface ringan (navbar, bg kartu) */
+  --brand-white:      #ffffff;
+
+  /* Aliases (kompatibilitas file lama) */
+  --brand-ocean: var(--brand-teal);
+  --brand-ocean-hover: var(--brand-teal-hover);
+  --brand-aqua: var(--brand-mint);
+
+  /* Neutrals & Surfaces */
+  --bg-app: #f8f8f8;
+  --bg-surface: #ffffff;
+  --bg-surface-alt: #e0f0f0;
+  --border-subtle: #d0e4e8;
+  --border-strong: #a8c8d0;
+  --text-main: #202050;
+  --text-muted: #596780;
+  --text-on-dark: #ffffff;
+
+  /* Status Tokens (Langsung antara Pelapor & Penemu) */
+  --status-hilang-text: #c0392b;
+  --status-hilang-bg: #fdeeed;
+  --status-hilang-border: #f8cfcb;
+
+  --status-ditemukan-text: #1d7c58;
+  --status-ditemukan-bg: #e6f7ef;
+  --status-ditemukan-border: #bfe7d4;
+
+  --status-kembali-text: #29738e;
+  --status-kembali-bg: #e2f1f3;
+  --status-kembali-border: #bce2e2;
+
+  --status-klaim-text: #966909;
+  --status-klaim-bg: #fef7e6;
+  --status-klaim-border: #fae4b5;
+
+  /* Typography */
+  --font-heading: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing & Radii (Sesuai gaya wireframe: rapi & rounded) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(30, 37, 66, 0.05);
+  --shadow-md: 0 6px 18px rgba(30, 37, 66, 0.08);
+  --shadow-lg: 0 12px 30px rgba(30, 37, 66, 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.16s ease-out;
+  --transition-normal: 0.24s ease-out;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--brand-navy);
+  line-height: 1.25;
+}
+
+a {
+  color: var(--brand-teal);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--brand-teal-hover);
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 2px;
+}
+
+.container {
+  width: min(1140px, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+/* ==========================================================================
+   HEADER / NAVBAR (DISAMAKAN PERSIS DENGAN WIREFRAME)
+   Structure: [logo] Temu Kembali | Beranda  Daftar Barang  Lapor  Tentang | [Masuk]
+   ========================================================================== */
+.site-nav-wrapper {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.85rem;
+  gap: 1.5rem;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+/* Logo Box style matching wireframe [logo] dashed placeholder */
+.brand-logo-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-hero-bg);
+  border: 1.5px dashed var(--brand-teal);
+  color: var(--brand-teal);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: -0.015em;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 2rem;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  transition: color var(--transition-fast);
+  padding: 0.25rem 0;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--brand-teal);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--brand-teal);
+  border-radius: 2px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Wireframe action button primary ("Masuk") */
+.btn-nav-action {
+  background: var(--brand-teal);
+  color: #ffffff;
+  padding: 0.55rem 1.4rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: 1.5px solid var(--brand-teal);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-nav-action:hover {
+  background: var(--brand-teal-hover);
+  border-color: var(--brand-teal-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Outline variant untuk tombol "Keluar" di navbar */
+.btn-nav-action.btn-nav-outline {
+  background: transparent;
+  color: var(--brand-teal);
+  border-color: var(--brand-teal);
+}
+
+.btn-nav-action.btn-nav-outline:hover {
+  background: var(--brand-hero-bg);
+  color: var(--brand-teal-hover);
+}
+
+/* ==========================================================================
+   BUTTONS (Sesuai Wireframe)
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.35rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--brand-teal);
+  color: #ffffff;
+  border-color: var(--brand-teal);
+}
+
+.btn-primary:hover {
+  background: var(--brand-teal-hover);
+  border-color: var(--brand-teal-hover);
+  color: #ffffff;
+}
+
+.btn-outline {
+  background: #ffffff;
+  color: var(--brand-teal);
+  border-color: var(--brand-teal);
+}
+
+.btn-outline:hover {
+  background: var(--brand-hero-bg);
+  color: var(--brand-teal);
+}
+
+.btn-dark {
+  background: var(--brand-navy-dark);
+  color: #ffffff;
+  border-color: var(--brand-navy-dark);
+}
+
+.btn-dark:hover {
+  background: var(--brand-navy);
+}
+
+.btn-danger {
+  background: var(--status-hilang-bg);
+  color: var(--status-hilang-text);
+  border-color: var(--status-hilang-border);
+}
+
+.btn-danger:hover {
+  background: var(--status-hilang-text);
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ==========================================================================
+   STATUS BADGES
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge-hilang {
+  background: var(--status-hilang-bg);
+  color: var(--status-hilang-text);
+  border: 1px solid var(--status-hilang-border);
+}
+
+.badge-ditemukan {
+  background: var(--status-ditemukan-bg);
+  color: var(--status-ditemukan-text);
+  border: 1px solid var(--status-ditemukan-border);
+}
+
+.badge-kembali {
+  background: var(--status-kembali-bg);
+  color: var(--status-kembali-text);
+  border: 1px solid var(--status-kembali-border);
+}
+
+.badge-klaim {
+  background: var(--status-klaim-bg);
+  color: var(--status-klaim-text);
+  border: 1px solid var(--status-klaim-border);
+}
+
+.badge-role {
+  background: var(--brand-navy);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-sm);
+}
+
+/* ==========================================================================
+   FORM CONTROLS
+   ========================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background: #ffffff;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--brand-teal);
+  box-shadow: 0 0 0 3px var(--brand-teal-subtle);
+}
+
+.form-control::placeholder {
+  color: #8fa5b5;
+}
+
+/* ==========================================================================
+   FOOTER (Sesuai Wireframe: Muted slate-navy bar)
+   ========================================================================== */
+.site-footer {
+  margin-top: auto;
+  background: #282744;
+  color: #c9d2dd;
+  padding-block: 2.75rem 1.75rem;
+  font-size: 0.9rem;
+}
+
+.site-footer h4 {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.site-footer a {
+  color: #bce2e2;
+}
+
+.site-footer a:hover {
+  color: #ffffff;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 2rem;
+}
+
+.footer-bottom {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.84rem;
+  color: #9eaab9;
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+}

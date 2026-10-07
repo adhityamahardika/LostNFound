@@ -1,0 +1,280 @@
+/* ==========================================================================
+   LOGIN & REGISTER PAGE STYLES
+   Matched to: Wireframe Homepage Temu Kembali.pdf
+   ========================================================================== */
+
+.auth-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.5rem 1.25rem;
+  background: #f8fcfa;
+}
+
+.auth-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1000px;
+  width: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+@media (min-width: 860px) {
+  .auth-container {
+    grid-template-columns: 1.05fr 1.15fr;
+  }
+}
+
+/* ==========================================================================
+   LEFT SIDE: HERO PANEL (Sesuai Gaya Hero Wireframe)
+   ========================================================================== */
+.auth-hero-panel {
+  background: var(--brand-hero-bg);
+  color: var(--brand-navy);
+  padding: 3.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+.hero-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  color: var(--brand-teal);
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+}
+
+.hero-heading {
+  font-size: clamp(1.8rem, 3vw, 2.25rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--brand-navy);
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  color: var(--text-muted);
+  font-size: 0.96rem;
+  margin-bottom: 2.25rem;
+  line-height: 1.6;
+}
+
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.feature-icon-box {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: #ffffff;
+  border: 1.5px solid var(--brand-mint);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  color: var(--brand-teal);
+}
+
+.feature-icon-box svg {
+  width: 18px;
+  height: 18px;
+}
+
+.feature-item strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--brand-navy);
+  margin-bottom: 0.15rem;
+}
+
+.feature-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.hero-footer-note {
+  border-top: 1px solid rgba(41, 115, 142, 0.15);
+  padding-top: 1.5rem;
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   RIGHT SIDE: AUTH FORM PANEL
+   ========================================================================== */
+.auth-form-panel {
+  padding: 3.5rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .auth-form-panel, .auth-hero-panel {
+    padding: 2.25rem 1.5rem;
+  }
+}
+
+.auth-header {
+  margin-bottom: 1.75rem;
+}
+
+.auth-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 0.35rem;
+}
+
+.auth-header p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+/* Pure CSS Tab Switcher */
+.auth-tab-control {
+  display: none;
+}
+
+.auth-tab-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--brand-hero-bg);
+  border-radius: var(--radius-md);
+  padding: 0.25rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-subtle);
+}
+
+.auth-tab-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+#tab-masuk:checked ~ .auth-tab-nav label[for="tab-masuk"],
+#tab-daftar:checked ~ .auth-tab-nav label[for="tab-daftar"] {
+  background: #ffffff;
+  color: var(--brand-teal);
+  box-shadow: var(--shadow-sm);
+  font-weight: 800;
+}
+
+.auth-tab-content {
+  display: none;
+}
+
+#tab-masuk:checked ~ #content-masuk {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+#tab-daftar:checked ~ #content-daftar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-helper-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.custom-checkbox input {
+  accent-color: var(--brand-teal);
+  width: 16px;
+  height: 16px;
+}
+
+.forgot-link {
+  font-weight: 600;
+  color: var(--brand-teal);
+  font-size: 0.85rem;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.guest-action {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.guest-action a {
+  font-weight: 700;
+  color: var(--brand-teal);
+}

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Masuk & Daftar – Temu Kembali</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../core/css/main.css">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <!-- Header Navigasi (Persis Sesuai Wireframe) -->
+  <header class="site-nav-wrapper">
+    <nav class="container site-nav" aria-label="Navigasi Utama">
+      <a class="brand-group" href="../../index.html">
+        <span class="brand-logo-box">tk</span>
+        <span class="brand-title">Temu Kembali</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="../../index.html">Beranda</a></li>
+        <li><a class="nav-link" href="../../index.html#barang">Daftar Barang</a></li>
+        <li><a class="nav-link" href="../../index.html#form-lapor">Lapor</a></li>
+        <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="btn-nav-action" href="login.html">Masuk</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Konten Utama Auth -->
+  <main class="auth-page">
+    <div class="auth-container">
+      
+      <!-- Sisi Kiri: Hero Panel Khusus Civitas (Warna & Nuansa Hero Wireframe) -->
+      <section class="auth-hero-panel" aria-label="Informasi Portal">
+        <div>
+          <div class="hero-badge-tag">
+            Portal Civitas Kampus
+          </div>
+          <h1 class="hero-heading">Barang hilang di kampus? Akses akunmu untuk lapor dan klaim.</h1>
+          <p class="hero-subtitle">
+            Pusat laporan barang hilang dan temuan kampus, dengan verifikasi kepemilikan ciri rahasia yang aman.
+          </p>
+
+          <div class="feature-list">
+            <div class="feature-item">
+              <div class="feature-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div>
+                <strong>Verifikasi Ciri Rahasia</strong>
+                <p>Mencegah klaim keliru. Pengklaim wajib menyebutkan ciri yang tidak tampak pada foto laporan.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <strong>Chat Langsung Terproteksi</strong>
+                <p>Ruang percakapan antara pemilik dan penemu langsung aktif segera setelah klaim diverifikasi.</p>
+              </div>
+            </div>
+
+            <div class="feature-item">
+              <div class="feature-icon-box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div>
+                <strong>Privasi Kontak Aman</strong>
+                <p>Nomor HP dan kontak personal tidak dipublikasikan ke publik demi kenyamanan sesama civitas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-footer-note">
+          Gunakan identitas NIM atau email akademik kampus untuk mengelola laporan dan riwayat klaimmu.
+        </div>
+      </section>
+
+      <!-- Sisi Kanan: Form Masuk / Daftar Dikhususkan Civitas -->
+      <section class="auth-form-panel" aria-label="Form Autentikasi">
+        
+        <!-- Radio switcher murni CSS -->
+        <input type="radio" name="auth-tab" id="tab-masuk" class="auth-tab-control" checked>
+        <input type="radio" name="auth-tab" id="tab-daftar" class="auth-tab-control">
+
+        <!-- Navigasi Tab Masuk / Daftar -->
+        <div class="auth-tab-nav" role="tablist">
+          <label for="tab-masuk" class="auth-tab-label" role="tab">Masuk</label>
+          <label for="tab-daftar" class="auth-tab-label" role="tab">Daftar Akun</label>
+        </div>
+
+        <!-- PANEL MASUK -->
+        <div class="auth-tab-content" id="content-masuk">
+          <div class="auth-header">
+            <h2>Masuk ke Akun</h2>
+            <p>Masukkan NIM atau Email Kampus yang telah terdaftar.</p>
+          </div>
+
+          <form action="../profile/profile.html" method="get">
+            <div class="form-group">
+              <label for="login-id" class="form-label">NIM atau Email Kampus</label>
+              <input 
+                type="text" 
+                id="login-id" 
+                name="identifier" 
+                class="form-control" 
+                placeholder="Contoh: 2408561089 atau nama@student.ac.id" 
+                value="2408561089"
+                required
+              >
+            </div>
+
+            <div class="form-group" style="margin-top: 0.9rem;">
+              <div class="form-label">
+                <span>Kata Sandi</span>
+                <a href="#lupa" class="forgot-link">Lupa sandi?</a>
+              </div>
+              <input 
+                type="password" 
+                id="login-password" 
+                name="password" 
+                class="form-control" 
+                placeholder="Masukkan kata sandi akun"
+                value="password123"
+                required
+              >
+            </div>
+
+            <div class="form-helper-row" style="margin-top: 1.15rem; margin-bottom: 1.5rem;">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="remember" checked>
+                <span>Ingat saya di perangkat ini</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Masuk
+            </button>
+          </form>
+
+          <div class="auth-divider">atau</div>
+
+          <div class="guest-action">
+            <span>Hanya ingin mengecek barang hilang? </span>
+            <a href="../../index.html#barang">
+              Lihat Daftar Barang →
+            </a>
+          </div>
+        </div>
+
+        <!-- PANEL DAFTAR -->
+        <div class="auth-tab-content" id="content-daftar">
+          <div class="auth-header">
+            <h2>Daftar Akun Baru</h2>
+            <p>Lengkapi formulir untuk membuat akun civitas kampus.</p>
+          </div>
+
+          <form action="../profile/profile.html" method="get">
+            <div class="form-group">
+              <label for="reg-nama" class="form-label">Nama Lengkap</label>
+              <input type="text" id="reg-nama" name="nama" class="form-control" placeholder="Contoh: Made Wirawan" required>
+            </div>
+
+            <div class="form-group" style="margin-top: 0.85rem;">
+              <label for="reg-nim" class="form-label">NIM / NIP</label>
+              <input type="text" id="reg-nim" name="nim" class="form-control" placeholder="Nomor Induk Mahasiswa / Dosen" required>
+            </div>
+
+            <div class="form-group" style="margin-top: 0.85rem;">
+              <label for="reg-email" class="form-label">Email Kampus (@student / @kampus.ac.id)</label>
+              <input type="email" id="reg-email" name="email" class="form-control" placeholder="nama@student.kampus.ac.id" required>
+            </div>
+
+            <div class="form-group" style="margin-top: 0.85rem;">
+              <label for="reg-pass" class="form-label">Kata Sandi</label>
+              <input type="password" id="reg-pass" name="password" class="form-control" placeholder="Minimal 8 karakter" required>
+            </div>
+
+            <div class="form-group" style="margin-top: 0.85rem;">
+              <label class="custom-checkbox">
+                <input type="checkbox" name="setuju" required>
+                <span>Saya bersedia menjaga kejujuran dan etika pelaporan barang di kampus.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.25rem;">
+              Daftar Sekarang
+            </button>
+          </form>
+
+          <div class="guest-action" style="margin-top: 1.25rem;">
+            <span>Sudah punya akun? </span>
+            <label for="tab-masuk" style="color: var(--brand-teal); font-weight: 700; cursor: pointer; text-decoration: underline;">
+              Masuk di sini
+            </label>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer (Sesuai Wireframe: Muted slate-navy bar) -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <h4>Temu Kembali</h4>
+        <p>Layanan terpusat laporan barang hilang dan temuan untuk seluruh civitas kampus.</p>
+      </div>
+      <div>
+        <h4>Navigasi</h4>
+        <p><a href="../../index.html">Beranda</a> · <a href="../../index.html#barang">Daftar Barang</a> · <a href="../../index.html#form-lapor">Lapor</a></p>
+      </div>
+      <div>
+        <h4>Bantuan</h4>
+        <p>Pertanyaan seputar alur verifikasi klaim barang & serah terima.</p>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 Temu Kembali Kampus. Seluruh hak cipta dilindungi.</p>
+      <p>Sistem Informasi Lost & Found Civitas Kampus.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
