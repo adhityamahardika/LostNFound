@@ -1,6 +1,5 @@
 /* ==========================================================================
    LOGIN & REGISTER PAGE STYLES
-   Matched to: Wireframe Homepage Temu Kembali.pdf
    ========================================================================== */
 
 .auth-page {
@@ -31,7 +30,7 @@
 }
 
 /* ==========================================================================
-   LEFT SIDE: HERO PANEL (Sesuai Gaya Hero Wireframe)
+   LEFT SIDE: HERO PANEL
    ========================================================================== */
 .auth-hero-panel {
   background: var(--brand-hero-bg);
