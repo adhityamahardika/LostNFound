@@ -17,13 +17,13 @@
   <!-- Navbar -->
   <header class="site-header">
     <nav class="container nav" aria-label="Navigasi utama">
-      <a class="brand" href="/">Temu Kembali</a>
+      <a class="brand" href="index.html">Temu Kembali</a>
       <ul>
-        <li><a href="/">Beranda</a></li>
-        <li><a href="/barang">Daftar Barang</a></li>
-        <li><a href="/lapor">Lapor</a></li>
-        <li><a href="/tentang">Tentang</a></li>
-        <li><a class="btn" href="/masuk">Masuk</a></li>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="pages/laporan/laporan_page/laporan.html">Daftar Barang</a></li>
+        <li><a href="pages/laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
+        <li><a href="#cara-kerja">Tentang</a></li>
+        <li><a class="btn" href="pages/login/login.html">Masuk</a></li>
       </ul>
     </nav>
   </header>
@@ -39,7 +39,7 @@
           
           <!-- Search Box -->
           <div class="hero__search">
-            <form role="search" action="/barang" method="get">
+            <form role="search" action="pages/laporan/laporan_page/laporan.html" method="get">
               <div class="search-fields">
                 <div class="search-field">
                   <label for="jenis">Jenis Barang</label>
@@ -72,8 +72,8 @@
 
           <!-- CTA Actions -->
           <div class="hero__actions">
-            <a href="/lapor?tipe=hilang" class="btn">Saya kehilangan</a>
-            <a href="/lapor?tipe=ditemukan" class="btn btn--ghost">Saya menemukan</a>
+            <a href="pages/laporan/laporan_pop_up/laporan_pop_up.html?tipe=hilang" class="btn">Saya kehilangan</a>
+            <a href="pages/laporan/laporan_pop_up/laporan_pop_up.html?tipe=ditemukan" class="btn btn--ghost">Saya menemukan</a>
           </div>
         </div>
 
@@ -85,7 +85,7 @@
     </section>
 
     <!-- Cara Kerja -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="cara-kerja">
       <div class="container">
         <h2 class="section-title">Cara Kerja</h2>
         <p class="how-it-works__subtitle">Empat langkah dari laporan sampai barang kembali.</p>
@@ -118,7 +118,7 @@
             <h2 class="section-title">Laporan Terbaru</h2>
             <p>Barang yang baru dilaporkan minggu ini</p>
           </div>
-          <a href="/barang" class="btn btn--secondary">Lihat semua</a>
+          <a href="pages/laporan/laporan_page/laporan.html" class="btn btn--secondary">Lihat semua</a>
         </div>
 
         <div class="grid">
@@ -232,7 +232,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer">
+  <footer class="site-footer" id="kontak">
     <div class="container footer-grid">
       <div>
         <h3>Temu Kembali</h3>
@@ -241,15 +241,15 @@
       <div>
         <h3>Jelajahi</h3>
         <p>
-          <a href="/barang">Daftar Barang</a><br>
-          <a href="/lapor">Lapor</a>
+          <a href="pages/laporan/laporan_page/laporan.html">Daftar Barang</a><br>
+          <a href="pages/laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a>
         </p>
       </div>
       <div>
         <h3>Bantuan</h3>
         <p>
-          <a href="/tentang">Tentang</a><br>
-          <a href="/kontak">Kontak</a>
+          <a href="#cara-kerja">Tentang</a><br>
+          <a href="#kontak">Kontak</a>
         </p>
       </div>
     </div>

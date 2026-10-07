@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Daftar barang hilang dan temuan di kampus.">
     <title>Daftar Laporan - Temu Kembali</title>
     <link rel="stylesheet" href="laporan.css">
 </head>
 <body>
-    <div class="container">
+    <header class="page-nav"><a href="../../../index.html">&larr; Beranda</a></header>
+    <main class="container">
         <h1>Laporan terbaru</h1>
 
         <!-- Kotak Filter Utama -->
         <div class="filter-box">
             <div class="filter-group">
-                <label>Jenis barang</label>
+                <label for="filter-jenis">Jenis barang</label>
                 <select id="filter-jenis">
                     <option value="Semua">Semua jenis</option>
                     <option value="Aksesoris">Aksesoris</option>
@@ -24,7 +26,7 @@
                 </select>
             </div>
             <div class="filter-group">
-                <label>Lokasi ditemukan</label>
+                <label for="filter-lokasi">Lokasi ditemukan</label>
                 <select id="filter-lokasi">
                     <option value="Semua">Semua lokasi</option>
                     <option value="Kantin Utama">Kantin Utama</option>
@@ -36,26 +38,26 @@
                 </select>
             </div>
             <div class="filter-group">
-                <label>Dari tanggal</label>
+                <label for="filter-start-date">Dari tanggal</label>
                 <input type="date" id="filter-start-date">
             </div>
             <div class="filter-group">
-                <label>Sampai tanggal</label>
+                <label for="filter-end-date">Sampai tanggal</label>
                 <input type="date" id="filter-end-date">
             </div>
             <div class="filter-actions">
-                <button class="btn-terapkan" onclick="applyFilters()">Terapkan</button>
-                <button class="btn-reset" onclick="resetFilters()">Reset</button>
+                <button type="button" class="btn-terapkan" id="btn-terapkan">Terapkan</button>
+                <button type="button" class="btn-reset" id="btn-reset">Reset</button>
             </div>
         </div>
 
         <!-- Info & Filter Status -->
-        <p class="summary-text" id="summary-text">Menampilkan 6 dari 6 laporan</p>
-        <div class="status-tabs">
-            <button class="status-btn active" onclick="filterByStatus('Semua', this)">Semua</button>
-            <button class="status-btn" onclick="filterByStatus('Hilang', this)">Hilang</button>
-            <button class="status-btn" onclick="filterByStatus('Ditemukan', this)">Ditemukan</button>
-            <button class="status-btn" onclick="filterByStatus('Dikembalikan', this)">Dikembalikan</button>
+        <p class="summary-text" id="summary-text" role="status" aria-live="polite"></p>
+        <div class="status-tabs" role="group" aria-label="Filter status">
+            <button type="button" class="status-btn active" data-status="Semua" aria-pressed="true">Semua</button>
+            <button type="button" class="status-btn" data-status="Hilang" aria-pressed="false">Hilang</button>
+            <button type="button" class="status-btn" data-status="Ditemukan" aria-pressed="false">Ditemukan</button>
+            <button type="button" class="status-btn" data-status="Dikembalikan" aria-pressed="false">Dikembalikan</button>
         </div>
 
         <!-- Grid Container untuk Kartu -->
@@ -63,13 +65,13 @@
             <!-- Kartu akan di-generate oleh JavaScript di sini -->
         </div>
 
-    </div>
+    </main>
 
     <!-- ================= MODAL POPUP DETAIL ================= -->
-    <div id="detail-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-content">
+    <div id="detail-modal" class="modal-overlay" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <!-- Tombol Silang untuk Close (X) -->
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <button type="button" class="close-btn" id="modal-close" aria-label="Tutup detail">&times;</button>
             
             <!-- Isi detail barang akan dimasukkan ke dalam div ini oleh JavaScript -->
             <div id="modal-body"></div>
