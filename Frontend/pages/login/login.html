@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Masuk & Daftar – Temu Kembali</title>
+  <title>Masuk & Daftar – LostnFound</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,17 +12,17 @@
 </head>
 <body>
 
-  <!-- Header Navigasi (Persis Sesuai Wireframe) -->
+  <!-- Header Navigasi -->
   <header class="site-nav-wrapper">
     <nav class="container site-nav" aria-label="Navigasi Utama">
       <a class="brand-group" href="../../index.html">
         <span class="brand-logo-box">tk</span>
-        <span class="brand-title">Temu Kembali</span>
+        <span class="brand-title">LostnFound</span>
       </a>
       <ul class="nav-menu">
         <li><a class="nav-link" href="../../index.html">Beranda</a></li>
-        <li><a class="nav-link" href="../laporan/laporan_page/laporan.html">Daftar Barang</a></li>
-        <li><a class="nav-link" href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
+        <li><a class="nav-link" href="../../index.html#barang">Daftar Barang</a></li>
+        <li><a class="nav-link" href="../../index.html#form-lapor">Lapor</a></li>
         <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
       </ul>
       <div class="nav-actions">
@@ -35,7 +35,7 @@
   <main class="auth-page">
     <div class="auth-container">
       
-      <!-- Sisi Kiri: Hero Panel Khusus Civitas (Warna & Nuansa Hero Wireframe) -->
+      <!-- Sisi Kiri: Hero Panel Khusus Civitas -->
       <section class="auth-hero-panel" aria-label="Informasi Portal">
         <div>
           <div class="hero-badge-tag">
@@ -94,7 +94,6 @@
       <!-- Sisi Kanan: Form Masuk / Daftar Dikhususkan Civitas -->
       <section class="auth-form-panel" aria-label="Form Autentikasi">
         
-        <!-- Radio switcher murni CSS -->
         <input type="radio" name="auth-tab" id="tab-masuk" class="auth-tab-control" checked>
         <input type="radio" name="auth-tab" id="tab-daftar" class="auth-tab-control">
 
@@ -111,37 +110,39 @@
             <p>Masukkan NIM atau Email Kampus yang telah terdaftar.</p>
           </div>
 
-          <form action="../profile/profile.html" method="post">
+          <form action="../profile/profile.html" method="get">
             <div class="form-group">
               <label for="login-id" class="form-label">NIM atau Email Kampus</label>
               <input 
                 type="text" 
                 id="login-id" 
-                name="identifier" autocomplete="username" 
+                name="identifier" 
                 class="form-control" 
                 placeholder="Contoh: 2408561089 atau nama@student.ac.id" 
+                value="2408561089"
                 required
               >
             </div>
 
             <div class="form-group" style="margin-top: 0.9rem;">
               <div class="form-label">
-                <label for="login-password">Kata Sandi</label>
-                <a href="mailto:admin@kampus.ac.id?subject=Lupa%20sandi" class="forgot-link">Lupa sandi?</a>
+                <span>Kata Sandi</span>
+                <a href="#lupa" class="forgot-link">Lupa sandi?</a>
               </div>
               <input 
                 type="password" 
                 id="login-password" 
-                name="password" autocomplete="current-password" 
+                name="password" 
                 class="form-control" 
                 placeholder="Masukkan kata sandi akun"
+                value="password123"
                 required
               >
             </div>
 
             <div class="form-helper-row" style="margin-top: 1.15rem; margin-bottom: 1.5rem;">
               <label class="custom-checkbox">
-                <input type="checkbox" name="remember">
+                <input type="checkbox" name="remember" checked>
                 <span>Ingat saya di perangkat ini</span>
               </label>
             </div>
@@ -155,7 +156,7 @@
 
           <div class="guest-action">
             <span>Hanya ingin mengecek barang hilang? </span>
-            <a href="../laporan/laporan_page/laporan.html">
+            <a href="../../index.html#barang">
               Lihat Daftar Barang →
             </a>
           </div>
@@ -168,7 +169,7 @@
             <p>Lengkapi formulir untuk membuat akun civitas kampus.</p>
           </div>
 
-          <form action="../profile/profile.html" method="post">
+          <form action="../profile/profile.html" method="get">
             <div class="form-group">
               <label for="reg-nama" class="form-label">Nama Lengkap</label>
               <input type="text" id="reg-nama" name="nama" class="form-control" placeholder="Contoh: Made Wirawan" required>
@@ -186,7 +187,7 @@
 
             <div class="form-group" style="margin-top: 0.85rem;">
               <label for="reg-pass" class="form-label">Kata Sandi</label>
-              <input type="password" id="reg-pass" name="password" class="form-control" placeholder="Minimal 8 karakter" minlength="8" autocomplete="new-password" required>
+              <input type="password" id="reg-pass" name="password" class="form-control" placeholder="Minimal 8 karakter" required>
             </div>
 
             <div class="form-group" style="margin-top: 0.85rem;">
@@ -214,16 +215,15 @@
     </div>
   </main>
 
-  <!-- Footer (Sesuai Wireframe: Muted slate-navy bar) -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <h4>Temu Kembali</h4>
+        <h4>LostnFound</h4>
         <p>Layanan terpusat laporan barang hilang dan temuan untuk seluruh civitas kampus.</p>
       </div>
       <div>
         <h4>Navigasi</h4>
-        <p><a href="../../index.html">Beranda</a> · <a href="../laporan/laporan_page/laporan.html">Daftar Barang</a> · <a href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></p>
+        <p><a href="../../index.html">Beranda</a> · <a href="../../index.html#barang">Daftar Barang</a> · <a href="../../index.html#form-lapor">Lapor</a></p>
       </div>
       <div>
         <h4>Bantuan</h4>
@@ -231,7 +231,7 @@
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>© 2026 Temu Kembali Kampus. Seluruh hak cipta dilindungi.</p>
+      <p>© 2026 LostnFound. Seluruh hak cipta dilindungi.</p>
       <p>Sistem Informasi Lost & Found Civitas Kampus.</p>
     </div>
   </footer>
