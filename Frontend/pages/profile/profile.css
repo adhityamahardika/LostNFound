@@ -1,7 +1,5 @@
 /* ==========================================================================
    USER PROFILE PAGE STYLES
-   Matched to: Wireframe Homepage Temu Kembali.pdf
-   Tanpa Pos Satpam (Serah terima langsung pelapor-penemu terverifikasi)
    ========================================================================== */
 
 .profile-page {
@@ -195,7 +193,7 @@
 }
 
 /* ==========================================================================
-   PURE CSS PROFILE TABS (Hanya: Laporan, Klaim, Pengaturan)
+   PURE CSS PROFILE TABS
    ========================================================================== */
 .profile-tab-input {
   display: none;
@@ -363,7 +361,7 @@
   margin-top: 2px;
 }
 
-/* Stepper Status (Alur Langsung: Dilaporkan -> Klaim Diajukan -> Verifikasi Cocok -> Dikembalikan) */
+/* Stepper Status  */
 .status-stepper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

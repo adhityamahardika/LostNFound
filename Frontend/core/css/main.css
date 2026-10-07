@@ -1,8 +1,6 @@
 /* ==========================================================================
-   TEMU KEMBALI - Core Design System & Global Styles
-   Palette disamakan dengan Wireframe Homepage Temu Kembali.pdf:
+   LostnFound - Core Design System & Global Styles
 
-   Hasil ekstraksi pixel dari wireframe (dpi=150):
    - Navbar bg:      #f8f8f8  (putih bersih, bukan dark)
    - Navbar accent:  #e0f0f0  (ice mint strip)
    - Hero bg:        #e0f0f0 + #b8e0e0  (aqua tint terang)
@@ -14,7 +12,7 @@
    ========================================================================== */
 
 :root {
-  /* === PALETTE WIREFRAME === */
+  /* === PALETTE === */
   --brand-navy:       #202050;   /* Heading & dark text utama */
   --brand-navy-dark:  #1a1a40;   /* Hover state gelap */
   --brand-teal:       #286890;   /* Primary button, link, icon aktif */
@@ -26,7 +24,7 @@
   --brand-ice-light:  #f4fafa;   /* Surface ringan (navbar, bg kartu) */
   --brand-white:      #ffffff;
 
-  /* Aliases (kompatibilitas file lama) */
+  /* Aliases */
   --brand-ocean: var(--brand-teal);
   --brand-ocean-hover: var(--brand-teal-hover);
   --brand-aqua: var(--brand-mint);
@@ -41,7 +39,7 @@
   --text-muted: #596780;
   --text-on-dark: #ffffff;
 
-  /* Status Tokens (Langsung antara Pelapor & Penemu) */
+  /* Status Tokens */
   --status-hilang-text: #c0392b;
   --status-hilang-bg: #fdeeed;
   --status-hilang-border: #f8cfcb;
@@ -62,7 +60,7 @@
   --font-heading: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Spacing & Radii (Sesuai gaya wireframe: rapi & rounded) */
+  /* Spacing & Radii  */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
@@ -133,7 +131,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   HEADER / NAVBAR (DISAMAKAN PERSIS DENGAN WIREFRAME)
+   HEADER / NAVBAR
    Structure: [logo] Temu Kembali | Beranda  Daftar Barang  Lapor  Tentang | [Masuk]
    ========================================================================== */
 .site-nav-wrapper {
@@ -159,7 +157,7 @@ button, input, select, textarea {
   text-decoration: none;
 }
 
-/* Logo Box style matching wireframe [logo] dashed placeholder */
+/* Logo Box style placeholder */
 .brand-logo-box {
   width: 36px;
   height: 36px;
@@ -222,7 +220,7 @@ button, input, select, textarea {
   gap: 0.75rem;
 }
 
-/* Wireframe action button primary ("Masuk") */
+/* button primary ("Masuk") */
 .btn-nav-action {
   background: var(--brand-teal);
   color: #ffffff;
@@ -259,7 +257,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   BUTTONS (Sesuai Wireframe)
+   BUTTONS 
    ========================================================================== */
 .btn {
   display: inline-flex;
@@ -424,7 +422,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   FOOTER (Sesuai Wireframe: Muted slate-navy bar)
+   FOOTER
    ========================================================================== */
 .site-footer {
   margin-top: auto;
