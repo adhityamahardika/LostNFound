@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detail barang hilang atau temuan di kampus.">
     <title>Detail Barang - Temu Kembali</title>
     <link rel="stylesheet" href="detail_barang.css">
 </head>
@@ -14,13 +15,13 @@
             <div class="detail-content">
                 <!-- Kolom Kiri: Galeri Foto -->
                 <div class="gallery-section">
-                    <div class="main-image" id="main-image">
+                    <div class="main-image" id="main-image" role="img" aria-label="Foto utama barang">
                         🔑
                     </div>
                     <div class="thumbnail-list">
-                        <div class="thumbnail active" onclick="changeImage('🔑', this)">🔑</div>
-                        <div class="thumbnail" onclick="changeImage('📍', this)">📍</div>
-                        <div class="thumbnail" onclick="changeImage('📷', this)">📷</div>
+                        <button type="button" class="thumbnail active" data-emoji="🔑" aria-label="Foto 1" aria-pressed="true">🔑</button>
+                        <button type="button" class="thumbnail" data-emoji="📍" aria-label="Foto 2" aria-pressed="false">📍</button>
+                        <button type="button" class="thumbnail" data-emoji="📷" aria-label="Foto 3" aria-pressed="false">📷</button>
                     </div>
                 </div>
 
@@ -68,8 +69,8 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn-primary" onclick="alert('Membuka form verifikasi klaim...')">Klaim barang ini</button>
-                        <a href="daftar-laporan.html" class="btn-secondary">Kembali ke daftar</a>
+                        <button type="button" class="btn-primary" id="btn-klaim">Klaim barang ini</button>
+                        <a href="../laporan_page/laporan.html" class="btn-secondary">Kembali ke daftar</a>
                     </div>
                 </div>
             </div>

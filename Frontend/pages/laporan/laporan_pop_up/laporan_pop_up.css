@@ -145,3 +145,25 @@ input[type="text"], input[type="date"], select, textarea {
         grid-template-columns: 1fr; /* Jadi satu kolom di HP */
     }
 }
+
+/* ===== Perbaikan aksesibilitas & feedback ===== */
+h1 { text-align: center; color: var(--text-dark); margin-top: 0; }
+.navbar a { color: #1f5f59; }
+.tab-btn { color: #4d4d4d; font: inherit; font-weight: bold; }
+.tab-btn.active#tab-hilang { background-color: var(--tab-hilang); color: #8f2a26; }
+.btn-submit { background-color: #2f7d74; }
+.btn-submit:hover { background-color: #25645d; }
+.btn-submit:disabled { opacity: .6; cursor: not-allowed; }
+input::placeholder, textarea::placeholder { color: #6b6b6b; }
+/* input file disembunyikan secara visual tapi tetap bisa difokus keyboard */
+#foto-barang { display: block; position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; clip: rect(0 0 0 0); }
+.foto-upload-area:focus-within { outline: 3px solid #1f5f59; outline-offset: 2px; }
+.foto-upload-area label { cursor: pointer; margin: 0; }
+/* label menutupi seluruh kotak sehingga area padding juga bisa diklik */
+.foto-upload-area label::after { content: ""; position: absolute; inset: 0; }
+[hidden] { display: none !important; }
+#preview-foto { pointer-events: none; }
+:focus-visible { outline: 3px solid #1f5f59; outline-offset: 2px; }
+.field-error, .form-status.is-error { color: #a01e1a; font-size: 14px; margin: 6px 0 12px; }
+.form-status { color: #1f5f59; font-weight: bold; margin: 10px 0 0; }
+small { display: block; margin-top: 4px; color: #595959; }

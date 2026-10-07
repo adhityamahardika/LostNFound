@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buat laporan barang hilang atau barang temuan di kampus.">
     <title>Lapor Barang - Temu Kembali</title>
-    <!-- Asumsi kamu punya style global -->
-    <!-- <link rel="stylesheet" href="../../core/css/style.css"> -->
-    <link rel="stylesheet" href="laporan.css">
+    <link rel="stylesheet" href="laporan_pop_up.css">
 </head>
 <body>
     <!-- Navbar sederhana untuk navigasi -->
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Navigasi utama">
         <div class="logo">Temu Kembali</div>
-        <a href="../../index.html">Kembali ke Beranda</a>
+        <a href="../../../index.html">Kembali ke Beranda</a>
     </nav>
 
-    <div class="container-laporan">
-        <h2>Buat Laporan</h2>
+    <main class="container-laporan">
+        <h1>Buat Laporan</h1>
         
         <!-- Tab Pilihan -->
-        <div class="tabs">
-            <button class="tab-btn active" id="tab-hilang" onclick="switchTab('hilang')">Saya Kehilangan</button>
-            <button class="tab-btn" id="tab-nemu" onclick="switchTab('nemu')">Saya Menemukan</button>
+        <div class="tabs" role="group" aria-label="Jenis laporan">
+            <button type="button" class="tab-btn active" id="tab-hilang" aria-pressed="true">Saya Kehilangan</button>
+            <button type="button" class="tab-btn" id="tab-nemu" aria-pressed="false">Saya Menemukan</button>
         </div>
 
         <form id="form-laporan">
@@ -31,20 +30,21 @@
             <!-- Area Upload Foto di Paling Atas (Sesuai Request) -->
             <div class="form-group foto-upload-area">
                 <label for="foto-barang" id="foto-label">
-                    <span class="icon-plus">+</span>
-                    <p>Klik untuk unggah foto barang</p>
+                    <span class="icon-plus" aria-hidden="true">+</span>
+                    <span class="upload-text">Klik untuk unggah foto barang (PNG/JPG, maks. 2 MB)</span>
                 </label>
-                <input type="file" id="foto-barang" accept="image/png, image/jpeg" onchange="previewImage(event)">
-                <img id="preview-foto" src="" alt="Preview" style="display: none;">
+                <input type="file" id="foto-barang" accept="image/png, image/jpeg" aria-describedby="foto-error">
+                <img id="preview-foto" alt="Pratinjau foto barang yang dipilih" hidden>
             </div>
+            <p class="field-error" id="foto-error" role="alert" hidden></p>
 
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Nama Barang</label>
-                    <input type="text" id="nama-barang" placeholder="Contoh: Dompet cokelat" required>
+                    <label for="nama-barang">Nama Barang</label>
+                    <input type="text" id="nama-barang" placeholder="Contoh: Dompet cokelat" maxlength="80" required>
                 </div>
                 <div class="form-group">
-                    <label>Jenis Barang</label>
+                    <label for="jenis-barang">Jenis Barang</label>
                     <select id="jenis-barang" required>
                         <option value="">Pilih jenis...</option>
                         <option value="Elektronik">Elektronik</option>
@@ -54,18 +54,18 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Tanggal Kejadian</label>
+                    <label for="tanggal">Tanggal Kejadian</label>
                     <input type="date" id="tanggal" required>
                 </div>
                 <div class="form-group">
-                    <label>Lokasi</label>
-                    <input type="text" id="lokasi" placeholder="Contoh: Perpustakaan Lantai 2" required>
+                    <label for="lokasi">Lokasi</label>
+                    <input type="text" id="lokasi" placeholder="Contoh: Perpustakaan Lantai 2" maxlength="100" required>
                 </div>
             </div>
 
             <!-- Field khusus "Saya Menemukan" (Awalnya disembunyikan) -->
-            <div class="form-group" id="field-penitipan" style="display: none;">
-                <label>Barang sekarang di mana?</label>
+            <div class="form-group" id="field-penitipan" hidden>
+                <label for="penitipan">Barang sekarang di mana?</label>
                 <select id="penitipan">
                     <option value="">Pilih lokasi penitipan...</option>
                     <option value="Pos Satpam Depan">Pos Satpam Depan</option>
@@ -75,19 +75,21 @@
             </div>
 
             <div class="form-group">
-                <label>Deskripsi Umum</label>
-                <textarea id="deskripsi" rows="3" placeholder="Warna, merek, ukuran, kondisi..." required></textarea>
+                <label for="deskripsi">Deskripsi Umum</label>
+                <textarea id="deskripsi" rows="3" maxlength="500" placeholder="Warna, merek, ukuran, kondisi..." required></textarea>
             </div>
 
             <div class="form-group">
-                <label>Ciri Rahasia (Untuk Verifikasi)</label>
-                <textarea id="ciri-rahasia" rows="2" placeholder="Isi barang, goresan, stiker (Tidak dipublikasikan)"></textarea>
+                <label for="ciri-rahasia">Ciri Rahasia (Untuk Verifikasi)</label>
+                <textarea id="ciri-rahasia" rows="2" maxlength="300" aria-describedby="ciri-hint" placeholder="Isi barang, goresan, stiker"></textarea>
+                <small id="ciri-hint">Tidak dipublikasikan. Wajib diisi untuk laporan barang temuan.</small>
             </div>
 
+            <p class="form-status" id="form-status" role="status" hidden></p>
             <button type="submit" class="btn-submit">Kirim Laporan</button>
         </form>
-    </div>
+    </main>
 
-    <script src="laporan.js"></script>
+    <script src="laporan_pop_up.js"></script>
 </body>
 </html>

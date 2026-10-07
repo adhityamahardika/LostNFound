@@ -298,3 +298,18 @@ h1 {
         font-size: 60px;
     }
 }
+
+/* ===== Perbaikan aksesibilitas & responsif ===== */
+[hidden] { display: none !important; }
+.page-nav { max-width: 1100px; margin: 0 auto; padding: 16px 20px 0; }
+.page-nav a { color: #1f5f59; font-weight: bold; }
+.filter-group select:focus-visible, .filter-group input:focus-visible,
+.status-btn:focus-visible, .btn-detail:focus-visible, .close-btn:focus-visible,
+.btn-terapkan:focus-visible, .btn-reset:focus-visible, .btn-kembali:focus-visible {
+    outline: 3px solid #1f5f59; outline-offset: 2px;
+}
+.status-tabs { flex-wrap: wrap; }
+.close-btn { background: none; border: 0; padding: 0 8px; line-height: 1; }
+.empty-state { grid-column: 1 / -1; text-align: center; color: #595959; padding: 40px 0; }
+.claim-hint { background-color: #fff8e1; color: #6b5200; padding: 15px; border-radius: 8px; margin-top: 15px; }
+.badge.dikembalikan { background-color: #e3e8ef; color: #2f3b4c; }

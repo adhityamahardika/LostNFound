@@ -21,8 +21,8 @@
       </a>
       <ul class="nav-menu">
         <li><a class="nav-link" href="../../index.html">Beranda</a></li>
-        <li><a class="nav-link" href="../../index.html#barang">Daftar Barang</a></li>
-        <li><a class="nav-link" href="../../index.html#form-lapor">Lapor</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_page/laporan.html">Daftar Barang</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
         <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
       </ul>
       <div class="nav-actions">
@@ -111,39 +111,37 @@
             <p>Masukkan NIM atau Email Kampus yang telah terdaftar.</p>
           </div>
 
-          <form action="../profile/profile.html" method="get">
+          <form action="../profile/profile.html" method="post">
             <div class="form-group">
               <label for="login-id" class="form-label">NIM atau Email Kampus</label>
               <input 
                 type="text" 
                 id="login-id" 
-                name="identifier" 
+                name="identifier" autocomplete="username" 
                 class="form-control" 
                 placeholder="Contoh: 2408561089 atau nama@student.ac.id" 
-                value="2408561089"
                 required
               >
             </div>
 
             <div class="form-group" style="margin-top: 0.9rem;">
               <div class="form-label">
-                <span>Kata Sandi</span>
-                <a href="#lupa" class="forgot-link">Lupa sandi?</a>
+                <label for="login-password">Kata Sandi</label>
+                <a href="mailto:admin@kampus.ac.id?subject=Lupa%20sandi" class="forgot-link">Lupa sandi?</a>
               </div>
               <input 
                 type="password" 
                 id="login-password" 
-                name="password" 
+                name="password" autocomplete="current-password" 
                 class="form-control" 
                 placeholder="Masukkan kata sandi akun"
-                value="password123"
                 required
               >
             </div>
 
             <div class="form-helper-row" style="margin-top: 1.15rem; margin-bottom: 1.5rem;">
               <label class="custom-checkbox">
-                <input type="checkbox" name="remember" checked>
+                <input type="checkbox" name="remember">
                 <span>Ingat saya di perangkat ini</span>
               </label>
             </div>
@@ -157,7 +155,7 @@
 
           <div class="guest-action">
             <span>Hanya ingin mengecek barang hilang? </span>
-            <a href="../../index.html#barang">
+            <a href="../laporan/laporan_page/laporan.html">
               Lihat Daftar Barang →
             </a>
           </div>
@@ -170,7 +168,7 @@
             <p>Lengkapi formulir untuk membuat akun civitas kampus.</p>
           </div>
 
-          <form action="../profile/profile.html" method="get">
+          <form action="../profile/profile.html" method="post">
             <div class="form-group">
               <label for="reg-nama" class="form-label">Nama Lengkap</label>
               <input type="text" id="reg-nama" name="nama" class="form-control" placeholder="Contoh: Made Wirawan" required>
@@ -188,7 +186,7 @@
 
             <div class="form-group" style="margin-top: 0.85rem;">
               <label for="reg-pass" class="form-label">Kata Sandi</label>
-              <input type="password" id="reg-pass" name="password" class="form-control" placeholder="Minimal 8 karakter" required>
+              <input type="password" id="reg-pass" name="password" class="form-control" placeholder="Minimal 8 karakter" minlength="8" autocomplete="new-password" required>
             </div>
 
             <div class="form-group" style="margin-top: 0.85rem;">
@@ -225,7 +223,7 @@
       </div>
       <div>
         <h4>Navigasi</h4>
-        <p><a href="../../index.html">Beranda</a> · <a href="../../index.html#barang">Daftar Barang</a> · <a href="../../index.html#form-lapor">Lapor</a></p>
+        <p><a href="../../index.html">Beranda</a> · <a href="../laporan/laporan_page/laporan.html">Daftar Barang</a> · <a href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></p>
       </div>
       <div>
         <h4>Bantuan</h4>
