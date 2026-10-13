@@ -1,41 +1,200 @@
-/* ===== NAVBAR ===== */
+/* ==========================================================================
+   LostnFound - Unified Header / Navbar Styles
+   ========================================================================== */
 
-.site-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+:root {
+  --brand-navy:       #202050;
+  --brand-navy-dark:  #1a1a40;
+  --brand-teal:       #286890;
+  --brand-teal-hover: #1e5070;
+  --brand-teal-subtle: rgba(40, 104, 144, 0.10);
+  --brand-mint:       #b8e0e0;
+  --brand-hero-bg:    #e0f0f0;
+  --bg-surface:       #ffffff;
+  --border-subtle:    #d0e4e8;
+  --radius-sm:        6px;
+  --radius-md:        10px;
+  --radius-full:      9999px;
+  --font-heading:     "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --font-body:        "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --transition-fast:  0.16s ease-out;
 }
 
+/* Header & Nav Containers */
+.site-nav-wrapper,
+.site-header {
+  background: var(--bg-surface, #ffffff);
+  border-bottom: 1px solid var(--border-subtle, #d0e4e8);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.site-nav,
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: .75rem 1.5rem;
-  padding-block: .9rem;
+  padding-block: 0.85rem;
+  gap: 1.5rem;
+  width: min(1140px, 100% - 2.5rem);
+  margin-inline: auto;
 }
 
+/* Brand Group (Logo tk + Nama Brand) */
+.brand-group,
 .brand {
-  font: 800 1.35rem var(--font-head);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
-  color: var(--primary);
 }
 
-.nav ul {
+.brand-logo-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm, 6px);
+  background: var(--brand-hero-bg, #e0f0f0);
+  border: 1.5px dashed var(--brand-teal, #286890);
+  color: var(--brand-teal, #286890);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--brand-navy, #202050);
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+/* Nav Menu (Tengah) */
+.nav-menu {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
+  align-items: center;
   list-style: none;
+  gap: 2rem;
   margin: 0;
   padding: 0;
-  align-items: center;
 }
 
-.nav a:not(.btn) {
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-navy, #202050);
+  transition: color var(--transition-fast, 0.16s ease-out);
+  padding: 0.25rem 0;
+  position: relative;
   text-decoration: none;
-  color: var(--muted);
-  font-weight: 500;
+  white-space: nowrap;
 }
 
-.nav a:not(.btn):hover {
-  color: var(--primary);
+.nav-link:hover,
+.nav-link.active {
+  color: var(--brand-teal, #286890);
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--brand-teal, #286890);
+  border-radius: 2px;
+}
+
+/* Nav Actions (Kanan) */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-nav-action {
+  background: var(--brand-teal, #286890);
+  color: #ffffff !important;
+  padding: 0.55rem 1.4rem;
+  border-radius: var(--radius-md, 10px);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: 1.5px solid var(--brand-teal, #286890);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all var(--transition-fast, 0.16s ease-out);
+  white-space: nowrap;
+}
+
+.btn-nav-action:hover {
+  background: var(--brand-teal-hover, #1e5070);
+  border-color: var(--brand-teal-hover, #1e5070);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-nav-action.btn-nav-outline {
+  background: transparent;
+  color: var(--brand-teal, #286890) !important;
+  border-color: var(--brand-teal, #286890);
+}
+
+.btn-nav-action.btn-nav-outline:hover {
+  background: var(--brand-hero-bg, #e0f0f0);
+  color: var(--brand-teal-hover, #1e5070) !important;
+}
+
+/* User Profile Badge (Saat status Login aktif di Navbar) */
+.nav-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem 0.35rem 0.45rem;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle, #d0e4e8);
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--brand-navy, #202050) !important;
+  text-decoration: none;
+  transition: all var(--transition-fast, 0.16s ease-out);
+  white-space: nowrap;
+}
+
+.nav-user-badge:hover {
+  border-color: var(--brand-teal, #286890);
+  background: var(--brand-hero-bg, #e0f0f0);
+}
+
+.nav-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--brand-teal, #286890);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
 }

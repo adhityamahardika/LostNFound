@@ -1,6 +1,7 @@
 /* ==========================================================================
    LostnFound - Core Design System & Global Styles
 
+   Hasil ekstraksi pixel dari wireframe (dpi=150):
    - Navbar bg:      #f8f8f8  (putih bersih, bukan dark)
    - Navbar accent:  #e0f0f0  (ice mint strip)
    - Hero bg:        #e0f0f0 + #b8e0e0  (aqua tint terang)
@@ -12,7 +13,7 @@
    ========================================================================== */
 
 :root {
-  /* === PALETTE === */
+  /* === PALETTE WIREFRAME === */
   --brand-navy:       #202050;   /* Heading & dark text utama */
   --brand-navy-dark:  #1a1a40;   /* Hover state gelap */
   --brand-teal:       #286890;   /* Primary button, link, icon aktif */
@@ -39,7 +40,7 @@
   --text-muted: #596780;
   --text-on-dark: #ffffff;
 
-  /* Status Tokens */
+  /* Status Tokens (Langsung antara Pelapor & Penemu) */
   --status-hilang-text: #c0392b;
   --status-hilang-bg: #fdeeed;
   --status-hilang-border: #f8cfcb;
@@ -60,7 +61,7 @@
   --font-heading: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Spacing & Radii  */
+  /* Spacing & Radii (Sesuai gaya wireframe: rapi & rounded) */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
@@ -131,7 +132,7 @@ button, input, select, textarea {
 }
 
 /* ==========================================================================
-   HEADER / NAVBAR
+   HEADER / NAVBAR 
    Structure: [logo] Temu Kembali | Beranda  Daftar Barang  Lapor  Tentang | [Masuk]
    ========================================================================== */
 .site-nav-wrapper {
@@ -157,7 +158,7 @@ button, input, select, textarea {
   text-decoration: none;
 }
 
-/* Logo Box style placeholder */
+/* Logo Box style matching wireframe [logo] dashed placeholder */
 .brand-logo-box {
   width: 36px;
   height: 36px;
@@ -220,7 +221,7 @@ button, input, select, textarea {
   gap: 0.75rem;
 }
 
-/* button primary ("Masuk") */
+/* Wireframe action button primary ("Masuk") */
 .btn-nav-action {
   background: var(--brand-teal);
   color: #ffffff;
@@ -255,6 +256,43 @@ button, input, select, textarea {
   background: var(--brand-hero-bg);
   color: var(--brand-teal-hover);
 }
+
+/* User Profile Badge (Saat status Login aktif di Navbar) */
+.nav-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem 0.35rem 0.45rem;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle, #d0e4e8);
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--brand-navy, #202050) !important;
+  text-decoration: none;
+  transition: all var(--transition-fast, 0.16s ease-out);
+  white-space: nowrap;
+}
+
+.nav-user-badge:hover {
+  border-color: var(--brand-teal, #286890);
+  background: var(--brand-hero-bg, #e0f0f0);
+}
+
+.nav-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--brand-teal, #286890);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+
 
 /* ==========================================================================
    BUTTONS 
@@ -421,9 +459,9 @@ button, input, select, textarea {
   color: #8fa5b5;
 }
 
-/* ==========================================================================
-   FOOTER
-   ========================================================================== */
+/* ===================
+  FOOTER 
+   =================== */
 .site-footer {
   margin-top: auto;
   background: #282744;
@@ -466,15 +504,7 @@ button, input, select, textarea {
 }
 
 @media (max-width: 768px) {
-  .site-nav { flex-wrap: wrap; row-gap: .5rem; }
   .nav-menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .25rem 1rem;
-    width: 100%;
-    order: 3;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    display: none;
   }
 }

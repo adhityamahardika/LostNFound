@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LostnFound</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="core/css/variables.css">
   <link rel="stylesheet" href="core/css/base.css">
   <link rel="stylesheet" href="core/css/navbar.css">
@@ -14,17 +15,22 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="site-header">
-    <nav class="container nav" aria-label="Navigasi utama">
-      <a class="brand" href="index.html">LostnFound</a>
-      <ul>
-        <li><a href="index.html">Beranda</a></li>
-        <li><a href="pages/laporan/laporan_page/laporan.html">Daftar Barang</a></li>
-        <li><a href="pages/laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
-        <li><a href="#cara-kerja">Tentang</a></li>
-        <li><a class="btn" href="pages/login/login.html">Masuk</a></li>
+  <!-- Header Navigasi -->
+  <header class="site-nav-wrapper">
+    <nav class="container site-nav" aria-label="Navigasi Utama">
+      <a class="brand-group" href="index.html">
+        <span class="brand-logo-box">tk</span>
+        <span class="brand-title">LostnFound</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link active" href="index.html">Beranda</a></li>
+        <li><a class="nav-link" href="pages/laporan/laporan_page/laporan.html">Daftar Barang</a></li>
+        <li><a class="nav-link" href="pages/laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
+        <li><a class="nav-link" href="#cara-kerja">Tentang</a></li>
       </ul>
+      <div class="nav-actions">
+        <a class="btn-nav-action" href="pages/login/login.html">Masuk</a>
+      </div>
     </nav>
   </header>
 
@@ -255,5 +261,6 @@
     </div>
   </footer>
 
+  <script src="core/js/auth.js"></script>
 </body>
 </html>
