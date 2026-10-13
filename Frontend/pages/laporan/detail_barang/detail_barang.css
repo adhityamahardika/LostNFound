@@ -1,51 +1,27 @@
-:root {
-    --bg-main: #e8f4f8;      
-    --bg-card: #ffffff;      
-    --primary-teal: #4db6ac; 
-    --primary-dark: #3a8a82;
-    --image-placeholder: #b2dfdb; 
-    
-    --text-dark: #333333;
-    --text-gray: #666666;
-    --border-color: #e0e0e0;
-    
-    --bg-ditemukan: #2b2d42; 
-    --text-ditemukan: #ffffff;
+/* Detail Barang Page - menggunakan variables dari core */
 
-    --bg-warning: #fff8e1; /* Kuning pucat untuk kotak klaim */
-    --text-warning: #8f6d00;
-}
-
-body {
-    background-color: var(--bg-main);
-    color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
+.detail-main {
+    padding-block: 2rem;
 }
 
 .page-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: var(--text-dark);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+    font-family: var(--font-head);
 }
 
 .detail-card {
-    background-color: var(--bg-card);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid var(--line);
 }
 
 .detail-content {
     display: flex;
-    gap: 40px;
-    margin-bottom: 40px;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
 }
 
 /* Kolom Kiri: Galeri */
@@ -55,38 +31,45 @@ body {
 }
 
 .main-image {
-    background-color: var(--image-placeholder);
-    border-radius: 12px;
+    background-color: #B8E6E6;
+    border-radius: var(--radius);
     height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 100px;
-    margin-bottom: 15px;
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    border: 2px dashed #A0D8D8;
 }
 
 .thumbnail-list {
     display: flex;
-    gap: 10px;
+    gap: 0.75rem;
 }
 
 .thumbnail {
     width: 60px;
     height: 60px;
-    background-color: var(--image-placeholder);
+    background-color: #B8E6E6;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 1.5rem;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: 0.2s;
+    transition: all 0.2s;
+    font-family: inherit;
+    padding: 0;
+}
+
+.thumbnail:hover {
+    border-color: var(--primary);
 }
 
 .thumbnail.active {
-    border-color: var(--primary-teal);
-    background-color: #e0f2f1;
+    border-color: var(--primary);
+    background-color: #C8E6E6;
 }
 
 /* Kolom Kanan: Info */
@@ -96,32 +79,45 @@ body {
 
 .badge {
     display: inline-block;
-    padding: 6px 14px;
-    font-size: 12px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    font-weight: bold;
+    padding: 0.15rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 700;
 }
-.badge.ditemukan { background-color: var(--bg-ditemukan); color: var(--text-ditemukan); }
+.badge.ditemukan { 
+    background-color: var(--ditemukan);
+    color: white;
+}
+.badge.hilang {
+    background-color: var(--hilang);
+    color: white;
+}
+.badge.dikembalikan {
+    background-color: var(--kembali);
+    color: white;
+}
 
 .item-title {
-    font-size: 28px;
-    margin: 0 0 5px 0;
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-head);
+    color: var(--ink);
 }
 
 .item-id {
-    color: var(--text-gray);
-    font-size: 14px;
-    margin: 0 0 20px 0;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
 }
 
 .info-grid {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 25px;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .info-row {
@@ -129,69 +125,88 @@ body {
 }
 
 .info-label {
-    flex: 0 0 150px;
-    color: var(--text-gray);
-    font-size: 14px;
+    flex: 0 0 160px;
+    color: var(--muted);
+    font-size: 0.875rem;
 }
 
 .info-value {
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--ink);
 }
 
 .item-desc {
-    font-size: 14px;
+    font-size: 0.9rem;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
 }
 
 .claim-warning {
-    background-color: var(--bg-warning);
-    color: var(--text-warning);
-    padding: 15px;
+    background-color: #fff8e1;
+    color: #6b5200;
+    padding: 1rem;
     border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 25px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--accent);
+}
+
+.claim-warning strong {
+    color: #6b5200;
 }
 
 /* Tombol */
 .action-buttons {
     display: flex;
-    gap: 15px;
+    gap: 1rem;
 }
 
 .btn-primary, .btn-secondary {
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-weight: bold;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.9rem;
     text-decoration: none;
     text-align: center;
+    transition: all 0.2s;
+    display: inline-block;
 }
 
 .btn-primary {
-    background-color: var(--primary-teal);
-    color: white;
-    border: none;
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: 2px solid var(--primary);
 }
-.btn-primary:hover { background-color: var(--primary-dark); }
+.btn-primary:hover { 
+    transform: translateY(-2px);
+}
+.btn-primary:disabled { 
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--text-dark);
-    border: 1px solid var(--border-color);
+    color: var(--ink);
+    border: 2px solid var(--line);
 }
-.btn-secondary:hover { background-color: #f5f5f5; }
+.btn-secondary:hover { 
+    background-color: var(--bg);
+    transform: translateY(-2px);
+}
 
 /* Timeline Status */
 .timeline-section {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 30px;
-    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
     max-width: 600px;
     margin: 0 auto;
 }
@@ -200,38 +215,38 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    color: var(--text-gray);
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    color: var(--muted);
     position: relative;
     z-index: 2;
 }
 
 .timeline-step.active {
-    color: var(--primary-teal);
-    font-weight: bold;
+    color: var(--primary);
+    font-weight: 700;
 }
 
 .dot {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background-color: var(--border-color);
+    background-color: var(--line);
 }
 .timeline-step.active .dot {
-    background-color: var(--primary-teal);
+    background-color: var(--primary);
 }
 
 .timeline-line {
     flex: 1;
     height: 2px;
-    background-color: var(--border-color);
+    background-color: var(--line);
     margin: 0 -15px;
-    margin-top: -24px; /* Naik sejajar dengan dot */
+    margin-top: -24px;
     z-index: 1;
 }
 .timeline-line.active {
-    background-color: var(--primary-teal);
+    background-color: var(--primary);
 }
 
 /* Responsif untuk Mobile */
@@ -245,12 +260,15 @@ body {
     .action-buttons {
         flex-direction: column;
     }
+    .info-label {
+        flex: 1 1 100%;
+    }
 }
 
-/* ===== Perbaikan: thumbnail kini <button> ===== */
-button.thumbnail { font-family: inherit; padding: 0; }
-.thumbnail:focus-visible, .btn-primary:focus-visible, .btn-secondary:focus-visible { outline: 3px solid #1f5f59; outline-offset: 2px; }
-.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
-@media (max-width: 480px) {
-    .info-label { flex: 1 1 100%; }
+/* Accessibility */
+.thumbnail:focus-visible, 
+.btn-primary:focus-visible, 
+.btn-secondary:focus-visible { 
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
 }

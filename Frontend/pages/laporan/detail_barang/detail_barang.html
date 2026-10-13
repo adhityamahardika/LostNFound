@@ -5,10 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Detail barang hilang atau temuan di kampus.">
     <title>Detail Barang - LostnFound</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../../core/css/variables.css">
+    <link rel="stylesheet" href="../../../core/css/base.css">
+    <link rel="stylesheet" href="../../../core/css/navbar.css">
+    <link rel="stylesheet" href="../../../core/css/components.css">
     <link rel="stylesheet" href="detail_barang.css">
 </head>
 <body>
-    <div class="container">
+    <!-- Header Navigasi -->
+    <header class="site-nav-wrapper">
+        <nav class="container site-nav" aria-label="Navigasi Utama">
+            <a class="brand-group" href="../../../index.html">
+                <span class="brand-logo-box">tk</span>
+                <span class="brand-title">LostnFound</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a class="nav-link" href="../../../index.html">Beranda</a></li>
+                <li><a class="nav-link active" href="../laporan_page/laporan.html">Daftar Barang</a></li>
+                <li><a class="nav-link" href="../laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
+                <li><a class="nav-link" href="../../../index.html#cara-kerja">Tentang</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a class="btn-nav-action" href="../../login/login.html">Masuk</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container detail-main">
         <h1 class="page-title">Detail barang</h1>
 
         <div class="detail-card">
@@ -101,8 +127,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script src="detail_barang.js"></script>
+    <script src="../../../core/js/auth.js"></script>
 </body>
 </html>
