@@ -144,7 +144,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('card-container').addEventListener('click', e => {
         const btn = e.target.closest('.btn-detail');
-        if (btn) openModal(btn.dataset.id);
+        if (btn) {
+            window.location.href = `../detail_barang/detail_barang.html?id=${btn.dataset.id}`;
+        }
     });
 
     const modal = document.getElementById('detail-modal');
