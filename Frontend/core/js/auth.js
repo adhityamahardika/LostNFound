@@ -9,11 +9,11 @@
   const DEFAULT_USER = {
     name: 'Made Wirawan',
     initials: 'MW',
-    nim: '2408561089',
+    nim: '2505551106',
     role: 'Mahasiswa',
-    prodi: 'Informatika',
-    fakultas: 'MIPA',
-    email: 'made.wirawan@student.kampus.ac.id'
+    prodi: 'Teknologi Informasi',
+    fakultas: 'Teknik',
+    email: 'deta@student.kampus.ac.id'
   };
 
   // Helper resolusi path berdasarkan lokasi file saat ini
