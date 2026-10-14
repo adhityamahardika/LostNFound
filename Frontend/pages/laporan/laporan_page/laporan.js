@@ -166,5 +166,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && !modal.hidden) closeModal();
     });
 
-    renderCards(dummyData);
+    // Baca parameter dari search hero di beranda
+    const params = new URLSearchParams(window.location.search);
+    const jenisDariHero = params.get('jenis');
+    const lokasiDariHero = params.get('lokasi');
+
+    if (jenisDariHero) {
+        const selectJenis = document.getElementById('filter-jenis');
+        const matchingOption = Array.from(selectJenis.options).find(o => o.value === jenisDariHero);
+        if (matchingOption) selectJenis.value = jenisDariHero;
+    }
+    if (lokasiDariHero) {
+        const selectLokasi = document.getElementById('filter-lokasi');
+        const matchingOption = Array.from(selectLokasi.options).find(o => o.value === lokasiDariHero);
+        if (matchingOption) selectLokasi.value = lokasiDariHero;
+    }
+
+    executeFilters();
 });
