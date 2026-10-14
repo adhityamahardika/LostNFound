@@ -86,23 +86,8 @@ if (klaimBtn) {
     klaimBtn.textContent = 'Ajukan Klaim';
     klaimBtn.disabled = false;
     klaimBtn.addEventListener('click', () => {
-        // Harus login dulu sebelum chat dengan pelapor
-        let loggedIn = false;
-        try { loggedIn = !!localStorage.getItem('lostnfound_demo_user'); } catch (e) {}
-        if (!loggedIn) {
-            alert('Masuk dulu untuk mengajukan klaim.');
-            window.location.href = '../../login/login.html';
-            return;
-        }
-
-        // Buka chat langsung dengan pelapor barang
-        const reporterText = document.querySelectorAll('.info-value')[5].textContent.split(',')[0].trim();
-        const params = new URLSearchParams({
-            item: document.querySelector('.item-id').textContent.replace('Kode laporan', '').trim(),
-            title: item.nama,
-            finder: /^anonim$/i.test(reporterText) ? 'Penemu Anonim' : reporterText
-        });
-        window.location.href = '../../chat/chat.html?' + params;
+        const query = window.location.search || `?id=${item ? item.id : 1}`;
+        window.location.href = '../../klaim/klaim.html' + query;
     });
 }
 
