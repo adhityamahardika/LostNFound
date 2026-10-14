@@ -1,11 +1,11 @@
 // 1. Data Dummy
 const dummyData = [
-    { id: 1, nama: "Dompet cokelat", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "👛" },
-    { id: 2, nama: "Kunci motor Honda", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "🔑" },
-    { id: 3, nama: "KTM a.n. Made Wirawan", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "🪪" },
-    { id: 4, nama: "Botol minum biru", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "🧋" },
-    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "🎒" },
-    { id: 6, nama: "Charger Laptop HP", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "🔌" }
+    { id: 1, nama: "Dompet cokelat", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg" },
+    { id: 2, nama: "Kunci motor Honda", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg" },
+    { id: 3, nama: "KTM a.n. Made Wirawan", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/ktm.jpg" },
+    { id: 4, nama: "Botol minum biru", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "../../../assets/items/tumbler.jpg" },
+    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "../../../assets/items/tas.jpg" },
+    { id: 6, nama: "Charger Laptop HP", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg" }
 ];
 
 let currentStatusFilter = 'Semua';
@@ -37,9 +37,14 @@ function renderCards(data) {
     }
 
     data.forEach(item => {
+        const isImgUrl = item.img && (item.img.includes('/') || item.img.includes('.'));
+        const imgMarkup = isImgUrl 
+            ? `<img src="${escapeHTML(item.img)}" alt="${escapeHTML(item.nama)}">` 
+            : escapeHTML(item.img);
+
         container.insertAdjacentHTML('beforeend', `
             <div class="card">
-                <div class="card-image" aria-hidden="true">${escapeHTML(item.img)}</div>
+                <div class="card-image" aria-hidden="true">${imgMarkup}</div>
                 <div class="card-content">
                     <span class="badge ${badgeClassOf(item.status)}">${escapeHTML(item.status)}</span>
                     <h3 class="card-title">${escapeHTML(item.nama)}</h3>
@@ -104,9 +109,14 @@ function openModal(idBarang) {
     const barang = dummyData.find(item => String(item.id) === String(idBarang));
     if (!barang) return;
 
+    const isImgUrl = barang.img && (barang.img.includes('/') || barang.img.includes('.'));
+    const imgMarkup = isImgUrl
+        ? `<img src="${escapeHTML(barang.img)}" alt="${escapeHTML(barang.nama)}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`
+        : escapeHTML(barang.img);
+
     document.getElementById('modal-body').innerHTML = `
         <div class="modal-detail-flex">
-            <div class="modal-gallery" aria-hidden="true">${escapeHTML(barang.img)}</div>
+            <div class="modal-gallery" aria-hidden="true">${imgMarkup}</div>
             <div class="modal-info">
                 <span class="badge ${badgeClassOf(barang.status)}">${escapeHTML(barang.status)}</span>
                 <h2 id="modal-title">${escapeHTML(barang.nama)}</h2>
