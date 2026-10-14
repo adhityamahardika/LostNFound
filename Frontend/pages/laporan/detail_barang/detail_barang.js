@@ -1,4 +1,4 @@
-// Data dummy - sync dengan laporan.js
+// Data dummy - Sumber foto sudah disamakan persis dengan laporan.js
 const dummyData = [
     { id: 1, nama: "Dompet cokelat", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg", deskripsi: "Dompet kulit cokelat dengan kancing. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik." },
     { id: 2, nama: "Kunci motor Honda", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg", deskripsi: "Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik." },
@@ -17,11 +17,15 @@ function formatDate(dateString) {
 function getItemFromURL() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-<<<<<<< Updated upstream
     return dummyData.find(item => String(item.id) === id) || dummyData[0];
-=======
-    return dummyData.find(item => String(item.id) === id) || dummyData[1]; // default kunci jika id tidak ada
->>>>>>> Stashed changes
+}
+
+// Helper untuk menampilkan gambar <img> di kotak utama maupun thumbnail
+function renderImageElement(container, src, alt) {
+    if (!container) return;
+    container.style.padding = '0';
+    container.style.overflow = 'hidden';
+    container.innerHTML = `<img src="${src}" alt="${alt}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit;">`;
 }
 
 function renderItemDetail(item) {
@@ -33,62 +37,37 @@ function renderItemDetail(item) {
     document.querySelector('.badge').textContent = item.status;
     document.querySelector('.badge').className = `badge ${item.status.toLowerCase()}`;
     document.querySelector('.item-title').textContent = item.nama;
-    const itemCode = `LF-${item.tanggal.replace(/-/g, '')}-${String(item.id).padStart(3, '0')}`;
-    document.querySelector('.item-id').textContent = `Kode laporan ${itemCode}`;
+    document.querySelector('.item-id').textContent = `Kode laporan LF-${item.tanggal.replace(/-/g, '')}-${String(item.id).padStart(3, '0')}`;
     
     document.querySelectorAll('.info-value')[0].textContent = item.jenis;
     document.querySelectorAll('.info-value')[1].textContent = formatDate(item.tanggal);
     document.querySelectorAll('.info-value')[2].textContent = 'Sekitar 08.30';
     document.querySelectorAll('.info-value')[3].textContent = item.lokasi;
     document.querySelectorAll('.info-value')[4].textContent = 'Pos satpam, gerbang utama';
-    document.querySelectorAll('.info-value')[5].textContent = 'Ayu, mahasiswa';
+    document.querySelectorAll('.info-value')[5].textContent = 'Anonim, mahasiswa';
     
     document.querySelector('.item-desc').textContent = item.deskripsi;
     
-<<<<<<< Updated upstream
-    document.getElementById('main-image').textContent = item.img;
-    document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
-        if (idx === 0) {
-            thumb.dataset.emoji = item.img;
-            thumb.textContent = item.img;
-        }
-    });
-=======
-    const isImgUrl = item.img && (item.img.includes('/') || item.img.includes('.'));
-    if (isImgUrl) {
-        document.getElementById('main-image').innerHTML = `<img src="${item.img}" alt="${item.nama}">`;
-        const firstThumb = document.querySelectorAll('.thumbnail')[0];
-        if (firstThumb) {
-            firstThumb.innerHTML = `<img src="${item.img}" alt="${item.nama}">`;
-            firstThumb.dataset.img = item.img;
-        }
-    } else {
-        document.getElementById('main-image').textContent = item.img;
-        document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
-            if (idx === 0) thumb.dataset.emoji = item.img;
-        });
-    }
+    // Render Foto Utama
+    const mainImage = document.getElementById('main-image');
+    renderImageElement(mainImage, item.img, item.nama);
 
-    // Klaim button -> redirect ke chatroom
-    const klaimBtn = document.getElementById('btn-klaim');
-    if (klaimBtn) {
-        klaimBtn.addEventListener('click', () => {
-            window.location.href = `../../chat/chat.html?item=${encodeURIComponent(itemCode)}&title=${encodeURIComponent(item.nama)}&finder=Ayu`;
-        });
-    }
->>>>>>> Stashed changes
+    // Render Thumbnail dengan foto barang tersebut
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach((thumb, idx) => {
+        thumb.dataset.img = item.img;
+        renderImageElement(thumb, item.img, `${item.nama} - Foto ${idx + 1}`);
+    });
 }
 
-// Gallery thumbnails
+// Interaksi Klik Gallery Thumbnails
 const mainImage = document.getElementById('main-image');
 const thumbnails = document.querySelectorAll('.thumbnail');
 
-thumbnails.forEach((thumb, idx) => {
+thumbnails.forEach(thumb => {
     thumb.addEventListener('click', () => {
-        if (idx === 0 && thumb.dataset.img) {
-            mainImage.innerHTML = `<img src="${thumb.dataset.img}" alt="Preview">`;
-        } else if (thumb.dataset.emoji) {
-            mainImage.innerHTML = thumb.dataset.emoji;
+        if (thumb.dataset.img) {
+            renderImageElement(mainImage, thumb.dataset.img, 'Foto utama barang');
         }
         thumbnails.forEach(t => {
             t.classList.toggle('active', t === thumb);
@@ -97,15 +76,11 @@ thumbnails.forEach((thumb, idx) => {
     });
 });
 
-<<<<<<< Updated upstream
-// Init data barang
-=======
-// Init
->>>>>>> Stashed changes
+// Init halaman
 const item = getItemFromURL();
 renderItemDetail(item);
 
-// Klaim button - langsung aktif dan mengarah ke klaim.html saat diklik
+// Tombol Klaim langsung mengarah ke halaman klaim sesuai ID barang
 const klaimBtn = document.getElementById('btn-klaim');
 if (klaimBtn) {
     klaimBtn.textContent = 'Ajukan Klaim';
