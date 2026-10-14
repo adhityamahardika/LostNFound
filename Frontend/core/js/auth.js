@@ -275,4 +275,131 @@
     updateNavbar();
     setupLoginPage();
   });
+
+  /* ==========================================================================
+   Fitur Pop-up Modal Otomatis untuk Halaman "Lapor"
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  // Jangan jalankan jika sedang berada di dalam halaman laporan_pop_up itu sendiri
+  if (window.location.pathname.includes("laporan_pop_up.html")) return;
+
+  // 1. Buat style CSS untuk Modal Overlay & Iframe
+  const style = document.createElement("style");
+  style.textContent = `
+    .lapor-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 26, 64, 0.55);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+      padding: 1rem;
+    }
+    .lapor-modal-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lapor-modal-box {
+      position: relative;
+      width: min(680px, 100%);
+      height: min(88vh, 780px);
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.22s ease;
+    }
+    .lapor-modal-overlay.is-open .lapor-modal-box {
+      transform: translateY(0) scale(1);
+    }
+    .lapor-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #d0e4e8;
+      background: #ffffff;
+      color: #202050;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .lapor-modal-close:hover {
+      background: #f0f7f8;
+      transform: scale(1.06);
+    }
+    .lapor-modal-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 2. Buat elemen HTML Modal di akhir <body>
+  const overlay = document.createElement("div");
+  overlay.className = "lapor-modal-overlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", "Form Buat Laporan");
+  overlay.innerHTML = `
+    <div class="lapor-modal-box">
+      <button type="button" class="lapor-modal-close" aria-label="Tutup pop-up">&times;</button>
+      <iframe class="lapor-modal-iframe" id="lapor-iframe" title="Form Buat Laporan"></iframe>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  const iframe = overlay.querySelector("#lapor-iframe");
+  const closeBtn = overlay.querySelector(".lapor-modal-close");
+
+  function openLaporModal(url) {
+    // Tambahkan parameter ?popup=1 agar navbar di dalam laporan_pop_up.html bisa disembunyikan
+    const separator = url.includes("?") ? "&" : "?";
+    iframe.src = url + separator + "popup=1";
+    overlay.classList.add("is-open");
+    document.body.style.overflow = "hidden"; // Kunci scroll halaman belakang
+  }
+
+  function closeLaporModal() {
+    overlay.classList.remove("is-open");
+    document.body.style.overflow = "";
+    setTimeout(() => { iframe.src = ""; }, 220);
+  }
+
+  // 3. Tangkap semua klik pada link yang mengarah ke laporan_pop_up.html
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href*="laporan_pop_up.html"]');
+    if (!link) return;
+    e.preventDefault(); // Batalkan pindah halaman biasa
+    openLaporModal(link.getAttribute("href"));
+  });
+
+  // Tutup saat klik tombol X, klik area gelap di luar kotak, atau tekan tombol ESC
+  closeBtn.addEventListener("click", closeLaporModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeLaporModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("is-open")) {
+      closeLaporModal();
+    }
+  });
+});
+
 })();

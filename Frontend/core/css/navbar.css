@@ -53,18 +53,17 @@
 .brand-logo-box {
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-sm, 6px);
-  background: var(--brand-hero-bg, #e0f0f0);
-  border: 1.5px dashed var(--brand-teal, #286890);
-  color: var(--brand-teal, #286890);
-  display: grid;
-  place-items: center;
-  font-family: var(--font-heading, "Bricolage Grotesque", sans-serif);
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: lowercase;
-  letter-spacing: -0.02em;
   flex-shrink: 0;
+  font-size: 0;
+  color: transparent;
+  border: none;
+  background-color: transparent;
+
+  /* Memanggil file gambar yang ditaruh satu folder dengan navbar.css */
+  background-image: url("Logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .brand-title {

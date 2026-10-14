@@ -149,3 +149,19 @@ document.getElementById('tanggal').max = todayLocalISO();
 // 5. Terapkan ?tipe=hilang|ditemukan dari tombol beranda
 const tipeParam = new URLSearchParams(window.location.search).get('tipe');
 if (tipeParam) switchTab(tipeParam);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const params = new URLSearchParams(window.location.search);
+
+  // 1. Jika dibuka di dalam pop-up modal, sembunyikan navbar "Kembali ke Beranda"
+  if (params.get("popup") === "1" || window.self !== window.top) {
+    const nav = document.querySelector(".navbar");
+    if (nav) nav.style.display = "none";
+  }
+
+  // 2. Jika diklik dari tombol "Saya menemukan" (?tipe=ditemukan), otomatis klik tab Saya Menemukan
+  if (params.get("tipe") === "ditemukan") {
+    const tabNemu = document.getElementById("tab-nemu");
+    if (tabNemu) tabNemu.click();
+  }
+});
