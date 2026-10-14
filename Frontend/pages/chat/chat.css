@@ -163,11 +163,8 @@
 .room-empty-icon svg { width: 30px; height: 30px; }
 
 .room-active { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-<<<<<<< Updated upstream
-.chat-room [hidden] { display: none !important; }
-=======
 .room-active[hidden] { display: none !important; }
->>>>>>> Stashed changes
+.chat-room [hidden] { display: none !important; }
 
 .room-header {
   display: flex;
@@ -176,8 +173,10 @@
   padding: 0.9rem 1.25rem;
   border-bottom: 1px solid var(--border-subtle, #dfe8e8);
   background: #ffffff;
+  flex-shrink: 0;
 }
 
+.room-header-info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .room-header-info strong { display: block; font-size: 1rem; color: var(--brand-navy, #1f3a4d); }
 .room-header-info small { color: var(--text-muted, #6b7f86); font-size: 0.78rem; }
 

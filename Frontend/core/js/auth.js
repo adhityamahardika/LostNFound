@@ -266,6 +266,7 @@
         e.preventDefault();
         const namaInput = document.getElementById('reg-nama');
         const nimInput = document.getElementById('reg-nim');
+        const phoneInput = document.getElementById('reg-phone');
         const namaVal = (namaInput && namaInput.value.trim()) || DEFAULT_USER.name;
         const initials = namaVal
           .split(/\s+/)
@@ -278,7 +279,8 @@
           ...DEFAULT_USER,
           name: namaVal,
           initials: initials || 'MW',
-          nim: (nimInput && nimInput.value.trim()) || DEFAULT_USER.nim
+          nim: (nimInput && nimInput.value.trim()) || DEFAULT_USER.nim,
+          phone: (phoneInput && phoneInput.value.trim()) || ''
         };
         setUser(activeUser);
         window.location.href = paths.profile;
