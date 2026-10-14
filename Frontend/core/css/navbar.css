@@ -197,3 +197,45 @@
     display: none;
   }
 }
+
+/* Tombol Ikon Chat di Pojok Kanan Navbar */
+.btn-nav-chat {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid var(--border-subtle, #d0e4e8);
+  color: var(--brand-navy, #202050);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast, 0.16s ease-out);
+  flex-shrink: 0;
+}
+
+.btn-nav-chat:hover {
+  border-color: var(--brand-teal, #286890);
+  background: var(--brand-hero-bg, #e0f0f0);
+  color: var(--brand-teal, #286890);
+  transform: translateY(-1px);
+}
+
+.btn-nav-chat svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Titik Merah Notifikasi Chat (Opsional biar makin keren) */
+.chat-notif-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 11px;
+  height: 11px;
+  background: #e53935;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}

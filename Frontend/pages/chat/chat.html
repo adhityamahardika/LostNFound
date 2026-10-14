@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Pesan – LostnFound</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../core/css/main.css">
+  <link rel="stylesheet" href="../../core/css/navbar.css">
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <header class="site-nav-wrapper">
+    <nav class="container site-nav" aria-label="Navigasi Utama">
+      <a class="brand-group" href="../../index.html">
+        <span class="brand-logo-box">tk</span>
+        <span class="brand-title">LostnFound</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="../../index.html">Beranda</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_page/laporan.html">Daftar Barang</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
+        <li><a class="nav-link" href="chat.html" aria-current="page">Pesan</a></li>
+      </ul>
+      <div class="nav-actions"></div>
+    </nav>
+  </header>
+
+  <main class="chat-page">
+    <div class="container">
+      <div class="chat-shell" id="chat-shell" data-view="list">
+
+        <!-- PANEL KIRI: DAFTAR PERCAKAPAN -->
+        <aside class="chat-sidebar" aria-label="Daftar percakapan">
+          <div class="chat-sidebar-head">
+            <h1>Pesan</h1>
+            <input type="search" id="conv-search" class="form-control" placeholder="Cari percakapan..." aria-label="Cari percakapan">
+          </div>
+          <div class="conv-list" id="conv-list"></div>
+        </aside>
+
+        <!-- PANEL KANAN: RUANG CHAT -->
+        <section class="chat-room" aria-label="Ruang chat">
+
+          <div class="room-empty" id="room-empty">
+            <div class="room-empty-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <strong>Pilih percakapan</strong>
+            <p>Chat dengan penemu atau pemilik barang akan muncul di sini.</p>
+          </div>
+
+          <div class="room-active" id="room-active" hidden>
+            <header class="room-header">
+              <button type="button" class="back-btn" id="back-btn" aria-label="Kembali ke daftar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <span class="avatar" id="room-avatar"></span>
+              <div class="room-header-info">
+                <strong id="room-name"></strong>
+                <small>Penemu · identitas dijaga</small>
+              </div>
+            </header>
+
+            <div class="item-context" id="item-context"></div>
+
+            <div class="messages" id="messages" aria-live="polite"></div>
+
+            <div class="composer">
+              <div class="quick-replies" id="quick-replies">
+                <button type="button" class="chip">Ciri rahasia barangnya...</button>
+                <button type="button" class="chip">Kapan bisa bertemu?</button>
+                <button type="button" class="chip">Barangnya diambil di mana?</button>
+                <button type="button" class="chip">Terima kasih!</button>
+              </div>
+              <div class="composer-row">
+                <textarea id="msg-input" rows="1" placeholder="Tulis pesan..." aria-label="Tulis pesan"></textarea>
+                <button type="button" class="send-btn" id="send-btn" aria-label="Kirim" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../core/js/auth.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
