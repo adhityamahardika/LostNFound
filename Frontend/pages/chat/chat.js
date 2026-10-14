@@ -3,11 +3,11 @@
 // disimulasikan. Dibuka dari tombol "Klaim barang ini" lewat parameter URL:
 //   chat.html?item=LF-20260927-001&title=Dompet%20cokelat&finder=Penemu%20Anonim
 // ==========================================================================
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   const USER_KEY = 'lostnfound_demo_user';
   const CHAT_KEY = 'lostnfound_chats_v1';
 
-  // Halaman ini hanya untuk yang sudah login
+  // Halaman ini hanya untuk yang sudah login (dicek setelah DOM siap, supaya ?demo=login dari auth.js sudah terbaca)
   let user = null;
   try { user = JSON.parse(localStorage.getItem(USER_KEY) || 'null'); } catch (e) {}
   if (!user) { location.replace('../login/login.html'); return; }
@@ -293,4 +293,4 @@
   const fromParams = openFromParams();
   renderList();
   if (fromParams) openChat(fromParams); else renderRoom();
-})();
+});

@@ -162,7 +162,7 @@
 .room-empty-icon svg { width: 30px; height: 30px; }
 
 .room-active { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-.room-active[hidden] { display: none; }
+.chat-room [hidden] { display: none !important; }
 
 .room-header {
   display: flex;
