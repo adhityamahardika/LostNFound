@@ -26,7 +26,7 @@
         <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
       </ul>
       <div class="nav-actions">
-        <a class="btn-nav-action btn-nav-outline" href="../login/login.html" title="Keluar Akun">Keluar</a>
+        <a class="btn-nav-action btn-nav-outline" href="#" onclick="logout(); return false;">Keluar</a>
       </div>
     </nav>
   </header>
@@ -485,5 +485,6 @@
   </footer>
 
   <script src="../../core/js/auth.js"></script>
+  <script>requireRole('user');</script>
 </body>
 </html>

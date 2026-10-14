@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dashboard Admin – LostnFound</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core CSS (variables, base, components, dll lewat main.css) -->
+  <link rel="stylesheet" href="../../core/css/main.css">
+  <!-- Navbar CSS (aman kalau main.css sudah meng-import, tidak bentrok) -->
+  <link rel="stylesheet" href="../../core/css/navbar.css">
+  <!-- Komponen profil yang dipakai ulang: stat-card, tab, header card -->
+  <link rel="stylesheet" href="../profile/profile.css">
+  <!-- Style khusus admin -->
+  <link rel="stylesheet" href="adminpage.css">
+</head>
+<body>
+
+  <!-- Header Navigasi -->
+  <header class="site-nav-wrapper">
+    <nav class="container site-nav" aria-label="Navigasi Utama">
+      <a class="brand-group" href="../../index.html">
+        <span class="brand-logo-box">tk</span>
+        <span class="brand-title">LostnFound</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a class="nav-link" href="../../index.html">Beranda</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_page/laporan.html">Daftar Barang</a></li>
+        <li><a class="nav-link" href="adminpage.html" aria-current="page">Dashboard Admin</a></li>
+        <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a class="btn-nav-action btn-nav-outline" href="#" onclick="logout(); return false;">Keluar</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="profile-page">
+    <div class="container">
+
+      <!-- 1. Identitas Admin -->
+      <section class="profile-header-card" aria-label="Identitas Admin">
+        <div class="profile-identity-row">
+          <div class="profile-user-info">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" aria-hidden="true">AD</div>
+              <span class="avatar-online-status" title="Akun Aktif"></span>
+            </div>
+            <div class="user-meta-details">
+              <h1>
+                Admin LostnFound
+                <span class="badge badge-role">Administrator</span>
+              </h1>
+              <p class="user-academic-line">
+                Pengelola sistem laporan barang hilang &amp; temuan · Unit Layanan Kampus
+              </p>
+              <div class="user-contacts-line">
+                <span class="contact-pill">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  admin@kampus.ac.id
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-header-actions">
+            <a href="../laporan/laporan_page/laporan.html" class="btn btn-outline">Lihat Daftar Barang</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Statistik Sistem -->
+      <section class="profile-stats-grid" aria-label="Statistik Sistem">
+        <div class="stat-card">
+          <div class="stat-icon klaim" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div class="stat-info"><span class="stat-value" id="stat-total">6</span><span class="stat-label">Total Laporan</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon hilang" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          </div>
+          <div class="stat-info"><span class="stat-value" id="stat-pending">3</span><span class="stat-label">Menunggu Moderasi</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon ditemukan" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          </div>
+          <div class="stat-info"><span class="stat-value" id="stat-approved">2</span><span class="stat-label">Laporan Disetujui</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon kembali" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div class="stat-info"><span class="stat-value">12</span><span class="stat-label">Berhasil Dikembalikan</span></div>
+        </div>
+      </section>
+
+      <!-- 3. Tab Admin (Murni CSS) -->
+      <input type="radio" name="admin-tabs" id="tab-a-laporan" class="profile-tab-input" checked>
+      <input type="radio" name="admin-tabs" id="tab-a-klaim" class="profile-tab-input">
+      <input type="radio" name="admin-tabs" id="tab-a-user" class="profile-tab-input">
+
+      <nav class="profile-nav-tabs" role="tablist" aria-label="Menu Admin">
+        <label for="tab-a-laporan" class="tab-btn-label" role="tab">Moderasi Laporan <span class="tab-count-badge" id="tab-count-laporan">3</span></label>
+        <label for="tab-a-klaim" class="tab-btn-label" role="tab">Sengketa Klaim <span class="tab-count-badge">1</span></label>
+        <label for="tab-a-user" class="tab-btn-label" role="tab">Pengguna</label>
+      </nav>
+
+      <!-- TAB 1: MODERASI LAPORAN -->
+      <section class="profile-tab-pane" id="pane-a-laporan" aria-label="Moderasi Laporan">
+        <div class="admin-toolbar">
+          <input type="search" id="admin-search" class="form-control" placeholder="Cari nama barang atau pelapor...">
+          <select id="admin-filter" class="form-control" aria-label="Filter status">
+            <option value="all">Semua Status</option>
+            <option value="pending">Menunggu</option>
+            <option value="approved">Disetujui</option>
+            <option value="rejected">Ditolak</option>
+          </select>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Barang</th><th>Jenis</th><th>Pelapor</th><th>Tanggal</th><th>Status</th><th class="col-actions">Aksi</th></tr>
+            </thead>
+            <tbody id="admin-tbody">
+              <tr data-status="pending">
+                <td><strong>Kunci Motor Honda Vario</strong><small>Gedung B, Lt. 2</small></td>
+                <td>Temuan</td><td>Rizky</td><td>29 Sep 2026</td>
+                <td><span class="badge badge-klaim"><span class="badge-dot"></span><span class="status-text">Menunggu</span></span></td>
+                <td class="col-actions"><button class="btn btn-primary btn-sm" data-action="approve">Setujui</button> <button class="btn btn-outline btn-sm" data-action="reject">Tolak</button></td>
+              </tr>
+              <tr data-status="pending">
+                <td><strong>Botol Minum Biru Tupperware</strong><small>Lab Komputer</small></td>
+                <td>Temuan</td><td>Budi</td><td>28 Sep 2026</td>
+                <td><span class="badge badge-klaim"><span class="badge-dot"></span><span class="status-text">Menunggu</span></span></td>
+                <td class="col-actions"><button class="btn btn-primary btn-sm" data-action="approve">Setujui</button> <button class="btn btn-outline btn-sm" data-action="reject">Tolak</button></td>
+              </tr>
+              <tr data-status="pending">
+                <td><strong>Jaket Hitam Almamater</strong><small>Kantin Fakultas</small></td>
+                <td>Hilang</td><td>Deta Mahardika</td><td>27 Sep 2026</td>
+                <td><span class="badge badge-klaim"><span class="badge-dot"></span><span class="status-text">Menunggu</span></span></td>
+                <td class="col-actions"><button class="btn btn-primary btn-sm" data-action="approve">Setujui</button> <button class="btn btn-outline btn-sm" data-action="reject">Tolak</button></td>
+              </tr>
+              <tr data-status="approved">
+                <td><strong>KTM a.n. Made Wirawan</strong><small>Perpustakaan Pusat Lt. 1</small></td>
+                <td>Temuan</td><td>Rizky</td><td>28 Sep 2026</td>
+                <td><span class="badge badge-ditemukan"><span class="badge-dot"></span><span class="status-text">Disetujui</span></span></td>
+                <td class="col-actions"><button class="btn btn-outline btn-sm" data-action="reject">Tarik</button></td>
+              </tr>
+              <tr data-status="approved">
+                <td><strong>Earphone Putih</strong><small>Parkiran Barat</small></td>
+                <td>Hilang</td><td>Ayu</td><td>25 Sep 2026</td>
+                <td><span class="badge badge-ditemukan"><span class="badge-dot"></span><span class="status-text">Disetujui</span></span></td>
+                <td class="col-actions"><button class="btn btn-outline btn-sm" data-action="reject">Tarik</button></td>
+              </tr>
+              <tr data-status="rejected">
+                <td><strong>Barang Tidak Jelas</strong><small>-</small></td>
+                <td>Temuan</td><td>Anonim</td><td>24 Sep 2026</td>
+                <td><span class="badge badge-hilang"><span class="badge-dot"></span><span class="status-text">Ditolak</span></span></td>
+                <td class="col-actions"><button class="btn btn-primary btn-sm" data-action="approve">Pulihkan</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="admin-empty" id="admin-empty" hidden>Tidak ada laporan yang cocok.</p>
+      </section>
+
+      <!-- TAB 2: SENGKETA KLAIM -->
+      <section class="profile-tab-pane" id="pane-a-klaim" aria-label="Sengketa Klaim">
+        <div class="items-list-wrapper">
+          <article class="item-report-card">
+            <div class="card-top-row">
+              <div class="card-main-meta">
+                <div class="item-category-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                </div>
+                <div class="card-title-group">
+                  <h3>Dompet Kulit Coklat</h3>
+                  <div class="card-meta-inline">
+                    <span>2 pengklaim berbeda</span>
+                    <span>Penemu: <strong>Budi</strong></span>
+                    <span>26 Sep 2026</span>
+                  </div>
+                </div>
+              </div>
+              <span class="badge badge-klaim"><span class="badge-dot"></span>Perlu Ditinjau</span>
+            </div>
+            <div class="secret-trait-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <div>
+                <strong>Jawaban Pengklaim A:</strong> "Ada foto kucing di slot kartu paling depan."<br>
+                <strong>Jawaban Pengklaim B:</strong> "Warna coklat, isinya KTP dan uang."
+              </div>
+            </div>
+            <div class="card-actions-row">
+              <span style="font-size:.85rem;color:var(--text-muted);">Putuskan pengklaim yang jawabannya cocok dengan ciri rahasia.</span>
+              <div style="display:flex;gap:.5rem;">
+                <button class="btn btn-primary btn-sm">Pilih Pengklaim A</button>
+                <button class="btn btn-outline btn-sm">Pilih Pengklaim B</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TAB 3: PENGGUNA -->
+      <section class="profile-tab-pane" id="pane-a-user" aria-label="Daftar Pengguna">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Nama</th><th>NIM</th><th>Email</th><th>Status</th><th class="col-actions">Aksi</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Deta Mahardika</strong></td><td>2505551100</td><td>deta@student.kampus.ac.id</td><td><span class="badge badge-ditemukan"><span class="badge-dot"></span>Aktif</span></td><td class="col-actions"><button class="btn btn-outline btn-sm">Nonaktifkan</button></td></tr>
+              <tr><td><strong>Rizky</strong></td><td>2505551101</td><td>rizky@student.kampus.ac.id</td><td><span class="badge badge-ditemukan"><span class="badge-dot"></span>Aktif</span></td><td class="col-actions"><button class="btn btn-outline btn-sm">Nonaktifkan</button></td></tr>
+              <tr><td><strong>Budi</strong></td><td>2505551102</td><td>budi@student.kampus.ac.id</td><td><span class="badge badge-hilang"><span class="badge-dot"></span>Nonaktif</span></td><td class="col-actions"><button class="btn btn-primary btn-sm">Aktifkan</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>© 2026 Temu Kembali Kampus. Seluruh hak cipta dilindungi.</p>
+      <p>Panel Administrasi Lost &amp; Found Civitas Kampus.</p>
+    </div>
+  </footer>
+
+  <script src="../../core/js/auth.js"></script>
+  <script>requireRole('admin');</script>
+  <script src="adminpage.js"></script>
+</body>
+</html>

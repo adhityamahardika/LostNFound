@@ -1,0 +1,113 @@
+/* ==========================================================================
+   ADMIN PAGE STYLES (melengkapi ../profile/profile.css)
+   ========================================================================== */
+
+/* Navbar: penanda halaman aktif (menyesuaikan navbar.css) */
+.nav-link[aria-current="page"] {
+  color: var(--brand-teal);
+  font-weight: 700;
+}
+
+/* Tab pure CSS dengan id khusus admin */
+#tab-a-laporan:checked ~ .profile-nav-tabs label[for="tab-a-laporan"],
+#tab-a-klaim:checked ~ .profile-nav-tabs label[for="tab-a-klaim"],
+#tab-a-user:checked ~ .profile-nav-tabs label[for="tab-a-user"] {
+  color: var(--brand-teal);
+  border-bottom-color: var(--brand-teal);
+}
+
+#tab-a-laporan:checked ~ .profile-nav-tabs label[for="tab-a-laporan"] .tab-count-badge,
+#tab-a-klaim:checked ~ .profile-nav-tabs label[for="tab-a-klaim"] .tab-count-badge {
+  background: var(--brand-teal);
+  color: #ffffff;
+}
+
+#tab-a-laporan:checked ~ #pane-a-laporan,
+#tab-a-klaim:checked ~ #pane-a-klaim,
+#tab-a-user:checked ~ #pane-a-user {
+  display: block;
+}
+
+/* Toolbar pencarian & filter */
+.admin-toolbar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.admin-toolbar input[type="search"] {
+  flex: 1 1 260px;
+}
+
+.admin-toolbar select {
+  flex: 0 0 180px;
+}
+
+/* Tabel data */
+.admin-table-wrap {
+  background: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 720px;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 0.85rem 1.1rem;
+  background: var(--brand-hero-bg);
+  color: var(--brand-navy);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.admin-table td {
+  padding: 0.95rem 1.1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--brand-navy);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background: #fafcfc;
+}
+
+.admin-table td strong {
+  display: block;
+}
+
+.admin-table td small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.admin-table .col-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.admin-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem 0;
+}
+
+@media (max-width: 640px) {
+  .admin-toolbar select {
+    flex: 1 1 100%;
+  }
+}
