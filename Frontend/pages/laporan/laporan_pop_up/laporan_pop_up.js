@@ -104,7 +104,7 @@ form.addEventListener('submit', function (e) {
         namaBarang: value('nama-barang'),
         jenis: value('jenis-barang'),
         tanggal: value('tanggal'),
-        lokasi: value('lokasi'),
+        lokasi: value('lokasi') === 'Lainnya' ? value('lokasi-lain') : value('lokasi'),
         deskripsi: value('deskripsi'),
         ciriRahasia: value('ciri-rahasia'), // jangan tampilkan di halaman publik
         penitipan: value('penitipan'),
@@ -145,6 +145,16 @@ document.getElementById('tab-hilang').addEventListener('click', () => switchTab(
 document.getElementById('tab-nemu').addEventListener('click', () => switchTab('nemu'));
 photoInput.addEventListener('change', previewImage);
 document.getElementById('tanggal').max = todayLocalISO();
+
+// Dropdown lokasi: tampilkan kolom tulis sendiri bila memilih "Lainnya"
+const lokasiSelect = document.getElementById('lokasi');
+const lokasiLain = document.getElementById('lokasi-lain');
+lokasiSelect.addEventListener('change', () => {
+    const isLain = lokasiSelect.value === 'Lainnya';
+    lokasiLain.hidden = !isLain;
+    lokasiLain.required = isLain;
+    if (isLain) lokasiLain.focus(); else lokasiLain.value = '';
+});
 
 // 5. Terapkan ?tipe=hilang|ditemukan dari tombol beranda
 const tipeParam = new URLSearchParams(window.location.search).get('tipe');

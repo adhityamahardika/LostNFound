@@ -288,3 +288,134 @@
     outline: 3px solid var(--accent);
     outline-offset: 2px;
 }
+
+/* ==========================================================================
+   REPORT BARANG: tombol + modal (tema merah)
+   ========================================================================== */
+:root {
+  --rp-red: #c0392b;
+  --rp-red-dark: #a32f23;
+  --rp-red-bg: #fdecea;
+  --rp-red-border: #f3b9b2;
+}
+
+/* Tombol di halaman detail (ikut ukuran .btn-secondary, hanya warna yang merah) */
+.btn-report {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-secondary.btn-report {
+  background: #ffffff;
+  border-color: var(--rp-red-border);
+  color: var(--rp-red);
+  font-weight: 700;
+}
+
+.btn-secondary.btn-report:hover:not(:disabled) {
+  background: var(--rp-red-bg);
+  border-color: var(--rp-red);
+}
+
+.btn-report:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Modal */
+.rp-dialog {
+  width: min(460px, calc(100vw - 2rem));
+  padding: 1.6rem;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  color: var(--ink, #1f3a4d);
+  font-family: inherit;
+}
+
+.rp-dialog::backdrop { background: rgba(20, 30, 40, 0.5); }
+
+.rp-dialog h3 { margin: 0 0 0.75rem; font-size: 1.25rem; color: var(--rp-red-dark); }
+
+.rp-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0 0 1.1rem;
+  padding: 0.75rem 1rem;
+  background: var(--rp-red-bg);
+  border: 1px solid var(--rp-red-border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.rp-item span { font-size: 0.8rem; color: #6b7f86; }
+
+.rp-dialog label {
+  display: block;
+  margin: 0.9rem 0 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.rp-opt { font-weight: 400; color: #6b7f86; font-size: 0.78rem; }
+
+.rp-dialog select,
+.rp-dialog textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid #dfe8e8;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: inherit;
+  background: #ffffff;
+}
+.rp-dialog textarea { resize: vertical; }
+.rp-dialog select:focus,
+.rp-dialog textarea:focus { outline: none; border-color: var(--rp-red); }
+
+.rp-error {
+  margin: 0.8rem 0 0;
+  color: var(--rp-red-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.rp-error[hidden], #rp-form[hidden], .rp-success[hidden] { display: none; }
+
+.rp-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.3rem;
+}
+
+.rp-btn {
+  padding: 0.65rem 1.3rem;
+  border: 1.5px solid #dfe8e8;
+  border-radius: 999px;
+  background: #ffffff;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.rp-btn:hover { background: #f4f7f7; }
+
+.rp-btn-danger { background: var(--rp-red); border-color: var(--rp-red); color: #ffffff; }
+.rp-btn-danger:hover { background: var(--rp-red-dark); border-color: var(--rp-red-dark); }
+
+.rp-success { text-align: center; padding: 0.5rem 0; }
+.rp-success p { margin: 0; color: #6b7f86; font-size: 0.92rem; }
+.rp-success .rp-actions { justify-content: center; }
+.rp-success-icon {
+  width: 52px; height: 52px; margin: 0 auto 0.75rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--rp-red-bg);
+  color: var(--rp-red);
+}
+.rp-success-icon svg { width: 24px; height: 24px; }

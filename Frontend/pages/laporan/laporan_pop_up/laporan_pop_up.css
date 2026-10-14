@@ -167,3 +167,4 @@ input::placeholder, textarea::placeholder { color: #6b6b6b; }
 .field-error, .form-status.is-error { color: #a01e1a; font-size: 14px; margin: 6px 0 12px; }
 .form-status { color: #1f5f59; font-weight: bold; margin: 10px 0 0; }
 small { display: block; margin-top: 4px; color: #595959; }
+#lokasi-lain { margin-top: 8px; }

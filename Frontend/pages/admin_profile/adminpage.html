@@ -19,7 +19,7 @@
 </head>
 <body>
 
-  <!-- Header Navigasi -->
+  <!-- Header Navigasi (sama dengan halaman lain; tombol kanan dirender auth.js) -->
   <header class="site-nav-wrapper">
     <nav class="container site-nav" aria-label="Navigasi Utama">
       <a class="brand-group" href="../../index.html">
@@ -29,12 +29,10 @@
       <ul class="nav-menu">
         <li><a class="nav-link" href="../../index.html">Beranda</a></li>
         <li><a class="nav-link" href="../laporan/laporan_page/laporan.html">Daftar Barang</a></li>
-        <li><a class="nav-link" href="adminpage.html" aria-current="page">Dashboard Admin</a></li>
+        <li><a class="nav-link" href="../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
         <li><a class="nav-link" href="../../index.html#cara-kerja">Tentang</a></li>
       </ul>
-      <div class="nav-actions">
-        <a class="btn-nav-action btn-nav-outline" href="#" onclick="logout(); return false;">Keluar</a>
-      </div>
+      <div class="nav-actions"></div>
     </nav>
   </header>
 
@@ -104,12 +102,12 @@
 
       <!-- 3. Tab Admin (Murni CSS) -->
       <input type="radio" name="admin-tabs" id="tab-a-laporan" class="profile-tab-input" checked>
-      <input type="radio" name="admin-tabs" id="tab-a-klaim" class="profile-tab-input">
+      <input type="radio" name="admin-tabs" id="tab-a-report" class="profile-tab-input">
       <input type="radio" name="admin-tabs" id="tab-a-user" class="profile-tab-input">
 
       <nav class="profile-nav-tabs" role="tablist" aria-label="Menu Admin">
         <label for="tab-a-laporan" class="tab-btn-label" role="tab">Moderasi Laporan <span class="tab-count-badge" id="tab-count-laporan">3</span></label>
-        <label for="tab-a-klaim" class="tab-btn-label" role="tab">Sengketa Klaim <span class="tab-count-badge">1</span></label>
+        <label for="tab-a-report" class="tab-btn-label" role="tab">Report <span class="tab-count-badge is-red" id="tab-count-report">3</span></label>
         <label for="tab-a-user" class="tab-btn-label" role="tab">Pengguna</label>
       </nav>
 
@@ -173,42 +171,120 @@
         <p class="admin-empty" id="admin-empty" hidden>Tidak ada laporan yang cocok.</p>
       </section>
 
-      <!-- TAB 2: SENGKETA KLAIM -->
-      <section class="profile-tab-pane" id="pane-a-klaim" aria-label="Sengketa Klaim">
-        <div class="items-list-wrapper">
-          <article class="item-report-card">
-            <div class="card-top-row">
-              <div class="card-main-meta">
-                <div class="item-category-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-                </div>
-                <div class="card-title-group">
-                  <h3>Dompet Kulit Coklat</h3>
-                  <div class="card-meta-inline">
-                    <span>2 pengklaim berbeda</span>
-                    <span>Penemu: <strong>Budi</strong></span>
-                    <span>26 Sep 2026</span>
-                  </div>
-                </div>
-              </div>
-              <span class="badge badge-klaim"><span class="badge-dot"></span>Perlu Ditinjau</span>
-            </div>
-            <div class="secret-trait-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <div>
-                <strong>Jawaban Pengklaim A:</strong> "Ada foto kucing di slot kartu paling depan."<br>
-                <strong>Jawaban Pengklaim B:</strong> "Warna coklat, isinya KTP dan uang."
-              </div>
-            </div>
-            <div class="card-actions-row">
-              <span style="font-size:.85rem;color:var(--text-muted);">Putuskan pengklaim yang jawabannya cocok dengan ciri rahasia.</span>
-              <div style="display:flex;gap:.5rem;">
-                <button class="btn btn-primary btn-sm">Pilih Pengklaim A</button>
-                <button class="btn btn-outline btn-sm">Pilih Pengklaim B</button>
-              </div>
-            </div>
-          </article>
+      <!-- TAB 2: REPORT -->
+      <section class="profile-tab-pane" id="pane-a-report" aria-label="Report Laporan">
+        <div class="report-summary" id="report-summary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          <span><strong id="report-count-text">3</strong> laporan di-report pengguna dan menunggu tinjauan admin.</span>
         </div>
+        <div class="items-list-wrapper" id="report-list">
+        <article class="report-card">
+          <div class="report-top">
+            <div class="report-title-group">
+              <div class="report-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg></div>
+              <div class="card-title-group">
+                <h3>Dompet Kulit Coklat</h3>
+                <div class="card-meta-inline">
+                  <span>LF-20260926-003</span><span>Temuan</span><span>Pelapor: <strong>Budi</strong></span><span>26 Sep 2026</span>
+                </div>
+              </div>
+            </div>
+            <div class="report-badges">
+              <span class="report-count-badge">3 report</span>
+              <span class="badge badge-hilang"><span class="badge-dot"></span>Perlu Ditinjau</span>
+            </div>
+          </div>
+          <ul class="report-reasons" aria-label="Alasan report">
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Laporan palsu</span><span class="reason-by">oleh Ayu · 2 jam lalu</span></div>
+              <p class="reason-note">"Foto barang ini sepertinya diambil dari internet, bukan barang asli."</p>
+            </li>
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Informasi tidak sesuai</span><span class="reason-by">oleh Rizky · 5 jam lalu</span></div>
+              <p class="reason-note">"Lokasi penemuan berbeda dengan keterangan di pos satpam."</p>
+            </li>
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Laporan palsu</span><span class="reason-by">oleh Anonim · kemarin</span></div>
+              <p class="reason-note">"Pelapor sama pernah membuat laporan serupa yang ternyata tidak benar."</p>
+            </li>
+          </ul>
+          <div class="card-actions-row">
+            <a href="../laporan/laporan_page/laporan.html" class="btn btn-outline btn-sm">Lihat Laporan</a>
+            <div class="report-actions">
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="dismiss">Abaikan Report</button>
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="warn">Peringatkan Pelapor</button>
+              <button type="button" class="btn btn-sm btn-danger" data-report-action="delete">Hapus Laporan</button>
+            </div>
+          </div>
+        </article>
+        <article class="report-card">
+          <div class="report-top">
+            <div class="report-title-group">
+              <div class="report-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg></div>
+              <div class="card-title-group">
+                <h3>Kunci Motor Honda Vario</h3>
+                <div class="card-meta-inline">
+                  <span>LF-20260929-006</span><span>Temuan</span><span>Pelapor: <strong>Rizky</strong></span><span>29 Sep 2026</span>
+                </div>
+              </div>
+            </div>
+            <div class="report-badges">
+              <span class="report-count-badge">2 report</span>
+              <span class="badge badge-hilang"><span class="badge-dot"></span>Perlu Ditinjau</span>
+            </div>
+          </div>
+          <ul class="report-reasons" aria-label="Alasan report">
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Data pribadi terlihat</span><span class="reason-by">oleh Deta Mahardika · 1 jam lalu</span></div>
+              <p class="reason-note">"Plat nomor motor terlihat jelas di foto laporan."</p>
+            </li>
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Laporan duplikat</span><span class="reason-by">oleh Budi · 3 jam lalu</span></div>
+              <p class="reason-note">"Barang yang sama sudah dilaporkan kemarin."</p>
+            </li>
+          </ul>
+          <div class="card-actions-row">
+            <a href="../laporan/laporan_page/laporan.html" class="btn btn-outline btn-sm">Lihat Laporan</a>
+            <div class="report-actions">
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="dismiss">Abaikan Report</button>
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="warn">Peringatkan Pelapor</button>
+              <button type="button" class="btn btn-sm btn-danger" data-report-action="delete">Hapus Laporan</button>
+            </div>
+          </div>
+        </article>
+        <article class="report-card">
+          <div class="report-top">
+            <div class="report-title-group">
+              <div class="report-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg></div>
+              <div class="card-title-group">
+                <h3>Earphone Putih</h3>
+                <div class="card-meta-inline">
+                  <span>LF-20260925-002</span><span>Hilang</span><span>Pelapor: <strong>Ayu</strong></span><span>25 Sep 2026</span>
+                </div>
+              </div>
+            </div>
+            <div class="report-badges">
+              <span class="report-count-badge">1 report</span>
+              <span class="badge badge-hilang"><span class="badge-dot"></span>Perlu Ditinjau</span>
+            </div>
+          </div>
+          <ul class="report-reasons" aria-label="Alasan report">
+            <li class="report-reason">
+              <div class="reason-head"><span class="reason-tag">Konten tidak pantas</span><span class="reason-by">oleh Anonim · kemarin</span></div>
+              <p class="reason-note">"Deskripsi barang memuat kata-kata yang tidak sopan."</p>
+            </li>
+          </ul>
+          <div class="card-actions-row">
+            <a href="../laporan/laporan_page/laporan.html" class="btn btn-outline btn-sm">Lihat Laporan</a>
+            <div class="report-actions">
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="dismiss">Abaikan Report</button>
+              <button type="button" class="btn btn-outline btn-sm" data-report-action="warn">Peringatkan Pelapor</button>
+              <button type="button" class="btn btn-sm btn-danger" data-report-action="delete">Hapus Laporan</button>
+            </div>
+          </div>
+        </article>
+        </div>
+        <p class="admin-empty" id="report-empty" hidden>Semua report sudah ditangani.</p>
       </section>
 
       <!-- TAB 3: PENGGUNA -->
@@ -236,7 +312,6 @@
   </footer>
 
   <script src="../../core/js/auth.js"></script>
-  <script>requireRole('admin');</script>
   <script src="adminpage.js"></script>
 </body>
 </html>

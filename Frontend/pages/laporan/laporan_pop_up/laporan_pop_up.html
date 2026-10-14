@@ -59,7 +59,17 @@
                 </div>
                 <div class="form-group">
                     <label for="lokasi">Lokasi</label>
-                    <input type="text" id="lokasi" placeholder="Contoh: Perpustakaan Lantai 2" maxlength="100" required>
+                    <select id="lokasi" required>
+                        <option value="">Pilih lokasi...</option>
+                        <option value="Kantin Utama">Kantin Utama</option>
+                        <option value="Gedung B">Gedung B</option>
+                        <option value="Perpustakaan">Perpustakaan</option>
+                        <option value="Lab Komputer">Lab Komputer</option>
+                        <option value="Aula">Aula</option>
+                        <option value="Parkiran Timur">Parkiran Timur</option>
+                        <option value="Lainnya">Lainnya (tulis sendiri)</option>
+                    </select>
+                    <input type="text" id="lokasi-lain" placeholder="Tulis lokasi, contoh: Musala Fakultas" maxlength="100" aria-label="Lokasi lainnya" hidden>
                 </div>
             </div>
 
