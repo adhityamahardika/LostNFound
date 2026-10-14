@@ -174,6 +174,17 @@
     color: #6b5200;
 }
 
+/* Kotak info saat barang sudah dikembalikan */
+.claim-warning.is-returned {
+    background-color: #e8f5ee;
+    color: #1f5c3f;
+    border-left-color: #2e9e6b;
+}
+
+.claim-warning.is-returned strong {
+    color: #1f5c3f;
+}
+
 /* Tombol */
 .action-buttons {
     display: flex;

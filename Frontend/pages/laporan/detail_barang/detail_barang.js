@@ -107,6 +107,48 @@ if (klaimBtn) {
 }
 
 // ==========================================================================
+// Sesuaikan tampilan dengan status barang (Hilang / Ditemukan / Diklaim / Dikembalikan)
+// Dipanggil SETELAH blok tombol klaim agar tidak ditimpa.
+// ==========================================================================
+function applyStatusState(data) {
+    const status = data.status.toLowerCase();
+
+    // 1) Timeline di bawah mengikuti status: jumlah langkah yang sudah aktif
+    const activeCount = { hilang: 1, ditemukan: 2, diklaim: 3, dikembalikan: 4 }[status] || 1;
+    const steps = document.querySelectorAll('.timeline-step');
+    const lines = document.querySelectorAll('.timeline-line');
+
+    steps.forEach((step, i) => {
+        step.classList.toggle('active', i < activeCount);
+        if (i === activeCount - 1) step.setAttribute('aria-current', 'step');
+        else step.removeAttribute('aria-current');
+    });
+    lines.forEach((line, i) => line.classList.toggle('active', i < activeCount - 1));
+
+    // 2) Khusus barang yang sudah dikembalikan
+    if (status !== 'dikembalikan') return;
+
+    const labels = document.querySelectorAll('.info-label');
+    const values = document.querySelectorAll('.info-value');
+    labels[4].textContent = 'Status barang';
+    values[4].textContent = 'Sudah dikembalikan ke pemilik';
+
+    const warn = document.querySelector('.claim-warning');
+    if (warn) {
+        warn.classList.add('is-returned');
+        warn.innerHTML = '<strong>Barang sudah dikembalikan</strong><br>' +
+            'Barang ini sudah diserahkan kepada pemiliknya, jadi klaim baru tidak lagi diterima.';
+    }
+
+    const klaim = document.getElementById('btn-klaim');
+    if (klaim) {
+        klaim.textContent = 'Sudah dikembalikan';
+        klaim.disabled = true;
+    }
+}
+applyStatusState(item);
+
+// ==========================================================================
 // REPORT BARANG (halaman detail): tombol Report + modal alasan.
 // Cukup pasang report.css & report.js di halaman detail; tombol disisipkan
 // otomatis di samping tombol "Kembali ke daftar".
