@@ -150,6 +150,7 @@
   background: var(--brand-hero-bg, #eaf5f4);
   color: var(--text-muted, #6b7f86);
 }
+.room-empty[hidden] { display: none !important; }
 
 .room-empty strong { color: var(--brand-navy, #1f3a4d); font-size: 1.05rem; }
 .room-empty p { font-size: 0.9rem; max-width: 280px; }
@@ -162,7 +163,11 @@
 .room-empty-icon svg { width: 30px; height: 30px; }
 
 .room-active { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+<<<<<<< Updated upstream
 .chat-room [hidden] { display: none !important; }
+=======
+.room-active[hidden] { display: none !important; }
+>>>>>>> Stashed changes
 
 .room-header {
   display: flex;

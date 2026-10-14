@@ -199,7 +199,11 @@ document.addEventListener('DOMContentLoaded', function () {
     els.shell.dataset.view = 'room';
     renderList();
     renderRoom();
-    if (window.matchMedia('(min-width: 769px)').matches) els.input.focus();
+    if (window.matchMedia('(min-width: 769px)').matches) {
+      els.input.focus({ preventScroll: true });
+    } else {
+      window.scrollTo({ top: els.shell.offsetTop - 12, behavior: 'smooth' });
+    }
   }
 
   // ---------- Kirim & balasan ----------
