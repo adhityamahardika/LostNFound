@@ -17,7 +17,7 @@ function formatDate(dateString) {
 function getItemFromURL() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    return dummyData.find(item => String(item.id) === id);
+    return dummyData.find(item => String(item.id) === id) || dummyData[0];
 }
 
 function renderItemDetail(item) {
@@ -42,7 +42,10 @@ function renderItemDetail(item) {
     
     document.getElementById('main-image').textContent = item.img;
     document.querySelectorAll('.thumbnail').forEach((thumb, idx) => {
-        if (idx === 0) thumb.dataset.emoji = item.img;
+        if (idx === 0) {
+            thumb.dataset.emoji = item.img;
+            thumb.textContent = item.img;
+        }
     });
 }
 
@@ -60,15 +63,17 @@ thumbnails.forEach(thumb => {
     });
 });
 
-// Klaim button
-const klaimBtn = document.getElementById('btn-klaim');
-if (klaimBtn) {
-    klaimBtn.addEventListener('click', () => {
-        klaimBtn.textContent = 'Form verifikasi segera tersedia';
-        klaimBtn.disabled = true;
-    });
-}
-
-// Init
+// Init data barang
 const item = getItemFromURL();
 renderItemDetail(item);
+
+// Klaim button - langsung aktif dan mengarah ke klaim.html saat diklik
+const klaimBtn = document.getElementById('btn-klaim');
+if (klaimBtn) {
+    klaimBtn.textContent = 'Ajukan Klaim';
+    klaimBtn.disabled = false;
+    klaimBtn.addEventListener('click', () => {
+        const query = window.location.search || `?id=${item ? item.id : 1}`;
+        window.location.href = '../../klaim/klaim.html' + query;
+    });
+}
