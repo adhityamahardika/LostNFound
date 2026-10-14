@@ -1,5 +1,4 @@
 const STORAGE_KEY = 'dataBarang';
-const HOME_URL = '../../../index.html'; // dari pages/laporan/laporan_pop_up/ ke Frontend/index.html
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024; // 2 MB agar localStorage (~5 MB) tidak penuh
 const ALLOWED_PHOTO_TYPES = ['image/png', 'image/jpeg'];
 
@@ -91,6 +90,44 @@ function previewImage(event) {
     reader.readAsDataURL(file);
 }
 
+// Notifikasi (toast) sukses
+let toastTimer = null;
+function showToast(message) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.className = 'toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = '<span class="toast-icon" aria-hidden="true">&#10003;</span><span class="toast-text"></span>';
+    toast.querySelector('.toast-text').textContent = message;
+
+    // paksa reflow agar animasi muncul ulang bila toast dipanggil berturut-turut
+    toast.classList.remove('show');
+    void toast.offsetWidth;
+    toast.classList.add('show');
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 4500);
+}
+
+// Kosongkan form setelah laporan terkirim (tab yang aktif tetap dipertahankan)
+function resetForm() {
+    form.reset();
+    fotoData = '';
+    preview.hidden = true;
+    preview.removeAttribute('src');
+    photoInput.value = '';
+    showPhotoError('');
+    statusEl.hidden = true;
+
+    const lain = document.getElementById('lokasi-lain');
+    if (lain) { lain.hidden = true; lain.required = false; lain.value = ''; }
+}
+
 // 3. Submit (simulasi backend via localStorage)
 form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -136,8 +173,10 @@ form.addEventListener('submit', function (e) {
         return;
     }
 
-    showStatus('Laporan berhasil dikirim. Mengalihkan ke beranda...', false);
-    setTimeout(() => { window.location.href = HOME_URL; }, 1200);
+    // Berhasil: tetap di halaman ini, kosongkan form, tampilkan notifikasi
+    resetForm();
+    submitBtn.disabled = false;
+    showToast('Laporan berhasil dikirim.');
 });
 
 // 4. Pasang event listener (menggantikan onclick/onchange inline)
