@@ -1,135 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Detail barang hilang atau temuan di kampus.">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Detail barang hilang atau temuan di kampus."
+    />
     <title>Detail Barang - LostnFound</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../../core/css/variables.css">
-    <link rel="stylesheet" href="../../../core/css/base.css">
-    <link rel="stylesheet" href="../../../core/css/navbar.css">
-    <link rel="stylesheet" href="../../../core/css/components.css">
-    <link rel="stylesheet" href="detail_barang.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../core/css/variables.css" />
+    <link rel="stylesheet" href="../../../core/css/base.css" />
+    <link rel="stylesheet" href="../../../core/css/navbar.css" />
+    <link rel="stylesheet" href="../../../core/css/components.css" />
+    <link rel="stylesheet" href="detail_barang.css" />
+  </head>
+  <body>
     <!-- Header Navigasi -->
     <header class="site-nav-wrapper">
-        <nav class="container site-nav" aria-label="Navigasi Utama">
-            <a class="brand-group" href="../../../index.html">
-                <span class="brand-logo-box">tk</span>
-                <span class="brand-title">LostnFound</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a class="nav-link" href="../../../index.html">Beranda</a></li>
-                <li><a class="nav-link active" href="../laporan_page/laporan.html">Daftar Barang</a></li>
-                <li><a class="nav-link" href="../laporan_pop_up/laporan_pop_up.html">Lapor</a></li>
-                <li><a class="nav-link" href="../../../index.html#cara-kerja">Tentang</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a class="btn-nav-action" href="../../login/login.html">Masuk</a>
-            </div>
-        </nav>
+      <nav class="container site-nav" aria-label="Navigasi Utama">
+        <a class="brand-group" href="../../../index.html">
+          <span class="brand-logo-box">tk</span>
+          <span class="brand-title">LostnFound</span>
+        </a>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="../../../index.html">Beranda</a></li>
+          <li>
+            <a class="nav-link active" href="../laporan_page/laporan.html"
+              >Daftar Barang</a
+            >
+          </li>
+          <li>
+            <a class="nav-link" href="../laporan_pop_up/laporan_pop_up.html"
+              >Lapor</a
+            >
+          </li>
+          <li>
+            <a class="nav-link" href="../../../index.html#cara-kerja"
+              >Tentang</a
+            >
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn-nav-action" href="../../login/login.html">Masuk</a>
+        </div>
+      </nav>
     </header>
 
     <main class="container detail-main">
-        <h1 class="page-title">Detail barang</h1>
+      <h1 class="page-title">Detail barang</h1>
 
-        <div class="detail-card">
-            <div class="detail-content">
-                <!-- Kolom Kiri: Galeri Foto -->
-                <div class="gallery-section">
-                    <div class="main-image" id="main-image" role="img" aria-label="Foto utama barang">
-                        🔑
-                    </div>
-                    <div class="thumbnail-list">
-                        <button type="button" class="thumbnail active" data-emoji="🔑" aria-label="Foto 1" aria-pressed="true">🔑</button>
-                        <button type="button" class="thumbnail" data-emoji="📍" aria-label="Foto 2" aria-pressed="false">📍</button>
-                        <button type="button" class="thumbnail" data-emoji="📷" aria-label="Foto 3" aria-pressed="false">📷</button>
-                    </div>
-                </div>
+      <div class="detail-card">
+        <div class="detail-content">
+          <!-- Kolom Kiri: Galeri Foto -->
+          <div class="gallery-section">
+            <div
+              class="main-image"
+              id="main-image"
+              role="img"
+              aria-label="Foto utama barang"
+            >
+              🔑
+            </div>
+            <div class="thumbnail-list">
+              <button
+                type="button"
+                class="thumbnail active"
+                data-emoji="🔑"
+                aria-label="Foto 1"
+                aria-pressed="true"
+              >
+                🔑
+              </button>
+              <button
+                type="button"
+                class="thumbnail"
+                data-emoji="📍"
+                aria-label="Foto 2"
+                aria-pressed="false"
+              >
+                📍
+              </button>
+              <button
+                type="button"
+                class="thumbnail"
+                data-emoji="📷"
+                aria-label="Foto 3"
+                aria-pressed="false"
+              >
+                📷
+              </button>
+            </div>
+          </div>
 
-                <!-- Kolom Kanan: Informasi Barang -->
-                <div class="info-section">
-                    <span class="badge ditemukan">Ditemukan</span>
-                    <h2 class="item-title">Kunci motor Honda</h2>
-                    <p class="item-id">Kode laporan LF-0928-014</p>
+          <!-- Kolom Kanan: Informasi Barang -->
+          <div class="info-section">
+            <span class="badge ditemukan">Ditemukan</span>
+            <h2 class="item-title">Kunci motor Honda</h2>
+            <p class="item-id">Kode laporan LF-0928-014</p>
 
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <span class="info-label">Jenis barang</span>
-                            <span class="info-value">Kunci</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Tanggal ditemukan</span>
-                            <span class="info-value">Senin, 28 September 2026</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Perkiraan waktu</span>
-                            <span class="info-value">Sekitar 08.30</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Lokasi ditemukan</span>
-                            <span class="info-value">Gedung B, Lantai 2 (dekat tangga timur)</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Barang sekarang di</span>
-                            <span class="info-value">Pos satpam, gerbang utama</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Dilaporkan oleh</span>
-                            <span class="info-value">Ayu, mahasiswa</span>
-                        </div>
-                    </div>
-
-                    <p class="item-desc">
-                        Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.
-                    </p>
-
-                    <!-- Kotak Peringatan Klaim -->
-                    <div class="claim-warning">
-                        <strong>Ini barangmu?</strong><br>
-                        Kamu akan diminta menyebutkan ciri yang tidak terlihat di foto sebelum bisa menghubungi penemu.
-                    </div>
-
-                    <div class="action-buttons">
-                        <button type="button" class="btn-primary" id="btn-klaim">Klaim barang ini</button>
-                        <a href="../laporan_page/laporan.html" class="btn-secondary">Kembali ke daftar</a>
-                    </div>
-                </div>
+            <div class="info-grid">
+              <div class="info-row">
+                <span class="info-label">Jenis barang</span>
+                <span class="info-value">Kunci</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Tanggal ditemukan</span>
+                <span class="info-value">Senin, 28 September 2026</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Perkiraan waktu</span>
+                <span class="info-value">Sekitar 08.30</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Lokasi ditemukan</span>
+                <span class="info-value"
+                  >Gedung B, Lantai 2 (dekat tangga timur)</span
+                >
+              </div>
+              <div class="info-row">
+                <span class="info-label">Barang sekarang di</span>
+                <span class="info-value">Pos satpam, gerbang utama</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Dilaporkan oleh</span>
+                <span class="info-value">Ayu, mahasiswa</span>
+              </div>
             </div>
 
-            <!-- Bagian Bawah: Timeline Status -->
-            <div class="timeline-section">
-                <div class="timeline-step active">
-                    <div class="dot"></div>
-                    <span>Dilaporkan</span>
-                </div>
-                <div class="timeline-line active"></div>
-                
-                <div class="timeline-step active">
-                    <div class="dot"></div>
-                    <span>Dititipkan</span>
-                </div>
-                <div class="timeline-line"></div>
-                
-                <div class="timeline-step">
-                    <div class="dot"></div>
-                    <span>Diklaim</span>
-                </div>
-                <div class="timeline-line"></div>
-                
-                <div class="timeline-step">
-                    <div class="dot"></div>
-                    <span>Dikembalikan</span>
-                </div>
+            <p class="item-desc">
+              Kunci dengan gantungan karakter. Ciri lain sengaja tidak
+              ditampilkan untuk verifikasi pemilik.
+            </p>
+
+            <!-- Kotak Peringatan Klaim -->
+            <div class="claim-warning">
+              <strong>Ini barangmu?</strong><br />
+              Kamu akan diminta menyebutkan ciri yang tidak terlihat di foto
+              sebelum bisa menghubungi penemu.
             </div>
+
+            <div class="action-buttons">
+              <a
+                type="button"
+                href="../klaim/klaim.html"
+                class="btn-primary"
+                id="btn-klaim"
+                >Klaim barang ini</a
+              >
+
+              <a href="../laporan_page/laporan.html" class="btn-secondary"
+                >Kembali ke daftar</a
+              >
+            </div>
+          </div>
         </div>
+
+        <!-- Bagian Bawah: Timeline Status -->
+        <div class="timeline-section">
+          <div class="timeline-step active">
+            <div class="dot"></div>
+            <span>Dilaporkan</span>
+          </div>
+          <div class="timeline-line active"></div>
+
+          <div class="timeline-step active">
+            <div class="dot"></div>
+            <span>Dititipkan</span>
+          </div>
+          <div class="timeline-line"></div>
+
+          <div class="timeline-step">
+            <div class="dot"></div>
+            <span>Diklaim</span>
+          </div>
+          <div class="timeline-line"></div>
+
+          <div class="timeline-step">
+            <div class="dot"></div>
+            <span>Dikembalikan</span>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script src="detail_barang.js"></script>
     <script src="../../../core/js/auth.js"></script>
-</body>
+  </body>
 </html>

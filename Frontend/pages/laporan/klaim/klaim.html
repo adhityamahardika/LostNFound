@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajukan Klaim Barang - LostnFound</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../core/css/variables.css" />
+    <link rel="stylesheet" href="../../../core/css/base.css" />
+    <link rel="stylesheet" href="../../../core/css/components.css" />
+    <link rel="stylesheet" href="../../../core/css/navbar.css" />
+    <link rel="stylesheet" href="../../../core/css/status.css" />
+    <link rel="stylesheet" href="klaim.css" />
+  </head>
+  <body>
+    <!-- Header Navigasi -->
+    <header class="site-nav-wrapper">
+      <nav class="container site-nav" aria-label="Navigasi Utama">
+        <a class="brand-group" href="../../../index.html">
+          <span class="brand-logo-box">tk</span>
+          <span class="brand-title">LostnFound</span>
+        </a>
+        <ul class="nav-menu">
+          <li><a class="nav-link" href="../../../index.html">Beranda</a></li>
+          <li>
+            <a class="nav-link" href="../../laporan/laporan_page/laporan.html"
+              >Daftar Barang</a
+            >
+          </li>
+          <li>
+            <a
+              class="nav-link"
+              href="../../laporan/laporan_pop_up/laporan_pop_up.html"
+              >Lapor</a
+            >
+          </li>
+          <li>
+            <a class="nav-link" href="../../../index.html#cara-kerja"
+              >Tentang</a
+            >
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <a class="btn-nav-action" href="../../login/login.html">Masuk</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="klaim-page">
+        <div class="container">
+          <!-- Judul Halaman -->
+          <header class="klaim-header">
+            <h1>Ajukan Klaim Barang</h1>
+            <p class="klaim-subtitle">
+              Isi formulir di bawah untuk mengajukan klaim kepemilikan barang
+              ini.
+            </p>
+          </header>
+
+          <!-- Kartu Ringkasan Barang (Dinamis mengikuti barang yang diklik) -->
+          <article class="item-summary">
+            <div class="item-summary__image">
+              <div
+                class="placeholder-image"
+                id="klaim-item-img"
+                style="font-size: 4.5rem"
+              >
+                👛
+              </div>
+            </div>
+            <div class="item-summary__content">
+              <div class="item-summary__badges">
+                <span
+                  class="status-badge status-ditemukan"
+                  id="klaim-item-status"
+                  >Ditemukan</span
+                >
+              </div>
+              <h2 class="item-summary__title" id="klaim-item-title">
+                Memuat barang...
+              </h2>
+              <dl class="item-summary__meta">
+                <div class="meta-row">
+                  <dt>Kategori</dt>
+                  <dd id="klaim-item-kategori">-</dd>
+                </div>
+                <div class="meta-row">
+                  <dt>Lokasi Ditemukan</dt>
+                  <dd id="klaim-item-lokasi">-</dd>
+                </div>
+                <div class="meta-row">
+                  <dt>Tanggal Ditemukan</dt>
+                  <dd id="klaim-item-tanggal">-</dd>
+                </div>
+                <div class="meta-row">
+                  <dt>Kode Laporan</dt>
+                  <dd id="klaim-item-kode">-</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+
+          <!-- Form Klaim -->
+          <section class="klaim-form-section">
+            <h2>Verifikasi Kepemilikan</h2>
+            <p class="form-intro">
+              Sebutkan ciri spesifik atau rahasia dari barang ini yang tidak
+              terlihat pada foto laporan untuk membuktikan kepemilikan Anda.
+            </p>
+
+            <form
+              class="klaim-form"
+              id="form-klaim"
+              action="#"
+              method="post"
+              enctype="multipart/form-data"
+            >
+              <!-- Petunjuk Verifikasi -->
+              <div class="form-group">
+                <label class="form-label" for="verification-question"
+                  >Petunjuk Verifikasi Barang</label
+                >
+                <div class="verification-question-box">
+                  <p id="verification-question">
+                    Sebutkan detail isi, merk, goresan, atau ciri khusus pada
+                    barang ini.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Ciri Rahasia (Wajib) -->
+              <div class="form-group">
+                <label class="form-label" for="ciri-rahasia"
+                  >Ciri Rahasia Barang
+                  <span class="required" aria-hidden="true">*</span></label
+                >
+                <textarea
+                  id="ciri-rahasia"
+                  name="ciri_rahasia"
+                  class="form-control"
+                  rows="3"
+                  required
+                  placeholder="Contoh: Di bagian dalam ada stiker kucing, terdapat goresan kecil di pojok kanan..."
+                ></textarea>
+                <p class="form-hint">
+                  Jelaskan ciri rahasia yang hanya diketahui oleh pemilik asli
+                  barang.
+                </p>
+              </div>
+
+              <!-- Upload Bukti Kepemilikan (Opsional) -->
+              <div class="form-group">
+                <label class="form-label" for="bukti"
+                  >Bukti Kepemilikan (Opsional)</label
+                >
+                <input
+                  type="file"
+                  id="bukti"
+                  name="bukti"
+                  class="form-control"
+                  accept="image/*"
+                />
+                <p class="form-hint">
+                  Unggah foto struk pembelian, foto lama barang, atau dokumen
+                  lain yang membuktikan kepemilikan. Maksimal 5 MB.
+                </p>
+              </div>
+
+              <!-- Catatan Tambahan (Opsional) -->
+              <div class="form-group">
+                <label class="form-label" for="catatan"
+                  >Catatan Tambahan (Opsional)</label
+                >
+                <textarea
+                  id="catatan"
+                  name="catatan"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Tambahkan informasi tambahan atau waktu rencana pengambilan..."
+                ></textarea>
+              </div>
+
+              <!-- Checkbox Persetujuan (Wajib) -->
+              <div class="form-group form-group--checkbox">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    name="persetujuan"
+                    id="persetujuan"
+                    required
+                  />
+                  <span class="checkbox-text"
+                    >Saya menyatakan barang ini benar milik saya dan informasi
+                    yang saya berikan adalah benar.</span
+                  >
+                </label>
+              </div>
+
+              <!-- Tombol Aksi -->
+              <div class="form-actions">
+                <button
+                  type="submit"
+                  class="btn btn--primary"
+                  id="btn-submit-klaim"
+                >
+                  Ajukan Klaim & Hubungi Penemu
+                </button>
+                <a
+                  href="../../laporan/laporan_page/laporan.html"
+                  class="btn btn--ghost"
+                  id="btn-batal-klaim"
+                  >Batal</a
+                >
+              </div>
+            </form>
+          </section>
+
+          <!-- Kotak Info -->
+          <aside class="info-box">
+            <p>
+              <strong>Info:</strong> Setelah mengajukan klaim, Anda akan
+              langsung diarahkan ke ruang Chat dengan penemu/admin untuk proses
+              serah terima.
+            </p>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="kontak">
+      <div class="container footer-grid">
+        <div>
+          <h3>LostnFound</h3>
+          <p>
+            Layanan barang hilang dan temuan untuk civitas kampus. Memudahkan
+            proses pengembalian barang dengan sistem verifikasi kepemilikan.
+          </p>
+        </div>
+        <div>
+          <h3>Jelajahi</h3>
+          <p>
+            <a href="../../laporan/laporan_page/laporan.html">Daftar Barang</a
+            ><br />
+            <a href="../../laporan/laporan_pop_up/laporan_pop_up.html">Lapor</a>
+          </p>
+        </div>
+        <div>
+          <h3>Bantuan</h3>
+          <p>
+            <a href="../../../index.html#cara-kerja">Tentang</a><br />
+            <a href="#kontak">Kontak</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../../../core/js/auth.js"></script>
+    <script>
+      // Data barang disamakan persis dengan detail_barang.js & laporan.js
+      const dummyData = [
+        {
+          id: 1,
+          nama: "Dompet cokelat",
+          jenis: "Aksesoris",
+          lokasi: "Kantin Utama",
+          tanggal: "2026-09-27",
+          status: "Hilang",
+          img: "👛",
+          petunjuk:
+            "Apa merk dompet ini dan apa saja kartu atau barang yang ada di dalamnya?",
+        },
+        {
+          id: 2,
+          nama: "Kunci motor Honda",
+          jenis: "Kendaraan",
+          lokasi: "Gedung B",
+          tanggal: "2026-09-28",
+          status: "Ditemukan",
+          img: "🔑",
+          petunjuk:
+            "Karakter apa yang menjadi gantungan kunci motor ini dan warna apa?",
+        },
+        {
+          id: 3,
+          nama: "KTM a.n. Made Wirawan",
+          jenis: "Dokumen",
+          lokasi: "Perpustakaan",
+          tanggal: "2026-09-28",
+          status: "Ditemukan",
+          img: "🪪",
+          petunjuk:
+            "Sebutkan 4 digit terakhir NIM dan Program Studi yang tertera pada KTM.",
+        },
+        {
+          id: 4,
+          nama: "Botol minum biru",
+          jenis: "Aksesoris",
+          lokasi: "Lab Komputer",
+          tanggal: "2026-09-26",
+          status: "Hilang",
+          img: "🧋",
+          petunjuk:
+            "Gambar stiker apa yang menempel di bagian bawah botol minum ini?",
+        },
+        {
+          id: 5,
+          nama: "Tas ransel hitam",
+          jenis: "Tas",
+          lokasi: "Parkiran Timur",
+          tanggal: "2026-09-25",
+          status: "Ditemukan",
+          img: "🎒",
+          petunjuk:
+            "Apa merk tas ransel ini dan buku/barang apa yang ada di kantong depan?",
+        },
+        {
+          id: 6,
+          nama: "Charger Laptop HP",
+          jenis: "Elektronik",
+          lokasi: "Aula",
+          tanggal: "2026-09-24",
+          status: "Dikembalikan",
+          img: "🔌",
+          petunjuk:
+            "Berapa watt adaptor charger ini dan ada tanda khusus apa di kabelnya?",
+        },
+      ];
+
+      function formatDate(dateString) {
+        const options = { day: "numeric", month: "long", year: "numeric" };
+        const [y, m, d] = dateString.split("-").map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString("id-ID", options);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+
+        // Cari barang sesuai ID yang diklik (default ke Dompet Cokelat jika dibuka tanpa ID)
+        const item = dummyData.find((d) => String(d.id) === id) || dummyData[0];
+        const kodeLaporan = `LF-${item.tanggal.replace(/-/g, "")}-${String(item.id).padStart(3, "0")}`;
+
+        // 1. Render Data Barang ke Kartu Ringkasan
+        document.getElementById("klaim-item-img").textContent = item.img;
+        document.getElementById("klaim-item-title").textContent = item.nama;
+        document.getElementById("klaim-item-kategori").textContent = item.jenis;
+        document.getElementById("klaim-item-lokasi").textContent = item.lokasi;
+        document.getElementById("klaim-item-tanggal").textContent = formatDate(
+          item.tanggal,
+        );
+        document.getElementById("klaim-item-kode").textContent = kodeLaporan;
+
+        const statusBadge = document.getElementById("klaim-item-status");
+        statusBadge.textContent = item.status;
+        statusBadge.className = `status-badge status-${item.status.toLowerCase()}`;
+
+        // Sesuaikan petunjuk verifikasi dengan barang yang dipilih
+        document.getElementById("verification-question").textContent =
+          item.petunjuk;
+
+        // Tombol batal kembali ke detail barang tersebut
+        document.getElementById("btn-batal-klaim").href =
+          `../../laporan/detail_barang/detail_barang.html?id=${item.id}`;
+
+        // 2. Tangani Submit Form Klaim -> Simpan Data & Langsung Pindah ke Halaman Chat
+        const formKlaim = document.getElementById("form-klaim");
+        formKlaim.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const ciriRahasia = document
+            .getElementById("ciri-rahasia")
+            .value.trim();
+          const catatan = document.getElementById("catatan").value.trim();
+
+          // Simpan data klaim ke localStorage agar bisa dibaca di halaman Chat / Notifikasi
+          const dataKlaim = {
+            idBarang: item.id,
+            kodeLaporan: kodeLaporan,
+            namaBarang: item.nama,
+            kategori: item.jenis,
+            lokasi: item.lokasi,
+            img: item.img,
+            ciriRahasia: ciriRahasia,
+            catatan: catatan,
+            waktuKlaim: new Date().toLocaleTimeString("id-ID", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+
+          localStorage.setItem("klaim_terbaru", JSON.stringify(dataKlaim));
+
+          // Langsung arahkan ke halaman Chat sambil membawa parameter ID barang
+          window.location.href = `../../chat/chat.html?id=${item.id}&klaim=1`;
+        });
+      });
+    </script>
+  </body>
+</html>
