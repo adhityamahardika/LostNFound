@@ -81,11 +81,21 @@ const item = getItemFromURL();
 renderItemDetail(item);
 
 // Tombol Klaim langsung mengarah ke halaman klaim sesuai ID barang
+// Klaim hanya untuk yang sudah login (sesi dari auth.js)
+function isLoggedIn() {
+    try { return !!localStorage.getItem('lostnfound_demo_user'); } catch (e) { return false; }
+}
+
 const klaimBtn = document.getElementById('btn-klaim');
 if (klaimBtn) {
-    klaimBtn.textContent = 'Ajukan Klaim';
+    klaimBtn.textContent = isLoggedIn() ? 'Ajukan Klaim' : 'Masuk untuk Klaim';
     klaimBtn.disabled = false;
     klaimBtn.addEventListener('click', () => {
+        if (!isLoggedIn()) {
+            alert('Masuk dulu untuk mengajukan klaim.');
+            window.location.href = '../../login/login.html';
+            return;
+        }
         const query = window.location.search || `?id=${item ? item.id : 1}`;
         window.location.href = '../../klaim/klaim.html' + query;
     });
