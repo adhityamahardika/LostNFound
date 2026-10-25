@@ -36,6 +36,16 @@ function loadList() {
     }
 }
 
+// Cek status sesi login pengguna
+function checkAuthUser() {
+    try {
+        const data = localStorage.getItem('lostnfound_demo_user');
+        return data ? JSON.parse(data) : null;
+    } catch (_) {
+        return null;
+    }
+}
+
 // 1. Ganti tab
 function switchTab(jenis) {
     const isNemu = jenis === 'nemu' || jenis === 'ditemukan';
@@ -162,21 +172,81 @@ form.addEventListener('submit', function (e) {
         return;
     }
 
-    submitBtn.disabled = true;
-    try {
-        const list = loadList();
-        list.push(data);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } catch (err) {
-        submitBtn.disabled = false;
-        showStatus('Laporan gagal disimpan (penyimpanan penuh). Coba foto yang lebih kecil.', true);
+    const user = checkAuthUser();
+    if (!user) {
+        showStatus('Anda harus login terlebih dahulu sebelum dapat mengirim laporan.', true);
+        setTimeout(() => {
+            if (window.self !== window.top) {
+                window.top.location.href = '../../login/login.html';
+            } else {
+                window.location.href = '../../login/login.html';
+            }
+        }, 1500);
         return;
     }
 
-    // Berhasil: tetap di halaman ini, kosongkan form, tampilkan notifikasi
-    resetForm();
-    submitBtn.disabled = false;
-    showToast('Laporan berhasil dikirim.');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Mengirim...';
+
+    // Buat FormData untuk dikirim ke Backend PHP (MySQL)
+    const formData = new FormData();
+    formData.append('tipe', data.tipe);
+    formData.append('nama_barang', data.namaBarang);
+    formData.append('jenis_barang', data.jenis);
+    formData.append('tanggal', data.tanggal);
+    formData.append('lokasi', data.lokasi);
+    formData.append('deskripsi', data.deskripsi);
+    formData.append('penitipan', data.penitipan);
+    formData.append('ciri_rahasia', data.ciriRahasia);
+    formData.append('pelapor_email', user.email || '');
+    formData.append('pelapor_name', user.name || 'Civitas Kampus');
+
+    if (photoInput.files && photoInput.files[0]) {
+        formData.append('foto', photoInput.files[0]);
+    } else if (fotoData) {
+        formData.append('foto', fotoData);
+    }
+
+    // Kirim request ke Backend PHP API
+    fetch('../../../../Backend/api/laporan.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(async (response) => {
+        const resData = await response.json().catch(() => null);
+        if (!response.ok || !resData || !resData.success) {
+            throw new Error((resData && resData.message) ? resData.message : ('HTTP ' + response.status));
+        }
+        return resData;
+    })
+    .then((result) => {
+        // Simpan juga ke localStorage sebagai backup cache lokal
+        try {
+            const list = loadList();
+            list.push({ ...data, id: result.id || data.id, foto: result.data ? result.data.foto : fotoData });
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        } catch (_) {}
+
+        resetForm();
+        showToast('Laporan berhasil dikirim dan tersimpan di database!');
+    })
+    .catch((err) => {
+        console.warn('Gagal simpan ke MySQL via PHP backend, fallback ke localStorage:', err);
+        // Fallback bila server PHP/MySQL belum dijalankan mahasiswa saat preview frontend
+        try {
+            const list = loadList();
+            list.push(data);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+            resetForm();
+            showToast('Laporan tersimpan di browser. (Info: Server PHP/MySQL belum aktif)');
+        } catch (storageErr) {
+            showStatus('Laporan gagal disimpan: ' + err.message, true);
+        }
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Kirim Laporan';
+    });
 });
 
 // 4. Pasang event listener (menggantikan onclick/onchange inline)
@@ -200,6 +270,18 @@ const tipeParam = new URLSearchParams(window.location.search).get('tipe');
 if (tipeParam) switchTab(tipeParam);
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Cek apakah pengguna sudah login
+  const user = checkAuthUser();
+  if (!user) {
+    alert("Silakan masuk (login) terlebih dahulu sebelum membuat laporan.");
+    if (window.self !== window.top) {
+      window.top.location.href = "../../login/login.html";
+    } else {
+      window.location.href = "../../login/login.html";
+    }
+    return;
+  }
+
   const params = new URLSearchParams(window.location.search);
 
   // 1. Jika dibuka di dalam pop-up modal, sembunyikan navbar "Kembali ke Beranda"

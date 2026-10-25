@@ -409,6 +409,14 @@
       const link = e.target.closest('a[href*="laporan_pop_up.html"]');
       if (!link) return;
       e.preventDefault();
+
+      const user = getUser();
+      if (!user) {
+        alert('Silakan masuk (login) terlebih dahulu sebelum membuat laporan.');
+        window.location.href = paths.login;
+        return;
+      }
+
       openLaporModal(link.getAttribute('href'));
     });
 

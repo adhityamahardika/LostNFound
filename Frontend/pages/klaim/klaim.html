@@ -177,6 +177,14 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Cek apakah pengguna sudah login sebelum mengajukan klaim
+      const currentUser = localStorage.getItem('lostnfound_demo_user');
+      if (!currentUser) {
+        alert('Silakan masuk (login) terlebih dahulu sebelum mengajukan klaim barang.');
+        window.location.href = '../login/login.html';
+        return;
+      }
+
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id") || "1"; // Default ke id 1 jika dibuka tanpa parameter
 
