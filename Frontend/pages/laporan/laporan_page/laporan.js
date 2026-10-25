@@ -1,4 +1,4 @@
-// 1. Data Dummy
+// 1. Data Dummy (Fallback jika server backend belum berjalan)
 const dummyData = [
     { id: 1, nama: "Dompet kulit", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg" },
     { id: 2, nama: "Kunci motor", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg" },
@@ -8,7 +8,23 @@ const dummyData = [
     { id: 6, nama: "Charger Laptop", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg" }
 ];
 
+let laporanList = [...dummyData];
 let currentStatusFilter = 'Semua';
+
+// Helper Resolusi URL Gambar
+function resolveImgUrl(url) {
+    if (!url) return '../../../assets/nowrite.jpg';
+    if (url.startsWith('data:image') || url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+    }
+    if (url.startsWith('Backend/')) {
+        return '../../../../' + url;
+    }
+    if (url.startsWith('assets/')) {
+        return '../../../' + url;
+    }
+    return url;
+}
 
 // 2. Format Tanggal
 function formatDate(dateString) {
@@ -56,7 +72,7 @@ function renderCards(data) {
     });
 
     document.getElementById('summary-text').textContent =
-        `Menampilkan ${data.length} dari ${dummyData.length} laporan`;
+        `Menampilkan ${data.length} dari ${laporanList.length} laporan`;
 }
 
 // 4. Filter
@@ -82,7 +98,7 @@ function executeFilters() {
         return;
     }
 
-    const filtered = dummyData.filter(item => {
+    const filtered = laporanList.filter(item => {
         const matchStatus = (currentStatusFilter === 'Semua') || (item.status === currentStatusFilter);
         const matchJenis = (filterJenis === 'Semua') || (item.jenis === filterJenis);
         const matchLokasi = (filterLokasi === 'Semua') || item.lokasi.includes(filterLokasi);
@@ -106,13 +122,27 @@ function resetFilters() {
 let lastFocused = null;
 
 function openModal(idBarang) {
-    const barang = dummyData.find(item => String(item.id) === String(idBarang));
+    const barang = laporanList.find(item => String(item.id) === String(idBarang));
     if (!barang) return;
+
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('lostnfound_demo_user') || 'null');
+    } catch (_) {}
+
+    const isAdmin = Boolean(user && user.accessRole === 'admin');
+    const isOwner = Boolean(user && barang.pelapor_email && user.email &&
+                    user.email.toLowerCase() === barang.pelapor_email.toLowerCase());
+    const canDelete = isAdmin || isOwner;
 
     const isImgUrl = barang.img && (barang.img.includes('/') || barang.img.includes('.'));
     const imgMarkup = isImgUrl
         ? `<img src="${escapeHTML(barang.img)}" alt="${escapeHTML(barang.nama)}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`
         : escapeHTML(barang.img);
+
+    const deleteBtnMarkup = canDelete
+        ? `<button type="button" id="modal-delete" style="background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;">Hapus Laporan</button>`
+        : '';
 
     document.getElementById('modal-body').innerHTML = `
         <div class="modal-detail-flex">
@@ -127,11 +157,52 @@ function openModal(idBarang) {
                     <strong>Ini barangmu?</strong><br>
                     Siapkan ciri-ciri khusus sebelum melakukan klaim.
                 </div>
-                <button type="button" class="btn-kembali" id="modal-back">Kembali</button>
+                <div style="display:flex;gap:8px;margin-top:16px;">
+                    <button type="button" class="btn-kembali" id="modal-back">Kembali</button>
+                    ${deleteBtnMarkup}
+                </div>
             </div>
         </div>
     `;
     document.getElementById('modal-back').addEventListener('click', closeModal);
+
+    const btnHapusModal = document.getElementById('modal-delete');
+    if (btnHapusModal) {
+        btnHapusModal.addEventListener('click', async () => {
+            const confirmDel = confirm(`Apakah Anda yakin ingin menghapus laporan "${barang.nama}"?\nData akan dihapus permanen dari database.`);
+            if (!confirmDel) return;
+
+            btnHapusModal.disabled = true;
+            btnHapusModal.textContent = 'Menghapus...';
+
+            try {
+                const queryParams = new URLSearchParams({
+                    id: barang.id,
+                    user_email: (user && user.email) ? user.email : '',
+                    user_role: (user && user.accessRole) ? user.accessRole : 'user'
+                });
+                const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, { method: 'DELETE' });
+                const result = await res.json().catch(() => null);
+
+                if (!res.ok || (result && !result.success)) {
+                    alert((result && result.message) ? result.message : 'Gagal menghapus laporan: Akses tidak diizinkan.');
+                    btnHapusModal.disabled = false;
+                    btnHapusModal.textContent = 'Hapus Laporan';
+                    return;
+                }
+            } catch (_) {}
+
+            // Bersihkan juga dari cache localStorage jika ada
+            try {
+                const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+                const updated = local.filter(x => String(x.id) !== String(barang.id));
+                localStorage.setItem('dataBarang', JSON.stringify(updated));
+            } catch (_) {}
+
+            closeModal();
+            loadLaporanData();
+        });
+    }
 
     lastFocused = document.activeElement;
     document.getElementById('detail-modal').hidden = false;
@@ -145,7 +216,55 @@ function closeModal() {
     if (lastFocused) lastFocused.focus();
 }
 
-// 5. Init
+// 5. Muat Data dari Backend API (MySQL via PHP)
+async function loadLaporanData() {
+    try {
+        const res = await fetch('../../../../Backend/api/laporan.php');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const result = await res.json();
+        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+            laporanList = result.data.map(item => ({
+                id: item.id,
+                nama: item.nama || item.nama_barang,
+                jenis: item.jenis || item.jenis_barang,
+                lokasi: item.lokasi,
+                tanggal: item.tanggal,
+                status: item.status,
+                img: resolveImgUrl(item.foto || item.img),
+                deskripsi: item.deskripsi || '',
+                pelapor_email: item.pelapor_email || '',
+                pelapor_name: item.pelapor_name || 'Civitas Kampus'
+            }));
+            executeFilters();
+            return;
+        }
+    } catch (err) {
+        console.warn('Backend MySQL/PHP belum aktif, menggunakan fallback data lokal:', err);
+    }
+
+    // Fallback data: gabungan dummyData + dataBarang di localStorage
+    laporanList = [...dummyData];
+    try {
+        const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+        if (Array.isArray(local) && local.length > 0) {
+            local.forEach(item => {
+                laporanList.unshift({
+                    id: item.id,
+                    nama: item.namaBarang || item.nama,
+                    jenis: item.jenis || item.jenis_barang,
+                    lokasi: item.lokasi,
+                    tanggal: item.tanggal,
+                    status: item.status || (item.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
+                    img: resolveImgUrl(item.foto || item.img),
+                    deskripsi: item.deskripsi || ''
+                });
+            });
+        }
+    } catch (_) {}
+    executeFilters();
+}
+
+// 6. Init
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-terapkan').addEventListener('click', executeFilters);
     document.getElementById('btn-reset').addEventListener('click', resetFilters);
@@ -182,5 +301,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (matchingOption) selectLokasi.value = lokasiDariHero;
     }
 
-    executeFilters();
+    loadLaporanData();
 });

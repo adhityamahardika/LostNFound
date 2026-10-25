@@ -14,6 +14,21 @@ function formatDate(dateString) {
     return new Date(y, m - 1, d).toLocaleDateString('id-ID', options);
 }
 
+// Helper Resolusi URL Foto
+function resolveImgUrl(url) {
+    if (!url) return '../../../assets/nowrite.jpg';
+    if (url.startsWith('data:image') || url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+    }
+    if (url.startsWith('Backend/')) {
+        return '../../../../' + url;
+    }
+    if (url.startsWith('assets/')) {
+        return '../../../' + url;
+    }
+    return url;
+}
+
 function getItemFromURL() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -77,8 +92,9 @@ thumbnails.forEach(thumb => {
 });
 
 // Init halaman
-const item = getItemFromURL();
+let item = getItemFromURL();
 renderItemDetail(item);
+updateHapusButtonVisibility(item);
 
 // Tombol Klaim langsung mengarah ke halaman klaim sesuai ID barang
 // Klaim hanya untuk yang sudah login (sesi dari auth.js)
@@ -101,11 +117,103 @@ if (klaimBtn) {
     });
 }
 
+// Helper Visibilitas Tombol Hapus: Hanya untuk Admin atau Pembuat Laporan
+function updateHapusButtonVisibility(itemData) {
+    const hapusBtn = document.getElementById('btn-hapus');
+    if (!hapusBtn) return;
+
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem('lostnfound_demo_user') || 'null');
+    } catch (_) {}
+
+    // Pengguna belum login sama sekali -> tombol hapus TIDAK muncul
+    if (!user) {
+        hapusBtn.style.display = 'none';
+        return;
+    }
+
+    const isAdmin = (user.accessRole === 'admin');
+    const isOwner = Boolean(itemData && itemData.pelapor_email && user.email &&
+                    user.email.toLowerCase() === itemData.pelapor_email.toLowerCase());
+
+    // Hanya tampil jika Admin ATAU Pemilik yang membuat laporan
+    if (isAdmin || isOwner) {
+        hapusBtn.style.display = 'inline-flex';
+        hapusBtn.title = isAdmin ? 'Hapus Laporan (Sebagai Administrator)' : 'Hapus Laporan Saya';
+    } else {
+        hapusBtn.style.display = 'none';
+    }
+}
+
+// Tombol Hapus Laporan
+const hapusBtn = document.getElementById('btn-hapus');
+if (hapusBtn) {
+    hapusBtn.addEventListener('click', async () => {
+        if (!item || !item.id) return;
+
+        let user = null;
+        try {
+            user = JSON.parse(localStorage.getItem('lostnfound_demo_user') || 'null');
+        } catch (_) {}
+
+        if (!user) {
+            alert('Anda harus login terlebih dahulu.');
+            window.location.href = '../../login/login.html';
+            return;
+        }
+
+        const confirmDelete = confirm(`Apakah Anda yakin ingin menghapus laporan "${item.nama}"?\nData akan dihapus permanen dari database.`);
+        if (!confirmDelete) return;
+
+        hapusBtn.disabled = true;
+        hapusBtn.textContent = 'Menghapus...';
+
+        try {
+            const queryParams = new URLSearchParams({
+                id: item.id,
+                user_email: user.email || '',
+                user_role: user.accessRole || 'user'
+            });
+
+            // Request DELETE ke backend PHP (MySQL) dengan verifikasi akses
+            const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, {
+                method: 'DELETE'
+            });
+            const result = await res.json().catch(() => null);
+
+            if (!res.ok || (result && !result.success)) {
+                alert((result && result.message) ? result.message : 'Gagal menghapus laporan: Akses tidak diizinkan.');
+                hapusBtn.disabled = false;
+                hapusBtn.textContent = 'Hapus Laporan';
+                return;
+            }
+
+            // Bersihkan juga dari penyimpanan lokal browser jika ada
+            try {
+                const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+                const updated = local.filter(x => String(x.id) !== String(item.id));
+                localStorage.setItem('dataBarang', JSON.stringify(updated));
+            } catch (_) {}
+
+            alert('Laporan berhasil dihapus.');
+            // Kembali ke halaman daftar laporan
+            window.location.href = '../laporan_page/laporan.html';
+        } catch (err) {
+            console.error('Error saat menghapus laporan:', err);
+            alert('Terjadi kesalahan saat menghapus laporan: ' + err.message);
+            hapusBtn.disabled = false;
+            hapusBtn.textContent = 'Hapus Laporan';
+        }
+    });
+}
+
 // ==========================================================================
 // Sesuaikan tampilan dengan status barang (Hilang / Ditemukan / Diklaim / Dikembalikan)
 // Dipanggil SETELAH blok tombol klaim agar tidak ditimpa.
 // ==========================================================================
 function applyStatusState(data) {
+    if (!data || !data.status) return;
     const status = data.status.toLowerCase();
 
     // 1) Timeline di bawah mengikuti status: jumlah langkah yang sudah aktif
@@ -125,8 +233,10 @@ function applyStatusState(data) {
 
     const labels = document.querySelectorAll('.info-label');
     const values = document.querySelectorAll('.info-value');
-    labels[4].textContent = 'Status barang';
-    values[4].textContent = 'Sudah dikembalikan ke pemilik';
+    if (labels[4] && values[4]) {
+        labels[4].textContent = 'Status barang';
+        values[4].textContent = 'Sudah dikembalikan ke pemilik';
+    }
 
     const warn = document.querySelector('.claim-warning');
     if (warn) {
@@ -142,6 +252,64 @@ function applyStatusState(data) {
     }
 }
 applyStatusState(item);
+
+// Ambil data dinamis dari Backend MySQL via PHP API jika tersedia
+async function fetchItemDetailAsync() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) return;
+
+    try {
+        const res = await fetch(`../../../../Backend/api/laporan.php?id=${id}`);
+        if (res.ok) {
+            const json = await res.json();
+            if (json.success && json.data) {
+                const itm = json.data;
+                item = {
+                    id: itm.id,
+                    nama: itm.nama || itm.nama_barang,
+                    jenis: itm.jenis || itm.jenis_barang,
+                    lokasi: itm.lokasi,
+                    tanggal: itm.tanggal,
+                    status: itm.status,
+                    img: resolveImgUrl(itm.foto || itm.img),
+                    deskripsi: itm.deskripsi,
+                    penitipan: itm.penitipan || 'Pos Satpam',
+                    pelapor_email: itm.pelapor_email || '',
+                    pelapor_name: itm.pelapor_name || 'Civitas Kampus',
+                    pelapor: itm.pelapor_name || 'Civitas Kampus'
+                };
+                renderItemDetail(item);
+                applyStatusState(item);
+                updateHapusButtonVisibility(item);
+                return;
+            }
+        }
+    } catch (err) {
+        // Backend offline, coba cari dari localStorage
+        try {
+            const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+            const foundLocal = local.find(x => String(x.id) === String(id));
+            if (foundLocal) {
+                item = {
+                    id: foundLocal.id,
+                    nama: foundLocal.namaBarang || foundLocal.nama,
+                    jenis: foundLocal.jenis,
+                    lokasi: foundLocal.lokasi,
+                    tanggal: foundLocal.tanggal,
+                    status: foundLocal.status || (foundLocal.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
+                    img: resolveImgUrl(foundLocal.foto),
+                    deskripsi: foundLocal.deskripsi || '',
+                    penitipan: foundLocal.penitipan || '-',
+                    pelapor: 'Anonim'
+                };
+                renderItemDetail(item);
+                applyStatusState(item);
+            }
+        } catch (_) {}
+    }
+}
+fetchItemDetailAsync();
 
 // ==========================================================================
 // REPORT BARANG (halaman detail): tombol Report + modal alasan.
