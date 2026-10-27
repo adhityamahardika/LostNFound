@@ -1,16 +1,19 @@
 // Data dummy - Sumber foto sudah disamakan persis dengan laporan.js
 const dummyData = [
-    { id: 1, nama: "Dompet kulit", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg", deskripsi: "Dompet kulit cokelat dengan kancing. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik." },
-    { id: 2, nama: "Kunci motor", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg", deskripsi: "Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik." },
-    { id: 3, nama: "Kartu Mahasiswa", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/ktm.jpg", deskripsi: "Kartu mahasiswa atas nama Made Wirawan. Hubungi untuk verifikasi lebih lanjut." },
-    { id: 4, nama: "Botol minum hijau", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "../../../assets/items/tumbler.jpg", deskripsi: "Botol minum warna hijau dengan stiker. Detail lain tidak ditampilkan untuk verifikasi." },
-    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "../../../assets/items/tas.jpg", deskripsi: "Tas ransel hitam ukuran sedang. Ciri khusus disembunyikan untuk keperluan klaim." },
-    { id: 6, nama: "Charger Laptop", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg", deskripsi: "Charger laptop HP original. Barang sudah dikembalikan ke pemiliknya." }
+    { id: 1, nama: "Dompet kulit", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg", deskripsi: "Dompet kulit cokelat dengan kancing. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.", penitipan: "-", pelapor_email: "deta@student.kampus.ac.id", pelapor_name: "Detuy Mahardika", pelapor: "Detuy Mahardika" },
+    { id: 2, nama: "Kunci motor", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg", deskripsi: "Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.", penitipan: "Tata Usaha", pelapor_email: "rizky@student.kampus.ac.id", pelapor_name: "Rizky", pelapor: "Rizky" },
+    { id: 3, nama: "Kartu Mahasiswa", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/ktm.jpg", deskripsi: "Kartu mahasiswa atas nama Made Wirawan. Hubungi untuk verifikasi lebih lanjut.", penitipan: "Pos Satpam Depan", pelapor_email: "rizky@student.kampus.ac.id", pelapor_name: "Rizky", pelapor: "Rizky" },
+    { id: 4, nama: "Botol minum hijau", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "../../../assets/items/tumbler.jpg", deskripsi: "Botol minum warna hijau dengan stiker. Detail lain tidak ditampilkan untuk verifikasi.", penitipan: "-", pelapor_email: "budi@student.kampus.ac.id", pelapor_name: "Budi", pelapor: "Budi" },
+    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "../../../assets/items/tas.jpg", deskripsi: "Tas ransel hitam ukuran sedang. Ciri khusus disembunyikan untuk keperluan klaim.", penitipan: "Pos Satpam Depan", pelapor_email: "satpam@kampus.ac.id", pelapor_name: "Petugas Satpam", pelapor: "Petugas Satpam" },
+    { id: 6, nama: "Charger Laptop", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg", deskripsi: "Charger laptop HP original. Barang sudah dikembalikan ke pemiliknya.", penitipan: "-", pelapor_email: "deta@student.kampus.ac.id", pelapor_name: "Detuy Mahardika", pelapor: "Detuy Mahardika" }
 ];
 
 function formatDate(dateString) {
+    if (!dateString) return '-';
     const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    const [y, m, d] = dateString.split('-').map(Number);
+    const parts = dateString.split('-');
+    if (parts.length !== 3) return dateString;
+    const [y, m, d] = parts.map(Number);
     return new Date(y, m - 1, d).toLocaleDateString('id-ID', options);
 }
 
@@ -21,12 +24,23 @@ function resolveImgUrl(url) {
         return url;
     }
     if (url.startsWith('Backend/')) {
+        if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80')) {
+            return 'http://localhost/LostNFound/' + url;
+        }
         return '../../../../' + url;
     }
     if (url.startsWith('assets/')) {
         return '../../../' + url;
     }
     return url;
+}
+
+// Helper API Endpoint URL
+function getApiUrl(endpoint) {
+    if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80')) {
+        return 'http://localhost/LostNFound/Backend/api/' + endpoint;
+    }
+    return '../../../../Backend/api/' + endpoint;
 }
 
 function getItemFromURL() {
@@ -52,16 +66,28 @@ function renderItemDetail(item) {
     document.querySelector('.badge').textContent = item.status;
     document.querySelector('.badge').className = `badge ${item.status.toLowerCase()}`;
     document.querySelector('.item-title').textContent = item.nama;
-    document.querySelector('.item-id').textContent = `Kode laporan LF-${item.tanggal.replace(/-/g, '')}-${String(item.id).padStart(3, '0')}`;
+    document.querySelector('.item-id').textContent = `Kode laporan LF-${item.tanggal ? item.tanggal.replace(/-/g, '') : '00000000'}-${String(item.id).padStart(3, '0')}`;
     
-    document.querySelectorAll('.info-value')[0].textContent = item.jenis;
+    document.querySelectorAll('.info-value')[0].textContent = item.jenis || '-';
     document.querySelectorAll('.info-value')[1].textContent = formatDate(item.tanggal);
     document.querySelectorAll('.info-value')[2].textContent = 'Sekitar 08.30';
-    document.querySelectorAll('.info-value')[3].textContent = item.lokasi;
-    document.querySelectorAll('.info-value')[4].textContent = 'Pos satpam, gerbang utama';
-    document.querySelectorAll('.info-value')[5].textContent = 'Anonim, mahasiswa';
+    document.querySelectorAll('.info-value')[3].textContent = item.lokasi || '-';
+    document.querySelectorAll('.info-value')[4].textContent = item.penitipan || (item.status === 'Hilang' ? 'Belum dititipkan (hilang)' : 'Pos satpam, gerbang utama');
+
+    // Identitas pelapor dinamis: sesuaikan dengan data pelapor & akun login saat ini
+    let currentUser = null;
+    try {
+        currentUser = JSON.parse(localStorage.getItem('lostnfound_demo_user') || 'null');
+    } catch (_) {}
+
+    let pelaporDisplay = item.pelapor_name || item.pelapor || 'Civitas Kampus';
+    if (currentUser && item.pelapor_email && currentUser.email &&
+        currentUser.email.toLowerCase() === item.pelapor_email.toLowerCase()) {
+        pelaporDisplay = `${currentUser.name || pelaporDisplay} (Anda)`;
+    }
+    document.querySelectorAll('.info-value')[5].textContent = pelaporDisplay;
     
-    document.querySelector('.item-desc').textContent = item.deskripsi;
+    document.querySelector('.item-desc').textContent = item.deskripsi || '-';
     
     // Render Foto Utama
     const mainImage = document.getElementById('main-image');
@@ -177,34 +203,33 @@ if (hapusBtn) {
             });
 
             // Request DELETE ke backend PHP (MySQL) dengan verifikasi akses
-            const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, {
+            const apiUrl = getApiUrl(`laporan.php?${queryParams.toString()}`);
+            const res = await fetch(apiUrl, {
                 method: 'DELETE'
             });
             const result = await res.json().catch(() => null);
 
-            if (!res.ok || (result && !result.success)) {
+            // Jika backend secara eksplisit menolak hak akses (401/403)
+            if (res.status === 401 || res.status === 403) {
                 alert((result && result.message) ? result.message : 'Gagal menghapus laporan: Akses tidak diizinkan.');
                 hapusBtn.disabled = false;
                 hapusBtn.textContent = 'Hapus Laporan';
                 return;
             }
-
-            // Bersihkan juga dari penyimpanan lokal browser jika ada
-            try {
-                const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
-                const updated = local.filter(x => String(x.id) !== String(item.id));
-                localStorage.setItem('dataBarang', JSON.stringify(updated));
-            } catch (_) {}
-
-            alert('Laporan berhasil dihapus.');
-            // Kembali ke halaman daftar laporan
-            window.location.href = '../laporan_page/laporan.html';
         } catch (err) {
-            console.error('Error saat menghapus laporan:', err);
-            alert('Terjadi kesalahan saat menghapus laporan: ' + err.message);
-            hapusBtn.disabled = false;
-            hapusBtn.textContent = 'Hapus Laporan';
+            console.warn('Backend DELETE error atau offline, tetap lanjutkan pembersihan cache lokal:', err);
         }
+
+        // Bersihkan juga dari penyimpanan lokal browser jika ada
+        try {
+            const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+            const updated = local.filter(x => String(x.id) !== String(item.id));
+            localStorage.setItem('dataBarang', JSON.stringify(updated));
+        } catch (_) {}
+
+        alert('Laporan berhasil dihapus.');
+        // Kembali ke halaman daftar laporan
+        window.location.href = '../laporan_page/laporan.html';
     });
 }
 
@@ -260,7 +285,8 @@ async function fetchItemDetailAsync() {
     if (!id) return;
 
     try {
-        const res = await fetch(`../../../../Backend/api/laporan.php?id=${id}`);
+        const apiUrl = getApiUrl(`laporan.php?id=${id}`);
+        const res = await fetch(apiUrl);
         if (res.ok) {
             const json = await res.json();
             if (json.success && json.data) {
@@ -274,7 +300,7 @@ async function fetchItemDetailAsync() {
                     status: itm.status,
                     img: resolveImgUrl(itm.foto || itm.img),
                     deskripsi: itm.deskripsi,
-                    penitipan: itm.penitipan || 'Pos Satpam',
+                    penitipan: itm.penitipan || (itm.status === 'Hilang' ? 'Belum dititipkan (hilang)' : 'Pos Satpam'),
                     pelapor_email: itm.pelapor_email || '',
                     pelapor_name: itm.pelapor_name || 'Civitas Kampus',
                     pelapor: itm.pelapor_name || 'Civitas Kampus'
@@ -286,28 +312,33 @@ async function fetchItemDetailAsync() {
             }
         }
     } catch (err) {
-        // Backend offline, coba cari dari localStorage
-        try {
-            const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
-            const foundLocal = local.find(x => String(x.id) === String(id));
-            if (foundLocal) {
-                item = {
-                    id: foundLocal.id,
-                    nama: foundLocal.namaBarang || foundLocal.nama,
-                    jenis: foundLocal.jenis,
-                    lokasi: foundLocal.lokasi,
-                    tanggal: foundLocal.tanggal,
-                    status: foundLocal.status || (foundLocal.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
-                    img: resolveImgUrl(foundLocal.foto),
-                    deskripsi: foundLocal.deskripsi || '',
-                    penitipan: foundLocal.penitipan || '-',
-                    pelapor: 'Anonim'
-                };
-                renderItemDetail(item);
-                applyStatusState(item);
-            }
-        } catch (_) {}
+        console.warn('Backend MySQL/PHP gagal diakses, cari dari localStorage fallback:', err);
     }
+
+    // Backend offline atau data tidak ada di MySQL, coba cari dari localStorage
+    try {
+        const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+        const foundLocal = local.find(x => String(x.id) === String(id));
+        if (foundLocal) {
+            item = {
+                id: foundLocal.id,
+                nama: foundLocal.namaBarang || foundLocal.nama,
+                jenis: foundLocal.jenis || foundLocal.jenis_barang,
+                lokasi: foundLocal.lokasi,
+                tanggal: foundLocal.tanggal,
+                status: foundLocal.status || (foundLocal.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
+                img: resolveImgUrl(foundLocal.foto || foundLocal.img),
+                deskripsi: foundLocal.deskripsi || '',
+                penitipan: foundLocal.penitipan || (foundLocal.tipe === 'Hilang' ? 'Belum dititipkan (hilang)' : 'Pos Satpam'),
+                pelapor_email: foundLocal.pelapor_email || '',
+                pelapor_name: foundLocal.pelapor_name || foundLocal.pelapor || 'Civitas Kampus',
+                pelapor: foundLocal.pelapor_name || foundLocal.pelapor || 'Civitas Kampus'
+            };
+            renderItemDetail(item);
+            applyStatusState(item);
+            updateHapusButtonVisibility(item);
+        }
+    } catch (_) {}
 }
 fetchItemDetailAsync();
 

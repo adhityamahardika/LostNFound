@@ -1,11 +1,11 @@
 // 1. Data Dummy (Fallback jika server backend belum berjalan)
 const dummyData = [
-    { id: 1, nama: "Dompet kulit", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg" },
-    { id: 2, nama: "Kunci motor", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg" },
-    { id: 3, nama: "Kartu Mahasiswa", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/ktm.jpg" },
-    { id: 4, nama: "Botol minum hijau", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "../../../assets/items/tumbler.jpg" },
-    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "../../../assets/items/tas.jpg" },
-    { id: 6, nama: "Charger Laptop", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg" }
+    { id: 1, nama: "Dompet kulit", jenis: "Aksesoris", lokasi: "Kantin Utama", tanggal: "2026-09-27", status: "Hilang", img: "../../../assets/items/dompet.jpg", penitipan: "-", pelapor_email: "deta@student.kampus.ac.id", pelapor_name: "Detuy Mahardika" },
+    { id: 2, nama: "Kunci motor", jenis: "Kendaraan", lokasi: "Gedung B", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/kunci.jpg", penitipan: "Tata Usaha", pelapor_email: "rizky@student.kampus.ac.id", pelapor_name: "Rizky" },
+    { id: 3, nama: "Kartu Mahasiswa", jenis: "Dokumen", lokasi: "Perpustakaan", tanggal: "2026-09-28", status: "Ditemukan", img: "../../../assets/items/ktm.jpg", penitipan: "Pos Satpam Depan", pelapor_email: "rizky@student.kampus.ac.id", pelapor_name: "Rizky" },
+    { id: 4, nama: "Botol minum hijau", jenis: "Aksesoris", lokasi: "Lab Komputer", tanggal: "2026-09-26", status: "Hilang", img: "../../../assets/items/tumbler.jpg", penitipan: "-", pelapor_email: "budi@student.kampus.ac.id", pelapor_name: "Budi" },
+    { id: 5, nama: "Tas ransel hitam", jenis: "Tas", lokasi: "Parkiran Timur", tanggal: "2026-09-25", status: "Ditemukan", img: "../../../assets/items/tas.jpg", penitipan: "Pos Satpam Depan", pelapor_email: "satpam@kampus.ac.id", pelapor_name: "Petugas Satpam" },
+    { id: 6, nama: "Charger Laptop", jenis: "Elektronik", lokasi: "Aula", tanggal: "2026-09-24", status: "Dikembalikan", img: "../../../assets/items/charger.jpg", penitipan: "-", pelapor_email: "deta@student.kampus.ac.id", pelapor_name: "Detuy Mahardika" }
 ];
 
 let laporanList = [...dummyData];
@@ -18,12 +18,23 @@ function resolveImgUrl(url) {
         return url;
     }
     if (url.startsWith('Backend/')) {
+        if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80')) {
+            return 'http://localhost/LostNFound/' + url;
+        }
         return '../../../../' + url;
     }
     if (url.startsWith('assets/')) {
         return '../../../' + url;
     }
     return url;
+}
+
+// Helper API Endpoint URL
+function getApiUrl(endpoint) {
+    if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80')) {
+        return 'http://localhost/LostNFound/Backend/api/' + endpoint;
+    }
+    return '../../../../Backend/api/' + endpoint;
 }
 
 // 2. Format Tanggal
@@ -181,16 +192,19 @@ function openModal(idBarang) {
                     user_email: (user && user.email) ? user.email : '',
                     user_role: (user && user.accessRole) ? user.accessRole : 'user'
                 });
-                const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, { method: 'DELETE' });
+                const res = await fetch(getApiUrl(`laporan.php?${queryParams.toString()}`), { method: 'DELETE' });
                 const result = await res.json().catch(() => null);
 
-                if (!res.ok || (result && !result.success)) {
+                // Jika backend secara eksplisit menolak hak akses (401/403)
+                if (res.status === 401 || res.status === 403) {
                     alert((result && result.message) ? result.message : 'Gagal menghapus laporan: Akses tidak diizinkan.');
                     btnHapusModal.disabled = false;
                     btnHapusModal.textContent = 'Hapus Laporan';
                     return;
                 }
-            } catch (_) {}
+            } catch (err) {
+                console.warn('Backend DELETE error atau offline, tetap lanjutkan pembersihan cache lokal:', err);
+            }
 
             // Bersihkan juga dari cache localStorage jika ada
             try {
@@ -219,7 +233,7 @@ function closeModal() {
 // 5. Muat Data dari Backend API (MySQL via PHP)
 async function loadLaporanData() {
     try {
-        const res = await fetch('../../../../Backend/api/laporan.php');
+        const res = await fetch(getApiUrl('laporan.php'));
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const result = await res.json();
         if (result.success && Array.isArray(result.data) && result.data.length > 0) {
@@ -232,6 +246,7 @@ async function loadLaporanData() {
                 status: item.status,
                 img: resolveImgUrl(item.foto || item.img),
                 deskripsi: item.deskripsi || '',
+                penitipan: item.penitipan || '',
                 pelapor_email: item.pelapor_email || '',
                 pelapor_name: item.pelapor_name || 'Civitas Kampus'
             }));
@@ -256,7 +271,10 @@ async function loadLaporanData() {
                     tanggal: item.tanggal,
                     status: item.status || (item.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
                     img: resolveImgUrl(item.foto || item.img),
-                    deskripsi: item.deskripsi || ''
+                    deskripsi: item.deskripsi || '',
+                    penitipan: item.penitipan || '',
+                    pelapor_email: item.pelapor_email || '',
+                    pelapor_name: item.pelapor_name || item.pelapor || 'Civitas Kampus'
                 });
             });
         }

@@ -138,24 +138,50 @@ function resetForm() {
     if (lain) { lain.hidden = true; lain.required = false; lain.value = ''; }
 }
 
+// Helper API Endpoint URL
+function getApiUrl(endpoint) {
+    if (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80')) {
+        return 'http://localhost/LostNFound/Backend/api/' + endpoint;
+    }
+    return '../../../../Backend/api/' + endpoint;
+}
+
 // 3. Submit (simulasi backend via localStorage)
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     statusEl.hidden = true;
     if (submitBtn.disabled) return; // cegah klik ganda
 
+    const user = checkAuthUser();
+    if (!user) {
+        showStatus('Anda harus login terlebih dahulu sebelum dapat mengirim laporan.', true);
+        setTimeout(() => {
+            if (window.self !== window.top) {
+                window.top.location.href = '../../login/login.html';
+            } else {
+                window.location.href = '../../login/login.html';
+            }
+        }, 1500);
+        return;
+    }
+
     const value = id => document.getElementById(id).value.trim();
     const data = {
         id: Date.now(),
         tipe: value('tipe-laporan'),
         namaBarang: value('nama-barang'),
+        nama: value('nama-barang'),
         jenis: value('jenis-barang'),
+        jenis_barang: value('jenis-barang'),
         tanggal: value('tanggal'),
         lokasi: value('lokasi') === 'Lainnya' ? value('lokasi-lain') : value('lokasi'),
         deskripsi: value('deskripsi'),
         ciriRahasia: value('ciri-rahasia'), // jangan tampilkan di halaman publik
         penitipan: value('penitipan'),
-        foto: fotoData
+        foto: fotoData,
+        pelapor_email: user.email || '',
+        pelapor_name: user.name || 'Civitas Kampus',
+        pelapor: user.name || 'Civitas Kampus'
     };
 
     // "required" lolos untuk spasi saja, jadi cek ulang setelah trim
@@ -169,19 +195,6 @@ form.addEventListener('submit', function (e) {
     }
     if (data.tanggal > todayLocalISO()) {
         showStatus('Tanggal kejadian tidak boleh di masa depan.', true);
-        return;
-    }
-
-    const user = checkAuthUser();
-    if (!user) {
-        showStatus('Anda harus login terlebih dahulu sebelum dapat mengirim laporan.', true);
-        setTimeout(() => {
-            if (window.self !== window.top) {
-                window.top.location.href = '../../login/login.html';
-            } else {
-                window.location.href = '../../login/login.html';
-            }
-        }, 1500);
         return;
     }
 
@@ -208,7 +221,7 @@ form.addEventListener('submit', function (e) {
     }
 
     // Kirim request ke Backend PHP API
-    fetch('../../../../Backend/api/laporan.php', {
+    fetch(getApiUrl('laporan.php'), {
         method: 'POST',
         body: formData
     })
