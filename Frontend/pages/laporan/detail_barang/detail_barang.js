@@ -29,10 +29,68 @@ function resolveImgUrl(url) {
     return url;
 }
 
-function getItemFromURL() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    return dummyData.find(item => String(item.id) === id) || dummyData[0];
+// State global item
+let item = null;
+
+// Helper untuk menampilkan skeleton loading style
+function showSkeleton() {
+    const mainImage = document.getElementById('main-image');
+    if (mainImage) {
+        mainImage.className = 'main-image skeleton';
+        mainImage.innerHTML = '';
+        mainImage.style.padding = '';
+        mainImage.style.overflow = '';
+    }
+
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(thumb => {
+        thumb.className = 'thumbnail skeleton';
+        thumb.innerHTML = '';
+        thumb.dataset.img = '';
+    });
+
+    const badge = document.getElementById('item-badge') || document.querySelector('.badge');
+    if (badge) {
+        badge.className = 'badge skeleton skeleton-badge';
+        badge.innerHTML = '&nbsp;';
+    }
+
+    const title = document.getElementById('item-title') || document.querySelector('.item-title');
+    if (title) {
+        title.className = 'item-title skeleton skeleton-title';
+        title.innerHTML = '&nbsp;';
+    }
+
+    const idEl = document.getElementById('item-id') || document.querySelector('.item-id');
+    if (idEl) {
+        idEl.className = 'item-id skeleton skeleton-id';
+        idEl.innerHTML = '&nbsp;';
+    }
+
+    const values = document.querySelectorAll('.info-value');
+    values.forEach(val => {
+        val.className = 'info-value skeleton skeleton-value';
+        val.innerHTML = '&nbsp;';
+    });
+
+    const descEl = document.querySelector('.item-desc');
+    if (descEl) {
+        descEl.innerHTML = `
+            <span class="skeleton-desc-line skeleton"></span>
+            <span class="skeleton-desc-line short skeleton"></span>
+        `;
+    }
+
+    const klaimBtn = document.getElementById('btn-klaim');
+    if (klaimBtn) {
+        klaimBtn.disabled = true;
+        klaimBtn.textContent = 'Memuat...';
+    }
+
+    const hapusBtn = document.getElementById('btn-hapus');
+    if (hapusBtn) {
+        hapusBtn.style.display = 'none';
+    }
 }
 
 // Helper untuk menampilkan gambar <img> di kotak utama maupun thumbnail
@@ -43,58 +101,108 @@ function renderImageElement(container, src, alt) {
     container.innerHTML = `<img src="${src}" alt="${alt}" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit;">`;
 }
 
-function renderItemDetail(item) {
+function renderItemDetail(loadedItem) {
+    item = loadedItem;
     if (!item) {
-        document.querySelector('.detail-main').innerHTML = '<p>Barang tidak ditemukan. <a href="../laporan_page/laporan.html">Kembali ke daftar</a></p>';
+        document.querySelector('.detail-main').innerHTML = `
+            <div style="text-align: center; padding: 4rem 1rem;">
+                <h2 style="font-family: var(--font-head); color: var(--ink); margin-bottom: 0.5rem;">Barang Tidak Ditemukan</h2>
+                <p style="color: var(--muted); margin-bottom: 1.5rem;">Laporan barang yang Anda cari tidak tersedia atau mungkin sudah dihapus.</p>
+                <a href="../laporan_page/laporan.html" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 0.65rem 1.5rem; border-radius: 8px;">Kembali ke Daftar Laporan</a>
+            </div>
+        `;
         return;
     }
 
-    document.querySelector('.badge').textContent = item.status;
-    document.querySelector('.badge').className = `badge ${item.status.toLowerCase()}`;
-    document.querySelector('.item-title').textContent = item.nama;
-    document.querySelector('.item-id').textContent = `Kode laporan LF-${item.tanggal.replace(/-/g, '')}-${String(item.id).padStart(3, '0')}`;
-    
-    document.querySelectorAll('.info-value')[0].textContent = item.jenis;
-    document.querySelectorAll('.info-value')[1].textContent = formatDate(item.tanggal);
-    document.querySelectorAll('.info-value')[2].textContent = 'Sekitar 08.30';
-    document.querySelectorAll('.info-value')[3].textContent = item.lokasi;
-    document.querySelectorAll('.info-value')[4].textContent = 'Pos satpam, gerbang utama';
-    document.querySelectorAll('.info-value')[5].textContent = 'Anonim, mahasiswa';
-    
-    document.querySelector('.item-desc').textContent = item.deskripsi;
-    
-    // Render Foto Utama
-    const mainImage = document.getElementById('main-image');
-    renderImageElement(mainImage, item.img, item.nama);
+    // 1. Badge & Status
+    const badge = document.getElementById('item-badge') || document.querySelector('.badge');
+    if (badge) {
+        badge.className = `badge ${(item.status || 'hilang').toLowerCase()}`;
+        badge.textContent = item.status || 'Hilang';
+    }
 
-    // Render Thumbnail dengan foto barang tersebut
+    // 2. Judul Barang & ID
+    const title = document.getElementById('item-title') || document.querySelector('.item-title');
+    if (title) {
+        title.className = 'item-title';
+        title.textContent = item.nama;
+    }
+
+    const idEl = document.getElementById('item-id') || document.querySelector('.item-id');
+    if (idEl) {
+        idEl.className = 'item-id';
+        const kodeTanggal = (item.tanggal || '20261001').replace(/-/g, '');
+        idEl.textContent = `Kode laporan LF-${kodeTanggal}-${String(item.id).padStart(3, '0')}`;
+    }
+
+    // 3. Grid Informasi
+    const values = document.querySelectorAll('.info-value');
+    values.forEach(v => {
+        v.classList.remove('skeleton', 'skeleton-value');
+    });
+    if (values[0]) values[0].textContent = item.jenis || '-';
+    if (values[1]) values[1].textContent = formatDate(item.tanggal);
+    if (values[2]) values[2].textContent = item.waktu || 'Sekitar 08.30';
+    if (values[3]) values[3].textContent = item.lokasi || '-';
+    if (values[4]) values[4].textContent = item.penitipan || (item.status === 'Hilang' ? '-' : 'Pos satpam, gerbang utama');
+    if (values[5]) values[5].textContent = item.pelapor_name || item.pelapor || 'Anonim';
+
+    // 4. Deskripsi
+    const descEl = document.querySelector('.item-desc');
+    if (descEl) {
+        descEl.textContent = item.deskripsi || 'Tidak ada deskripsi rinci.';
+    }
+
+    // 5. Foto Utama
+    const mainImage = document.getElementById('main-image');
+    if (mainImage) {
+        mainImage.classList.remove('skeleton');
+        renderImageElement(mainImage, item.img, item.nama);
+    }
+
+    // 6. Thumbnails Galeri
     const thumbnails = document.querySelectorAll('.thumbnail');
     thumbnails.forEach((thumb, idx) => {
+        thumb.classList.remove('skeleton');
         thumb.dataset.img = item.img;
         renderImageElement(thumb, item.img, `${item.nama} - Foto ${idx + 1}`);
+        if (idx === 0) {
+            thumb.classList.add('active');
+            thumb.setAttribute('aria-pressed', 'true');
+        } else {
+            thumb.classList.remove('active');
+            thumb.setAttribute('aria-pressed', 'false');
+        }
     });
+
+    // 7. Tombol Klaim & Status
+    const klaimBtn = document.getElementById('btn-klaim');
+    if (klaimBtn) {
+        klaimBtn.textContent = isLoggedIn() ? 'Ajukan Klaim' : 'Masuk untuk Klaim';
+        klaimBtn.disabled = false;
+    }
+
+    applyStatusState(item);
+    updateHapusButtonVisibility(item);
 }
 
-// Interaksi Klik Gallery Thumbnails
-const mainImage = document.getElementById('main-image');
-const thumbnails = document.querySelectorAll('.thumbnail');
+// Delegasi event klik galeri thumbnail
+const thumbnailContainer = document.querySelector('.thumbnail-list');
+if (thumbnailContainer) {
+    thumbnailContainer.addEventListener('click', (e) => {
+        const thumb = e.target.closest('.thumbnail');
+        if (!thumb || thumb.classList.contains('skeleton') || !thumb.dataset.img) return;
 
-thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-        if (thumb.dataset.img) {
-            renderImageElement(mainImage, thumb.dataset.img, 'Foto utama barang');
-        }
-        thumbnails.forEach(t => {
-            t.classList.toggle('active', t === thumb);
-            t.setAttribute('aria-pressed', String(t === thumb));
+        const mainImage = document.getElementById('main-image');
+        renderImageElement(mainImage, thumb.dataset.img, 'Foto utama barang');
+
+        document.querySelectorAll('.thumbnail').forEach(t => {
+            const isActive = (t === thumb);
+            t.classList.toggle('active', isActive);
+            t.setAttribute('aria-pressed', String(isActive));
         });
     });
-});
-
-// Init halaman
-let item = getItemFromURL();
-renderItemDetail(item);
-updateHapusButtonVisibility(item);
+}
 
 // Tombol Klaim langsung mengarah ke halaman klaim sesuai ID barang
 // Klaim hanya untuk yang sudah login (sesi dari auth.js)
@@ -104,8 +212,8 @@ function isLoggedIn() {
 
 const klaimBtn = document.getElementById('btn-klaim');
 if (klaimBtn) {
-    klaimBtn.textContent = isLoggedIn() ? 'Ajukan Klaim' : 'Masuk untuk Klaim';
-    klaimBtn.disabled = false;
+    klaimBtn.disabled = true;
+    klaimBtn.textContent = 'Memuat...';
     klaimBtn.addEventListener('click', () => {
         if (!isLoggedIn()) {
             alert('Masuk dulu untuk mengajukan klaim.');
@@ -252,21 +360,26 @@ function applyStatusState(data) {
         klaim.disabled = true;
     }
 }
-applyStatusState(item);
+// Inisialisasi: Ambil data secara asinkron (dengan skeleton loading)
+async function loadItemDetailAsync() {
+    showSkeleton();
 
-// Ambil data dinamis dari Backend MySQL via PHP API jika tersedia
-async function fetchItemDetailAsync() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    if (!id) return;
 
+    if (!id) {
+        renderItemDetail(null);
+        return;
+    }
+
+    // 1. Coba ambil dari Backend MySQL via PHP API
     try {
-        const res = await fetch(`../../../../Backend/api/laporan.php?id=${id}`);
+        const res = await fetch(`../../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`);
         if (res.ok) {
             const json = await res.json();
-            if (json.success && json.data) {
+            if (json && json.success && json.data) {
                 const itm = json.data;
-                item = {
+                const loaded = {
                     id: itm.id,
                     nama: itm.nama || itm.nama_barang,
                     jenis: itm.jenis || itm.jenis_barang,
@@ -275,42 +388,62 @@ async function fetchItemDetailAsync() {
                     status: itm.status,
                     img: resolveImgUrl(itm.foto || itm.img),
                     deskripsi: itm.deskripsi,
-                    penitipan: itm.penitipan || 'Pos Satpam',
+                    penitipan: itm.penitipan || (itm.status === 'Hilang' ? '-' : 'Pos Satpam, gerbang utama'),
                     pelapor_email: itm.pelapor_email || '',
                     pelapor_name: itm.pelapor_name || 'Civitas Kampus',
                     pelapor: itm.pelapor_name || 'Civitas Kampus'
                 };
-                renderItemDetail(item);
-                applyStatusState(item);
-                updateHapusButtonVisibility(item);
+                renderItemDetail(loaded);
                 return;
             }
         }
     } catch (err) {
-        // Backend offline, coba cari dari localStorage
-        try {
-            const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
-            const foundLocal = local.find(x => String(x.id) === String(id));
-            if (foundLocal) {
-                item = {
-                    id: foundLocal.id,
-                    nama: foundLocal.namaBarang || foundLocal.nama,
-                    jenis: foundLocal.jenis,
-                    lokasi: foundLocal.lokasi,
-                    tanggal: foundLocal.tanggal,
-                    status: foundLocal.status || (foundLocal.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
-                    img: resolveImgUrl(foundLocal.foto),
-                    deskripsi: foundLocal.deskripsi || '',
-                    penitipan: foundLocal.penitipan || '-',
-                    pelapor: 'Anonim'
-                };
-                renderItemDetail(item);
-                applyStatusState(item);
-            }
-        } catch (_) {}
+        console.warn('Backend API belum aktif, mencoba pencarian data lokal:', err);
     }
+
+    // 2. Coba cari di localStorage (dataBarang)
+    try {
+        const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+        const foundLocal = local.find(x => String(x.id) === String(id));
+        if (foundLocal) {
+            const loaded = {
+                id: foundLocal.id,
+                nama: foundLocal.namaBarang || foundLocal.nama,
+                jenis: foundLocal.jenis || foundLocal.jenis_barang,
+                lokasi: foundLocal.lokasi,
+                tanggal: foundLocal.tanggal,
+                status: foundLocal.status || (foundLocal.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
+                img: resolveImgUrl(foundLocal.foto),
+                deskripsi: foundLocal.deskripsi || '',
+                penitipan: foundLocal.penitipan || (foundLocal.tipe === 'Ditemukan' ? 'Pos Satpam, gerbang utama' : '-'),
+                pelapor: 'Anonim'
+            };
+            renderItemDetail(loaded);
+            return;
+        }
+    } catch (_) {}
+
+    // 3. Coba cari di dummyData bawaan
+    const foundDummy = dummyData.find(d => String(d.id) === String(id));
+    if (foundDummy) {
+        const loaded = {
+            ...foundDummy,
+            img: resolveImgUrl(foundDummy.img)
+        };
+        renderItemDetail(loaded);
+        return;
+    }
+
+    // 4. Jika ID tidak ditemukan di manapun
+    renderItemDetail(null);
 }
-fetchItemDetailAsync();
+
+// Jalankan pengambilan data
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadItemDetailAsync);
+} else {
+    loadItemDetailAsync();
+}
 
 // ==========================================================================
 // REPORT BARANG (halaman detail): tombol Report + modal alasan.
