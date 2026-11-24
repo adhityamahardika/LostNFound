@@ -112,8 +112,9 @@ if (klaimBtn) {
             window.location.href = '../../login/login.html';
             return;
         }
-        const query = window.location.search || `?id=${item ? item.id : 1}`;
-        window.location.href = '../../klaim/klaim.html' + query;
+        const params = new URLSearchParams(window.location.search);
+        const targetId = params.get('id') || (item ? item.id : 1);
+        window.location.href = `../../klaim/klaim.html?id=${encodeURIComponent(targetId)}`;
     });
 }
 

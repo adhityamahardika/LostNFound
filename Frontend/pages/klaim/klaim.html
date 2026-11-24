@@ -171,12 +171,91 @@
     ];
 
     function formatDate(dateString) {
+      if (!dateString) return '-';
       const options = { day: 'numeric', month: 'long', year: 'numeric' };
-      const [y, m, d] = dateString.split('-').map(Number);
+      const parts = dateString.split('-');
+      if (parts.length !== 3) return dateString;
+      const [y, m, d] = parts.map(Number);
       return new Date(y, m - 1, d).toLocaleDateString('id-ID', options);
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    // Helper Resolusi URL Gambar agar adaptif terhadap path relatif
+    function resolveImgUrl(url) {
+      if (!url) return '../../assets/nowrite.jpg';
+      if (url.startsWith('data:image') || url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+      }
+      if (url.startsWith('Backend/')) {
+        return '../../../' + url;
+      }
+      if (url.startsWith('assets/')) {
+        return '../../' + url;
+      }
+      return url;
+    }
+
+    // Fungsi Asinkron: Ambil data barang dari Backend MySQL / localStorage / dummyData
+    async function fetchItemForClaim(id) {
+      // 1. Coba fetch dari API Backend PHP / MySQL
+      try {
+        const res = await fetch(`../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`);
+        if (res.ok) {
+          const result = await res.json();
+          if (result && result.success && result.data) {
+            const itm = result.data;
+            const namaBarang = itm.nama || itm.nama_barang || 'Barang Temuan';
+            return {
+              id: itm.id,
+              nama: namaBarang,
+              jenis: itm.jenis || itm.jenis_barang || 'Lainnya',
+              lokasi: itm.lokasi || '-',
+              tanggal: itm.tanggal || new Date().toISOString().slice(0, 10),
+              status: itm.status || 'Ditemukan',
+              img: resolveImgUrl(itm.foto || itm.img),
+              petunjuk: `Sebutkan ciri khusus, warna spesifik, nomor seri, atau isi bagian dalam pada ${namaBarang} yang tidak tampak di foto.`,
+              pelapor: itm.pelapor_name || 'Penemu'
+            };
+          }
+        }
+      } catch (err) {
+        console.warn('Backend API belum aktif, mencoba pencarian data lokal:', err);
+      }
+
+      // 2. Coba cari di cache localStorage (dataBarang)
+      try {
+        const local = JSON.parse(localStorage.getItem('dataBarang')) || [];
+        const found = local.find(x => String(x.id) === String(id));
+        if (found) {
+          const namaBarang = found.namaBarang || found.nama || 'Barang Temuan';
+          return {
+            id: found.id,
+            nama: namaBarang,
+            jenis: found.jenis || found.jenis_barang || 'Lainnya',
+            lokasi: found.lokasi || '-',
+            tanggal: found.tanggal || new Date().toISOString().slice(0, 10),
+            status: found.status || (found.tipe === 'Ditemukan' ? 'Ditemukan' : 'Hilang'),
+            img: resolveImgUrl(found.foto || found.img),
+            petunjuk: `Sebutkan ciri khusus, warna spesifik, atau tanda pengenal pada ${namaBarang} yang tidak tampak di foto.`,
+            pelapor: 'Penemu'
+          };
+        }
+      } catch (_) {}
+
+      // 3. Coba cari di dummyData bawaan
+      const foundDummy = dummyData.find(d => String(d.id) === String(id));
+      if (foundDummy) {
+        return {
+          ...foundDummy,
+          img: resolveImgUrl(foundDummy.img),
+          pelapor: 'Penemu'
+        };
+      }
+
+      // 4. Fallback jika benar-benar tidak ditemukan
+      return null;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
       // Cek apakah pengguna sudah login sebelum mengajukan klaim
       const currentUser = localStorage.getItem('lostnfound_demo_user');
       if (!currentUser) {
@@ -188,9 +267,10 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id") || "1"; // Default ke id 1 jika dibuka tanpa parameter
 
-      // Cari barang berdasarkan ID dari URL
-      const item = dummyData.find(d => String(d.id) === String(id)) || dummyData[0];
-      const kodeLaporan = `LF-${item.tanggal.replace(/-/g, '')}-${String(item.id).padStart(3, '0')}`;
+      // Cari barang berdasarkan ID secara dinamis
+      const item = await fetchItemForClaim(id) || dummyData[0];
+      const kodeTanggal = (item.tanggal || '2026-10-01').replace(/-/g, '');
+      const kodeLaporan = `LF-${kodeTanggal}-${String(item.id).padStart(3, '0')}`;
 
       // 1. Render Foto Asli
       const imgContainer = document.getElementById("klaim-img-container");
@@ -207,10 +287,10 @@
 
       const statusBadge = document.getElementById("klaim-item-status");
       statusBadge.textContent = item.status;
-      statusBadge.className = `status-badge status-${item.status.toLowerCase()}`;
+      statusBadge.className = `status-badge status-${(item.status || 'ditemukan').toLowerCase()}`;
 
       // Sesuaikan petunjuk verifikasi
-      document.getElementById("verification-question").textContent = item.petunjuk;
+      document.getElementById("verification-question").textContent = item.petunjuk || "Sebutkan ciri khusus barang ini.";
 
       // Tombol batal kembali ke halaman detail barang yang benar
       document.getElementById("btn-batal-klaim").href = `../laporan/detail_barang/detail_barang.html?id=${item.id}`;
@@ -232,13 +312,21 @@
           img: item.img,
           ciriRahasia: ciriRahasia,
           catatan: catatan,
+          pelapor: item.pelapor || 'Penemu Anonim',
           waktuKlaim: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
         };
 
         localStorage.setItem("klaim_terbaru", JSON.stringify(dataKlaim));
 
-        // Langsung arahkan ke halaman chat
-        window.location.href = `../chat/chat.html?id=${item.id}&klaim=1`;
+        // Arahkan ke halaman chat dengan parameter lengkap agar sesi chat otomatis terhubung
+        const chatParams = new URLSearchParams({
+          item: kodeLaporan,
+          title: item.nama,
+          finder: item.pelapor || 'Penemu Anonim',
+          id: item.id,
+          klaim: '1'
+        });
+        window.location.href = `../chat/chat.html?${chatParams.toString()}`;
       });
     });
   </script>

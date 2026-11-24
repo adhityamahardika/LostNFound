@@ -76,21 +76,49 @@ document.addEventListener('DOMContentLoaded', function () {
   // ---------- Buka chat dari tombol "Klaim barang ini" ----------
   function openFromParams() {
     const p = new URLSearchParams(location.search);
-    const code = p.get('item');
+    let code = p.get('item');
+    let title = p.get('title');
+    let finder = p.get('finder');
+    let initialUserMsg = '';
+
+    // Dukung fallback dari localStorage 'klaim_terbaru' jika parameter URL tidak lengkap
+    try {
+      const klaimTerbaru = JSON.parse(localStorage.getItem('klaim_terbaru') || 'null');
+      if (klaimTerbaru) {
+        if (!code) code = klaimTerbaru.kodeLaporan || ('LF-' + klaimTerbaru.idBarang);
+        if (!title) title = klaimTerbaru.namaBarang;
+        if (!finder) finder = klaimTerbaru.pelapor || 'Penemu Anonim';
+        if (klaimTerbaru.ciriRahasia) {
+          initialUserMsg = 'Halo, saya ingin mengajukan klaim kepemilikan untuk ' + title + '. Ciri khusus barang ini: ' + klaimTerbaru.ciriRahasia;
+          if (klaimTerbaru.catatan) {
+            initialUserMsg += ' (Catatan tambahan: ' + klaimTerbaru.catatan + ')';
+          }
+        }
+      }
+    } catch (_) {}
+
     if (!code) return null;
 
     let chat = chats.find((c) => c.itemCode === code);
     if (!chat) {
-      const title = p.get('title') || 'Barang temuan';
-      const finder = p.get('finder') || 'Penemu Anonim';
+      title = title || 'Barang temuan';
+      finder = finder || 'Penemu Anonim';
       const now = Date.now();
+      const newMessages = [
+        { id: uid(), from: 'sys', text: 'Kamu mengajukan klaim untuk "' + title + '". Ruang percakapan dengan penemu telah dibuka.', ts: now }
+      ];
+
+      if (initialUserMsg) {
+        newMessages.push({ id: uid(), from: 'me', text: initialUserMsg, ts: now + 500, read: true });
+        newMessages.push({ id: uid(), from: 'them', text: 'Halo, terima kasih informasinya. Saya sedang mengecek kesesuaian ciri-cirinya ya.', ts: now + 2000 });
+      } else {
+        newMessages.push({ id: uid(), from: 'them', text: 'Halo, terima kasih sudah menghubungi. Silakan sebutkan ciri barangnya ya.', ts: now + 1000 });
+      }
+
       chat = {
         id: 'c-' + now, itemCode: code, itemTitle: title, finder: finder,
         status: 'Dititipkan', unread: 0, updated: now,
-        messages: [
-          { id: uid(), from: 'sys', text: 'Kamu mengajukan klaim untuk "' + title + '". Sebutkan ciri yang tidak terlihat di foto agar penemu bisa memverifikasi.', ts: now },
-          { id: uid(), from: 'them', text: 'Halo, terima kasih sudah menghubungi. Silakan sebutkan ciri barangnya ya.', ts: now + 1000 }
-        ]
+        messages: newMessages
       };
       chats.push(chat);
       save();
