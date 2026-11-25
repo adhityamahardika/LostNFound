@@ -1,0 +1,253 @@
+/* ===== HOMEPAGE STYLES ===== */
+
+/* Hero Section */
+.hero {
+  padding-block: 4rem 3rem;
+  background: var(--hero-bg);
+}
+
+.hero__grid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero__content h1 {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.hero__content p {
+  color: var(--muted);
+  max-width: 46ch;
+  margin: 1rem 0 1.5rem;
+}
+
+/* Search Box */
+.hero__search {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.search-fields {
+  display: grid;
+  gap: .8rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-bottom: .8rem;
+}
+
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.search-field label {
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.search-field select {
+  padding: .65rem .75rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+
+/* CTA Actions */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .8rem;
+}
+
+/* Illustration Placeholder */
+.hero__illustration {
+  background: var(--surface);
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  text-align: center;
+  min-height: 280px;
+  font-size: .9rem;
+}
+
+/* Cara Kerja Section */
+.how-it-works {
+  background: var(--surface);
+}
+
+.how-it-works .section-title {
+  margin-bottom: .5rem;
+}
+
+.how-it-works__subtitle {
+  color: var(--muted);
+  margin: 0 0 2rem;
+}
+
+.steps {
+  display: grid;
+  gap: var(--gap);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: langkah;
+}
+
+.steps__item {
+  counter-increment: langkah;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.steps__item::before {
+  content: counter(langkah);
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 800;
+  margin-bottom: .75rem;
+}
+
+.steps__item h3 {
+  font-size: 1.15rem;
+  margin-bottom: .35rem;
+}
+
+.steps__item p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Latest Reports Section */
+.latest-reports {
+  background: var(--hero-bg);
+}
+
+.latest-reports__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.latest-reports__title-wrapper {
+  flex: 1;
+}
+
+.latest-reports__title-wrapper p {
+  margin: .3rem 0 0;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+/* FAQ Section */
+.faq {
+  background: var(--surface);
+}
+
+.faq__subtitle {
+  color: var(--muted);
+  margin: .3rem 0 1.5rem;
+  font-size: .95rem;
+}
+
+.faq__list {
+  display: grid;
+  gap: .8rem;
+  max-width: 800px;
+}
+
+.faq__item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.faq__item summary {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq__item summary::after {
+  content: '+';
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.faq__item[open] summary::after {
+  content: '−';
+}
+
+.faq__item summary:hover {
+  background: color-mix(in srgb, var(--primary) 5%, var(--surface));
+}
+
+.faq__answer {
+  padding: 0 1.25rem 1.25rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.faq__answer p {
+  margin: 0;
+}
+
+/* Responsive Styles */
+@media (min-width: 720px) {
+  .hero__grid {
+    grid-template-columns: 1.5fr 1fr;
+  }
+  
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .search-fields {
+    grid-template-columns: 1fr 1fr auto;
+  }
+}
+
+@media (min-width: 920px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 719px) {
+  .hero__illustration {
+    min-height: 200px;
+  }
+}

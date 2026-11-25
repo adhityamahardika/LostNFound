@@ -1,0 +1,32 @@
+/* ===== STATUS BADGES ===== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-ditemukan {
+  background: var(--ditemukan);
+  color: var(--on-primary);
+}
+
+.status-diklaim {
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.status-diverifikasi {
+  background: #8B5CF6;
+  color: #ffffff;
+}
+
+.status-selesai {
+  background: #22C55E;
+  color: #ffffff;
+}
