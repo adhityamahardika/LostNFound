@@ -207,15 +207,23 @@ form.addEventListener('submit', function (e) {
         formData.append('foto', fotoData);
     }
 
-    // Kirim request ke Backend PHP API
+    // Kirim request ke Backend PHP API (sertakan cookie session)
     fetch('../../../../Backend/api/laporan.php', {
         method: 'POST',
+        credentials: 'include',
         body: formData
     })
     .then(async (response) => {
         const resData = await response.json().catch(() => null);
+        if (response.status === 401) {
+            const err = new Error((resData && resData.message) || 'Sesi login berakhir, silakan masuk kembali.');
+            err.isAuthError = true;
+            throw err;
+        }
         if (!response.ok || !resData || !resData.success) {
-            throw new Error((resData && resData.message) ? resData.message : ('HTTP ' + response.status));
+            const err = new Error((resData && resData.message) ? resData.message : ('HTTP ' + response.status));
+            err.isValidationError = Boolean(resData && resData.message);
+            throw err;
         }
         return resData;
     })
@@ -231,6 +239,19 @@ form.addEventListener('submit', function (e) {
         showToast('Laporan berhasil dikirim dan tersimpan di database!');
     })
     .catch((err) => {
+        if (err.isAuthError) {
+            alert(err.message);
+            if (window.self !== window.top) {
+                window.top.location.href = '../../login/login.html';
+            } else {
+                window.location.href = '../../login/login.html';
+            }
+            return;
+        }
+        if (err.isValidationError) {
+            showStatus(err.message, true);
+            return;
+        }
         console.warn('Gagal simpan ke MySQL via PHP backend, fallback ke localStorage:', err);
         // Fallback bila server PHP/MySQL belum dijalankan mahasiswa saat preview frontend
         try {

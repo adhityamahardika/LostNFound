@@ -7,7 +7,21 @@ Modul backend ini menangani penyimpanan data pelaporan barang hilang dan temuan 
 ## 1. Struktur Database
 
 - **Nama Database**: `lostnfound_db`
-- **Tabel**: `laporan`
+- **Tabel**: `users` dan `laporan`
+
+### Kolom Tabel `users`
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| `id` | `INT AUTO_INCREMENT PRIMARY KEY` | ID unik pengguna |
+| `nim` | `VARCHAR(30) UNIQUE` | NIM/NIP atau username (`admin`, `satpam`) |
+| `name` | `VARCHAR(100)` | Nama lengkap |
+| `initials` | `VARCHAR(5)` | Inisial avatar (maks. 2 huruf) |
+| `email` | `VARCHAR(100) UNIQUE` | Email kampus |
+| `password_hash` | `VARCHAR(255)` | Hash bcrypt (`password_hash()`) |
+| `role` | `VARCHAR(50)` | Label peran (`Mahasiswa`, `Administrator`, dll.) |
+| `access_role` | `ENUM('user', 'petugas', 'admin')` | Hak akses sistem |
+| `prodi` / `fakultas` | `VARCHAR(100)` | Informasi akademik |
+| `phone` | `VARCHAR(30) NULL` | Nomor telepon (privat) |
 
 ### Kolom Tabel `laporan`
 | Kolom | Tipe Data | Keterangan |
@@ -68,12 +82,16 @@ Semua endpoint mengembalikan respon berformat **JSON**.
 - **URL**: `Backend/api/laporan.php`
 - **Metode**: `GET`
 - **Parameter Query (Opsional)**:
-  - `status`: Filter status (`Hilang`, `Ditemukan`, `Dikembalikan`, atau `Semua`)
+  - `status`: Filter status (`Hilang`, `Ditemukan`, `Diklaim`, `Dikembalikan`, atau `Semua`)
+  - `tipe`: Filter tipe laporan (`Hilang`, `Ditemukan`, atau `Semua`)
   - `jenis`: Filter jenis/kategori barang
   - `lokasi`: Filter berdasarkan nama lokasi
   - `start_date`: Filter tanggal mulai (`YYYY-MM-DD`)
   - `end_date`: Filter tanggal akhir (`YYYY-MM-DD`)
+  - `pelapor_email`: Filter laporan berdasarkan email pelapor
   - `q`: Pencarian kata kunci nama/deskripsi barang
+  - `limit`: Batasi jumlah hasil (maks. 100)
+- **Catatan Privasi**: Field `ciri_rahasia` disembunyikan pada akses publik (diganti flag boolean `has_ciri_rahasia`) dan hanya dikembalikan jika menyertakan identitas Admin (`user_role=admin`) atau pemilik laporan (`user_email`).
 
 ### B. Mendapatkan Detail Satu Laporan
 - **URL**: `Backend/api/laporan.php?id={id_barang}`
@@ -111,7 +129,13 @@ Semua endpoint mengembalikan respon berformat **JSON**.
   - `ciri_rahasia`: Ciri rahasia verifikasi (wajib jika tipe = Ditemukan)
   - `foto`: File gambar (JPG/PNG/WebP, maks. 5 MB)
 
-### D. Menghapus Laporan
+### D. Mengedit Laporan
+- **URL**: `Backend/api/laporan.php?id={id_barang}&user_email={email}&user_role={role}`
+- **Metode**: `PUT`, `PATCH`, atau `POST` (dengan field `_method=PUT` / `action=update` saat mengirim `multipart/form-data` untuk ganti foto)
+- **Aturan Otorisasi**: Hanya dapat diedit oleh **Admin** (`user_role = 'admin'`) ATAU **Pemilik laporan** (`user_email = pelapor_email`).
+- **Catatan**: Mendukung pembaruan parsial maupun penuh; foto lama di `Backend/uploads/` otomatis dihapus jika diganti foto baru.
+
+### E. Menghapus Laporan
 - **URL**: `Backend/api/laporan.php?id={id_barang}&user_email={email}&user_role={role}`
 - **Metode**: `DELETE`
 - **Aturan Otorisasi**:
@@ -133,9 +157,9 @@ Semua endpoint mengembalikan respon berformat **JSON**.
   }
   ```
 
-### E. Mengubah Status Laporan
+### F. Mengubah Status Laporan
 - **URL**: `Backend/api/update_status.php`
-- **Metode**: `POST` / `PATCH`
+- **Metode**: `POST` / `PATCH` / `PUT` (memerlukan sesi login Admin, Petugas, atau pembuat laporan)
 - **Body**:
   ```json
   {
@@ -143,3 +167,9 @@ Semua endpoint mengembalikan respon berformat **JSON**.
     "status": "Dikembalikan"
   }
   ```
+
+### G. Autentikasi Pengguna (`auth.php`)
+- **Cek Sesi Aktif**: `GET Backend/api/auth.php?action=me`
+- **Masuk (Login)**: `POST Backend/api/auth.php?action=login` dengan body `{ "identifier": "<nim/email>", "password": "..." }`
+- **Daftar (Register)**: `POST Backend/api/auth.php?action=register` dengan body `{ "nama": "...", "nim": "...", "email": "...", "password": "...", "phone": "..." }`
+- **Keluar (Logout)**: `POST Backend/api/auth.php?action=logout` atau `DELETE Backend/api/auth.php`
