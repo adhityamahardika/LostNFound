@@ -295,9 +295,10 @@
       // Tombol batal kembali ke halaman detail barang yang benar
       document.getElementById("btn-batal-klaim").href = `../laporan/detail_barang/detail_barang.html?id=${item.id}`;
 
-      // 3. Submit Form -> Simpan ke LocalStorage & Langsung Pindah ke Chat
+      // 3. Submit Form -> Buka ruang chat di Backend MySQL (fallback ke localStorage bila offline)
       const formKlaim = document.getElementById("form-klaim");
-      formKlaim.addEventListener("submit", (e) => {
+      const submitBtn = document.getElementById("btn-submit-klaim");
+      formKlaim.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const ciriRahasia = document.getElementById("ciri-rahasia").value.trim();
@@ -326,7 +327,47 @@
           localStorage.setItem("lostnfound_user_claims_v1", JSON.stringify(riwayat));
         } catch (_) {}
 
-        // Arahkan ke halaman chat dengan parameter lengkap agar sesi chat otomatis terhubung
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Membuka ruang chat...";
+        }
+
+        try {
+          const res = await fetch("../../../Backend/api/chat.php?action=start", {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              laporan_id: Number(item.id),
+              ciri_rahasia: ciriRahasia,
+              catatan: catatan
+            })
+          });
+
+          const ct = res.headers.get("content-type") || "";
+          if (ct.includes("application/json")) {
+            const result = await res.json();
+            if (res.status === 401) {
+              alert(result.message || "Silakan masuk kembali.");
+              window.location.href = "../login/login.html";
+              return;
+            }
+            if (!res.ok || !result.success) {
+              alert(result.message || "Gagal mengajukan klaim.");
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Ajukan Klaim & Hubungi Penemu";
+              }
+              return;
+            }
+            window.location.href = `../chat/chat.html?conv=${encodeURIComponent(result.conversation_id)}`;
+            return;
+          }
+        } catch (err) {
+          console.warn("Backend chat belum aktif, menggunakan fallback redirect lokal:", err);
+        }
+
+        // Fallback offline
         const chatParams = new URLSearchParams({
           item: kodeLaporan,
           title: item.nama,

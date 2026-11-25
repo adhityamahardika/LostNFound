@@ -40,7 +40,7 @@ try {
     $sqlContent = file_get_contents($sqlFile);
     // Pisahkan query berdasarkan titik koma (agar dieksekusi satu per satu dengan aman)
     $pdo->exec($sqlContent);
-    echo "[✓] Tabel 'users', 'laporan', dan data awal berhasil dibuat/diperbarui.\n";
+    echo "[✓] Tabel 'users', 'laporan', 'conversations', 'messages', dan data awal berhasil dibuat/diperbarui.\n";
 
     // 5. Verifikasi isi tabel
     $stmtUsers = $pdo->query("SELECT COUNT(*) AS total FROM `users`");
@@ -49,7 +49,11 @@ try {
 
     $stmt = $pdo->query("SELECT COUNT(*) AS total FROM `laporan`");
     $count = $stmt->fetchColumn();
-    echo "[✓] Total data laporan di tabel laporan: $count data.\n\n";
+    echo "[✓] Total data laporan di tabel laporan: $count data.\n";
+
+    $stmtConv = $pdo->query("SELECT COUNT(*) AS total FROM `conversations`");
+    $countConv = $stmtConv->fetchColumn();
+    echo "[✓] Total percakapan di tabel conversations: $countConv room.\n\n";
 
     echo "=================================================\n";
     echo "SETUP DATABASE SELESAI & BERHASIL!\n";

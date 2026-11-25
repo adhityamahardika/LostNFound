@@ -221,6 +221,51 @@
   white-space: nowrap;
 }
 
+.item-context-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-ctx {
+  padding: 0.32rem 0.72rem;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.btn-ctx:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-ctx:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn-ctx--verify {
+  background: var(--brand-teal, #2c7a7b);
+  color: #ffffff;
+}
+
+.btn-ctx--done {
+  background: #ffffff;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.conv-status-pill {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.08rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #e2e8f0;
+  color: #334155;
+}
+.conv-status-pill.is-verified { background: #dcfce7; color: #166534; }
+.conv-status-pill.is-done { background: #dbeafe; color: #1e40af; }
+
 /* Pesan */
 .messages {
   flex: 1;

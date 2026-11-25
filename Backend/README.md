@@ -7,7 +7,7 @@ Modul backend ini menangani penyimpanan data pelaporan barang hilang dan temuan 
 ## 1. Struktur Database
 
 - **Nama Database**: `lostnfound_db`
-- **Tabel**: `users` dan `laporan`
+- **Tabel**: `users`, `laporan`, `conversations`, dan `messages`
 
 ### Kolom Tabel `users`
 | Kolom | Tipe Data | Keterangan |
@@ -173,3 +173,11 @@ Semua endpoint mengembalikan respon berformat **JSON**.
 - **Masuk (Login)**: `POST Backend/api/auth.php?action=login` dengan body `{ "identifier": "<nim/email>", "password": "..." }`
 - **Daftar (Register)**: `POST Backend/api/auth.php?action=register` dengan body `{ "nama": "...", "nim": "...", "email": "...", "password": "...", "phone": "..." }`
 - **Keluar (Logout)**: `POST Backend/api/auth.php?action=logout` atau `DELETE Backend/api/auth.php`
+
+### H. Percakapan & Pesan (`chat.php`)
+- **Daftar Percakapan**: `GET Backend/api/chat.php` (opsional `?laporan_id={id}`)
+- **Jumlah Pesan Belum Dibaca**: `GET Backend/api/chat.php?action=unread_count`
+- **Isi Room & Delta Polling**: `GET Backend/api/chat.php?conversation_id={id}&after_id={last_msg_id}`
+- **Mulai Percakapan Klaim**: `POST Backend/api/chat.php?action=start` dengan `{ "laporan_id": 1, "ciri_rahasia": "...", "catatan": "..." }`
+- **Kirim Pesan**: `POST Backend/api/chat.php?action=send` dengan `{ "conversation_id": 1, "message": "..." }`
+- **Verifikasi / Selesaikan Klaim**: `POST Backend/api/chat.php?action=update_status` dengan `{ "conversation_id": 1, "status": "Terverifikasi" | "Selesai" }`

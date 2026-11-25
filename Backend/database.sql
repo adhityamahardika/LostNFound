@@ -60,3 +60,45 @@ INSERT IGNORE INTO `laporan` (`id`, `tipe`, `nama_barang`, `jenis_barang`, `tang
 (4, 'Hilang', 'Botol minum hijau', 'Aksesoris', '2026-09-26', 'Lab Komputer', NULL, 'Botol minum warna hijau dengan stiker. Detail lain tidak ditampilkan untuk verifikasi.', 'Stiker Linux di bagian tutup botol', 'assets/items/tumbler.jpg', 'Hilang', 'budi@student.kampus.ac.id', 'Budi'),
 (5, 'Ditemukan', 'Tas ransel hitam', 'Tas', '2026-09-25', 'Parkiran Timur', 'Pos Satpam Depan', 'Tas ransel hitam ukuran sedang. Ciri khusus disembunyikan untuk keperluan klaim.', 'Di kantong depan ada buku catatan bersampul biru', 'assets/items/tas.jpg', 'Ditemukan', 'satpam@kampus.ac.id', 'Petugas Satpam'),
 (6, 'Hilang', 'Charger Laptop', 'Elektronik', '2026-09-24', 'Aula', NULL, 'Charger laptop HP original. Barang sudah dikembalikan ke pemiliknya.', 'Ada selotip hitam di ujung kabel adaptor', 'assets/items/charger.jpg', 'Dikembalikan', 'deta@student.kampus.ac.id', 'Detuy Mahardika');
+
+-- Tabel: conversations (Ruang obrolan antara pelapor dan pengklaim)
+CREATE TABLE IF NOT EXISTS `conversations` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `laporan_id` INT NOT NULL,
+    `pelapor_email` VARCHAR(100) NOT NULL,
+    `pelapor_name` VARCHAR(100) NOT NULL,
+    `pengklaim_email` VARCHAR(100) NOT NULL,
+    `pengklaim_name` VARCHAR(100) NOT NULL,
+    `status` ENUM('Menunggu', 'Terverifikasi', 'Selesai') NOT NULL DEFAULT 'Menunggu',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY `uq_laporan_pengklaim` (`laporan_id`, `pengklaim_email`),
+    INDEX `idx_conv_pelapor` (`pelapor_email`),
+    INDEX `idx_conv_pengklaim` (`pengklaim_email`),
+    CONSTRAINT `fk_conv_laporan` FOREIGN KEY (`laporan_id`) REFERENCES `laporan`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabel: messages (Riwayat pesan di dalam setiap conversation)
+CREATE TABLE IF NOT EXISTS `messages` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `conversation_id` INT NOT NULL,
+    `sender_email` VARCHAR(100) NOT NULL,
+    `sender_type` ENUM('user', 'sys') NOT NULL DEFAULT 'user',
+    `message` TEXT NOT NULL,
+    `is_read` TINYINT(1) NOT NULL DEFAULT 0,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX `idx_msg_conv_id` (`conversation_id`, `id`),
+    CONSTRAINT `fk_msg_conv` FOREIGN KEY (`conversation_id`) REFERENCES `conversations`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Data Awal Percakapan Demo
+INSERT IGNORE INTO `conversations` (`id`, `laporan_id`, `pelapor_email`, `pelapor_name`, `pengklaim_email`, `pengklaim_name`, `status`) VALUES
+(1, 3, 'rizky@student.kampus.ac.id', 'Rizky', '2408561089@student.kampus.ac.id', 'Made Wirawan', 'Terverifikasi'),
+(2, 2, 'rizky@student.kampus.ac.id', 'Rizky', 'deta@student.kampus.ac.id', 'Detuy Mahardika', 'Menunggu');
+
+INSERT IGNORE INTO `messages` (`id`, `conversation_id`, `sender_email`, `sender_type`, `message`, `is_read`) VALUES
+(1, 1, 'system', 'sys', 'Percakapan dimulai untuk barang "Kartu Mahasiswa".', 1),
+(2, 1, 'rizky@student.kampus.ac.id', 'user', 'Halo, KTM-nya sudah saya titipkan di Pos Satpam Depan.', 0),
+(3, 1, '2408561089@student.kampus.ac.id', 'user', 'Terima kasih banyak! NIM saya berakhiran 106, besok pagi saya ambil.', 1),
+(4, 2, 'system', 'sys', 'Klaim diajukan untuk barang "Kunci motor".', 1),
+(5, 2, 'deta@student.kampus.ac.id', 'user', 'Halo, saya mengajukan klaim kunci motor. Gantungan Honda dengan pita merah.', 0);

@@ -64,6 +64,7 @@
       daftarBarang: root + 'pages/laporan/laporan_page/laporan.html',
       chat: root + CHAT_PATH_FROM_ROOT,
       apiAuth: root + '../Backend/api/auth.php',
+      apiChat: root + '../Backend/api/chat.php',
       isLogin,
       isProfile,
       isAdmin,
@@ -237,7 +238,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
-        <span class="chat-notif-dot" id="chat-notif-badge"></span>
+        <span class="chat-notif-dot" id="chat-notif-badge" hidden></span>
       </a>
     `;
 
@@ -491,6 +492,34 @@
     }
   }
 
+  async function refreshUnreadChatBadge() {
+    const badge = document.getElementById('chat-notif-badge');
+    const chatBtn = document.getElementById('btn-navbar-chat');
+    if (!badge) return;
+
+    const user = getUser();
+    if (!user) {
+      badge.hidden = true;
+      return;
+    }
+
+    const paths = getPaths();
+    try {
+      const res = await fetch(paths.apiChat + '?action=unread_count', { credentials: 'include' });
+      const ct = res.headers.get('content-type') || '';
+      if (res.ok && ct.includes('application/json')) {
+        const data = await res.json();
+        const count = Number((data && data.unread) || 0);
+        badge.hidden = count <= 0;
+        if (chatBtn) {
+          chatBtn.title = count > 0 ? `Chat (${count} pesan baru)` : 'Chat';
+        }
+      }
+    } catch (_) {
+      badge.hidden = true;
+    }
+  }
+
   // Sinkronkan status login lokal dengan $_SESSION server PHP
   async function syncSessionWithBackend() {
     const paths = getPaths();
@@ -499,6 +528,7 @@
       if (data.authenticated && data.user) {
         setUser(data.user);
         updateNavbar();
+        refreshUnreadChatBadge();
         if (paths.isProfile) {
           if (isAdminUser(data.user)) {
             window.location.replace(paths.admin);
@@ -650,6 +680,7 @@
   window.logout = function () {
     performLogout(getPaths());
   };
+  window.refreshUnreadChatBadge = refreshUnreadChatBadge;
 
   document.addEventListener('DOMContentLoaded', function () {
     checkUrlParams();

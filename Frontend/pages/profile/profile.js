@@ -8,6 +8,7 @@
   const API_AUTH = '../../../Backend/api/auth.php';
   const API_LAPORAN = '../../../Backend/api/laporan.php';
   const API_STATUS = '../../../Backend/api/update_status.php';
+  const API_CHAT = '../../../Backend/api/chat.php';
 
   function esc(val) {
     return String(val ?? '').replace(/[&<>"']/g, function (c) {
@@ -203,7 +204,7 @@
     if (badgeKlaim) badgeKlaim.textContent = String(klaimCount);
   }
 
-  function renderReports(reports) {
+  function renderReports(reports, chatCountsByLaporan) {
     const container = document.getElementById('profile-laporan-list');
     if (!container) return;
 
@@ -225,6 +226,7 @@
       const kode = formatKode(item);
       const thumb = resolveThumbUrl(item.foto || item.img);
       const isReturned = String(item.status || '').toLowerCase() === 'dikembalikan';
+      const chatCount = (chatCountsByLaporan && chatCountsByLaporan[item.id]) || 0;
 
       const secretHtml = item.ciri_rahasia ? `
         <div class="secret-trait-box">
@@ -239,8 +241,12 @@
         </div>
       ` : '';
 
+      const chatBtn = chatCount > 0
+        ? `<a href="../chat/chat.html?laporan_id=${encodeURIComponent(item.id)}" class="btn btn-primary btn-sm">Chat Masuk (${chatCount})</a>`
+        : '';
+
       const actionStatusBtn = !isReturned
-        ? `<button type="button" class="btn btn-primary btn-sm" data-action="mark-returned" data-id="${esc(item.id)}">Tandai Dikembalikan</button>`
+        ? `<button type="button" class="btn btn-outline btn-sm" data-action="mark-returned" data-id="${esc(item.id)}">Tandai Dikembalikan</button>`
         : '';
 
       return `
@@ -273,6 +279,7 @@
               ${esc(item.penitipan ? 'Dititipkan di: ' + item.penitipan : (item.deskripsi || ''))}
             </span>
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              ${chatBtn}
               <a href="../laporan/detail_barang/detail_barang.html?id=${encodeURIComponent(item.id)}" class="btn btn-outline btn-sm">Lihat Detail</a>
               ${actionStatusBtn}
               <button type="button" class="btn btn-danger btn-sm" data-action="delete-report" data-id="${esc(item.id)}" data-name="${esc(item.nama)}">Hapus</button>
@@ -356,17 +363,37 @@
     }).join('');
   }
 
+  async function fetchUserChatCounts() {
+    const counts = {};
+    try {
+      const res = await fetch(API_CHAT, { credentials: 'include' });
+      const ct = res.headers.get('content-type') || '';
+      if (res.ok && ct.includes('application/json')) {
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.data)) {
+          data.data.forEach(function (c) {
+            if (c.isOwner && c.laporanId) {
+              counts[c.laporanId] = (counts[c.laporanId] || 0) + 1;
+            }
+          });
+        }
+      }
+    } catch (_) {}
+    return counts;
+  }
+
   async function initProfile() {
     const user = await resolveCurrentUser();
     if (!user || !user.email) return;
 
-    const [reports, claims] = await Promise.all([
+    const [reports, claims, chatCounts] = await Promise.all([
       fetchUserReports(user.email),
-      Promise.resolve(loadUserClaims(user.email))
+      Promise.resolve(loadUserClaims(user.email)),
+      fetchUserChatCounts()
     ]);
 
     updateStats(reports, claims);
-    renderReports(reports);
+    renderReports(reports, chatCounts);
     renderClaims(claims);
 
     const listEl = document.getElementById('profile-laporan-list');
