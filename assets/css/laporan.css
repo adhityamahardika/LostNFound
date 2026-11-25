@@ -1,0 +1,385 @@
+/* Laporan Page Styles - menggunakan variables dari core */
+
+main.container {
+    padding-block: 2rem;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-head);
+}
+
+/* Kotak Filter */
+.filter-box {
+    background-color: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+}
+
+.filter-group select, 
+.filter-group input {
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 0.625rem;
+    border-radius: 8px;
+    outline: none;
+    font-family: var(--font-body);
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    border-color: var(--primary);
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-terapkan {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: none;
+    padding: 0.625rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s;
+}
+
+.btn-terapkan:hover {
+    transform: translateY(-2px);
+}
+
+.btn-reset {
+    background-color: transparent;
+    color: var(--ink);
+    border: 1px solid var(--muted);
+    padding: 0.625rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s;
+}
+
+.btn-reset:hover {
+    transform: translateY(-2px);
+}
+
+/* Tabs Status */
+.summary-text {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.status-tabs {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.status-btn {
+    background-color: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-btn.active {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border-color: var(--primary);
+}
+
+.status-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Grid & Cards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--gap);
+}
+
+.card {
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    transition: transform .2s, border-color .2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+}
+
+.card-image {
+    height: 180px;
+    background-color: #f4fafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--line, #d0e4e8);
+    color: var(--muted);
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .25s ease;
+}
+
+.card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 1rem 1.1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+/* Pewarnaan Badge */
+.badge.hilang { 
+    background-color: var(--hilang);
+    color: white;
+}
+.badge.ditemukan { 
+    background-color: var(--ditemukan);
+    color: white;
+}
+.badge.dikembalikan { 
+    background-color: var(--kembali);
+    color: white;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--ink);
+    font-family: var(--font-head);
+}
+
+.card-info {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+/* Tombol Lihat Detail */
+.btn-detail {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.625rem;
+    margin-top: 0.75rem;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.btn-detail:hover {
+    background: var(--primary);
+    color: var(--on-primary);
+    transform: translateY(-2px);
+}
+
+/* Modal / Popup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    padding: 2rem;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--muted);
+    cursor: pointer;
+    transition: 0.2s;
+    background: none;
+    border: 0;
+    padding: 0 8px;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: var(--ink);
+}
+
+/* Modal Content */
+.modal-detail-flex {
+    display: flex;
+    gap: 2rem;
+}
+.modal-gallery {
+    flex: 1;
+    background-color: #B8E6E6;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    min-height: 300px;
+    border: 2px dashed #A0D8D8;
+}
+.modal-info {
+    flex: 1;
+}
+.modal-info h2 {
+    margin: 0.5rem 0 1rem;
+    font-size: 1.5rem;
+    font-family: var(--font-head);
+    color: var(--ink);
+}
+.modal-info p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+}
+.modal-info p strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+.btn-kembali {
+    background: transparent;
+    border: 2px solid var(--line);
+    padding: 0.625rem 1.5rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    color: var(--ink);
+    transition: all 0.2s;
+}
+.btn-kembali:hover {
+    background: var(--bg);
+    transform: translateY(-2px);
+}
+
+/* Responsif Modal Mobile */
+@media (max-width: 768px) {
+    .modal-detail-flex {
+        flex-direction: column;
+    }
+    .modal-gallery {
+        min-height: 200px;
+        font-size: 4rem;
+    }
+}
+
+/* Accessibility & States */
+[hidden] { 
+    display: none !important; 
+}
+
+.filter-group select:focus-visible, 
+.filter-group input:focus-visible,
+.status-btn:focus-visible, 
+.btn-detail:focus-visible, 
+.close-btn:focus-visible,
+.btn-terapkan:focus-visible, 
+.btn-reset:focus-visible, 
+.btn-kembali:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.empty-state { 
+    grid-column: 1 / -1; 
+    text-align: center; 
+    color: var(--muted);
+    padding: 3rem 1rem;
+    font-size: 1rem;
+}
+
+.claim-hint { 
+    background-color: #fff8e1;
+    color: #6b5200;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    border-left: 3px solid #ffc93c;
+}
+
+.claim-hint strong {
+    color: #6b5200;
+}

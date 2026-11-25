@@ -1,0 +1,510 @@
+/* Detail Barang Page - menggunakan variables dari core */
+
+.detail-main {
+    padding-block: 2rem;
+}
+
+.page-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+    font-family: var(--font-head);
+}
+
+.detail-card {
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    padding: 2rem;
+    border: 1px solid var(--line);
+}
+
+.detail-content {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Kolom Kiri: Galeri */
+.gallery-section {
+    flex: 1;
+    max-width: 450px;
+}
+
+.main-image {
+    background-color: #f4fafa;
+    border-radius: var(--radius);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--line, #d0e4e8);
+    overflow: hidden;
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.thumbnail {
+    width: 60px;
+    height: 60px;
+    background-color: #f4fafa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: inherit;
+    padding: 0;
+    overflow: hidden;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.thumbnail:hover {
+    border-color: var(--primary);
+}
+
+.thumbnail.active {
+    border-color: var(--primary);
+    background-color: #C8E6E6;
+}
+
+/* Kolom Kanan: Info */
+.info-section {
+    flex: 1;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+.badge.ditemukan { 
+    background-color: var(--ditemukan);
+    color: white;
+}
+.badge.hilang {
+    background-color: var(--hilang);
+    color: white;
+}
+.badge.dikembalikan {
+    background-color: var(--kembali);
+    color: white;
+}
+
+.item-title {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-head);
+    color: var(--ink);
+}
+
+.item-id {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-row {
+    display: flex;
+}
+
+.info-label {
+    flex: 0 0 160px;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.info-value {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--ink);
+}
+
+.item-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+}
+
+.claim-warning {
+    background-color: #fff8e1;
+    color: #6b5200;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--accent);
+}
+
+.claim-warning strong {
+    color: #6b5200;
+}
+
+/* Kotak info saat barang sudah dikembalikan */
+.claim-warning.is-returned {
+    background-color: #e8f5ee;
+    color: #1f5c3f;
+    border-left-color: #2e9e6b;
+}
+
+.claim-warning.is-returned strong {
+    color: #1f5c3f;
+}
+
+/* Tombol */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    border: 2px solid var(--primary);
+}
+.btn-primary:hover { 
+    transform: translateY(-2px);
+}
+.btn-primary:disabled { 
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--ink);
+    border: 2px solid var(--line);
+}
+.btn-secondary:hover { 
+    background-color: var(--bg);
+    transform: translateY(-2px);
+}
+
+/* Timeline Status */
+.timeline-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-step.active {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--line);
+}
+.timeline-step.active .dot {
+    background-color: var(--primary);
+}
+
+.timeline-line {
+    flex: 1;
+    height: 2px;
+    background-color: var(--line);
+    margin: 0 -15px;
+    margin-top: -24px;
+    z-index: 1;
+}
+.timeline-line.active {
+    background-color: var(--primary);
+}
+
+/* Responsif untuk Mobile */
+@media (max-width: 768px) {
+    .detail-content {
+        flex-direction: column;
+    }
+    .gallery-section {
+        max-width: 100%;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+    .info-label {
+        flex: 1 1 100%;
+    }
+}
+
+/* Accessibility */
+.thumbnail:focus-visible, 
+.btn-primary:focus-visible, 
+.btn-secondary:focus-visible { 
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ==========================================================================
+   REPORT BARANG: tombol + modal (tema merah)
+   ========================================================================== */
+:root {
+  --rp-red: #c0392b;
+  --rp-red-dark: #a32f23;
+  --rp-red-bg: #fdecea;
+  --rp-red-border: #f3b9b2;
+}
+
+/* Tombol di halaman detail (ikut ukuran .btn-secondary, hanya warna yang merah) */
+.btn-report {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-secondary.btn-report {
+  background: #ffffff;
+  border-color: var(--rp-red-border);
+  color: var(--rp-red);
+  font-weight: 700;
+}
+
+.btn-secondary.btn-report:hover:not(:disabled) {
+  background: var(--rp-red-bg);
+  border-color: var(--rp-red);
+}
+
+.btn-report:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Modal */
+.rp-dialog {
+  width: min(460px, calc(100vw - 2rem));
+  padding: 1.6rem;
+  border: 0;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  color: var(--ink, #1f3a4d);
+  font-family: inherit;
+}
+
+.rp-dialog::backdrop { background: rgba(20, 30, 40, 0.5); }
+
+.rp-dialog h3 { margin: 0 0 0.75rem; font-size: 1.25rem; color: var(--rp-red-dark); }
+
+.rp-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0 0 1.1rem;
+  padding: 0.75rem 1rem;
+  background: var(--rp-red-bg);
+  border: 1px solid var(--rp-red-border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+.rp-item span { font-size: 0.8rem; color: #6b7f86; }
+
+.rp-dialog label {
+  display: block;
+  margin: 0.9rem 0 0.35rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+.rp-opt { font-weight: 400; color: #6b7f86; font-size: 0.78rem; }
+
+.rp-dialog select,
+.rp-dialog textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid #dfe8e8;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.92rem;
+  color: inherit;
+  background: #ffffff;
+}
+.rp-dialog textarea { resize: vertical; }
+.rp-dialog select:focus,
+.rp-dialog textarea:focus { outline: none; border-color: var(--rp-red); }
+
+.rp-error {
+  margin: 0.8rem 0 0;
+  color: var(--rp-red-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.rp-error[hidden], #rp-form[hidden], .rp-success[hidden] { display: none; }
+
+.rp-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.3rem;
+}
+
+.rp-btn {
+  padding: 0.65rem 1.3rem;
+  border: 1.5px solid #dfe8e8;
+  border-radius: 999px;
+  background: #ffffff;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.rp-btn:hover { background: #f4f7f7; }
+
+.rp-btn-danger { background: var(--rp-red); border-color: var(--rp-red); color: #ffffff; }
+.rp-btn-danger:hover { background: var(--rp-red-dark); border-color: var(--rp-red-dark); }
+
+.rp-success { text-align: center; padding: 0.5rem 0; }
+.rp-success p { margin: 0; color: #6b7f86; font-size: 0.92rem; }
+.rp-success .rp-actions { justify-content: center; }
+.rp-success-icon {
+  width: 52px; height: 52px; margin: 0 auto 0.75rem;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--rp-red-bg);
+  color: var(--rp-red);
+}
+.rp-success-icon svg { width: 24px; height: 24px; }
+
+/* ==========================================================================
+   SKELETON SCREEN LOADING STYLES
+   ========================================================================== */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #e4edf0 25%, #f4f8f9 50%, #e4edf0 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-shimmer 1.5s infinite ease-in-out !important;
+    color: transparent !important;
+    border-color: transparent !important;
+    user-select: none !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+}
+
+.main-image.skeleton {
+    border-radius: var(--radius);
+    border: 1px solid var(--line, #d0e4e8) !important;
+    min-height: 300px;
+}
+
+.thumbnail.skeleton {
+    border: none !important;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e4edf0 25%, #f4f8f9 50%, #e4edf0 75%) !important;
+    background-size: 200% 100% !important;
+    animation: skeleton-shimmer 1.5s infinite ease-in-out !important;
+}
+
+.skeleton-badge {
+    width: 84px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-title {
+    width: 65%;
+    height: 32px;
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+}
+
+.skeleton-id {
+    width: 38%;
+    height: 18px;
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+}
+
+.skeleton-value {
+    width: 140px;
+    height: 18px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.skeleton-desc-line {
+    width: 100%;
+    height: 16px;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.skeleton-desc-line.short {
+    width: 60%;
+}
