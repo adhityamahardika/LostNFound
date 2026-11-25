@@ -68,12 +68,16 @@ Semua endpoint mengembalikan respon berformat **JSON**.
 - **URL**: `Backend/api/laporan.php`
 - **Metode**: `GET`
 - **Parameter Query (Opsional)**:
-  - `status`: Filter status (`Hilang`, `Ditemukan`, `Dikembalikan`, atau `Semua`)
+  - `status`: Filter status (`Hilang`, `Ditemukan`, `Diklaim`, `Dikembalikan`, atau `Semua`)
+  - `tipe`: Filter tipe laporan (`Hilang`, `Ditemukan`, atau `Semua`)
   - `jenis`: Filter jenis/kategori barang
   - `lokasi`: Filter berdasarkan nama lokasi
   - `start_date`: Filter tanggal mulai (`YYYY-MM-DD`)
   - `end_date`: Filter tanggal akhir (`YYYY-MM-DD`)
+  - `pelapor_email`: Filter laporan berdasarkan email pelapor
   - `q`: Pencarian kata kunci nama/deskripsi barang
+  - `limit`: Batasi jumlah hasil (maks. 100)
+- **Catatan Privasi**: Field `ciri_rahasia` disembunyikan pada akses publik (diganti flag boolean `has_ciri_rahasia`) dan hanya dikembalikan jika menyertakan identitas Admin (`user_role=admin`) atau pemilik laporan (`user_email`).
 
 ### B. Mendapatkan Detail Satu Laporan
 - **URL**: `Backend/api/laporan.php?id={id_barang}`
@@ -111,7 +115,13 @@ Semua endpoint mengembalikan respon berformat **JSON**.
   - `ciri_rahasia`: Ciri rahasia verifikasi (wajib jika tipe = Ditemukan)
   - `foto`: File gambar (JPG/PNG/WebP, maks. 5 MB)
 
-### D. Menghapus Laporan
+### D. Mengedit Laporan
+- **URL**: `Backend/api/laporan.php?id={id_barang}&user_email={email}&user_role={role}`
+- **Metode**: `PUT`, `PATCH`, atau `POST` (dengan field `_method=PUT` / `action=update` saat mengirim `multipart/form-data` untuk ganti foto)
+- **Aturan Otorisasi**: Hanya dapat diedit oleh **Admin** (`user_role = 'admin'`) ATAU **Pemilik laporan** (`user_email = pelapor_email`).
+- **Catatan**: Mendukung pembaruan parsial maupun penuh; foto lama di `Backend/uploads/` otomatis dihapus jika diganti foto baru.
+
+### E. Menghapus Laporan
 - **URL**: `Backend/api/laporan.php?id={id_barang}&user_email={email}&user_role={role}`
 - **Metode**: `DELETE`
 - **Aturan Otorisasi**:
@@ -133,7 +143,7 @@ Semua endpoint mengembalikan respon berformat **JSON**.
   }
   ```
 
-### E. Mengubah Status Laporan
+### F. Mengubah Status Laporan
 - **URL**: `Backend/api/update_status.php`
 - **Metode**: `POST` / `PATCH`
 - **Body**:
