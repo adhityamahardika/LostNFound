@@ -1,0 +1,556 @@
+================================================================
+MATERI: MODEL MVC (Model - View - Controller)
+Mata kuliah: Pemrograman Internet
+Sumber: Materi_Model_MVC.pdf (materi dosen, 23 slide)
+Tujuan file ini: ringkasan lengkap isi PDF dalam bentuk teks, supaya
+bisa dibaca agent coding (OpenCode) sebagai acuan.
+================================================================
+
+CATATAN UNTUK AGENT
+- Isi file ini adalah ringkasan materi kuliah. Semua informasi dari
+  PDF sudah dimasukkan, termasuk kode contoh PHP native.
+- Kalau diminta membuat proyek MVC, ikuti struktur folder dan
+  pembagian tanggung jawab di bagian 9-12.
+- Nama folder dan istilah boleh berbeda antar framework; yang
+  penting adalah menjaga batas tanggung jawab.
+
+
+----------------------------------------------------------------
+1. PENGANTAR: MODEL MVC
+----------------------------------------------------------------
+- Judul: MODEL MVC = Model - View - Controller.
+- Tujuan materi: memahami pemisahan data, tampilan, dan alur kontrol
+  dalam aplikasi web.
+- Tiga komponen:
+  * MODEL      : data & logika bisnis
+  * VIEW       : tampilan untuk pengguna
+  * CONTROLLER : pengatur alur request
+
+
+----------------------------------------------------------------
+2. MENGAPA STRUKTUR KODE PENTING?
+----------------------------------------------------------------
+Ketika semua dicampur:
+- Satu file berisi query SQL, aturan bisnis, dan HTML.
+- Perubahan kecil dapat memengaruhi banyak bagian dan kode makin
+  sulit dirawat.
+
+Ketika tanggung jawab dipisah:
+- Setiap bagian punya fokus.
+- Data dapat diuji terpisah dari tampilan.
+- Desain dapat berubah tanpa harus mengubah aturan bisnis.
+
+Contoh masalah tanpa pemisahan (semua dalam satu file):
+
+  <?php
+  // Query database + aturan bisnis + HTML bercampur dalam satu file
+  $result = $db->query('SELECT nama FROM mahasiswa');
+  echo '<h1>Daftar Mahasiswa</h1>'; // tampilan dibangun di tempat yang sama
+
+Kesimpulan slide: MVC menawarkan cara mengorganisasi aplikasi agar
+perubahan lebih terarah.
+
+
+----------------------------------------------------------------
+3. SEJARAH SINGKAT DAN KONSEP DASAR
+----------------------------------------------------------------
+- Akhir 1970-an: Trygve Reenskaug merumuskan MVC saat bekerja di
+  Xerox PARC. Pola ini digunakan pada antarmuka grafis desktop,
+  termasuk lingkungan Smalltalk.
+- Akhir 1990-an sampai awal 2000-an: prinsip MVC diadaptasi dalam
+  pengembangan aplikasi web dan menjadi pola penting dalam berbagai
+  framework.
+- Penggunaan modern: framework yang mengadopsi MVC atau variasinya
+  antara lain Ruby on Rails, Laravel, ASP.NET Core MVC, Spring MVC,
+  serta Django dengan MTV.
+
+Konsep inti: SEPARATION OF CONCERNS (pemisahan tanggung jawab)
+- Setiap komponen berfokus pada satu jenis pekerjaan, bukan
+  mengambil alih tugas komponen lain.
+- Analogi sederhana: petugas data mengurus informasi, desainer
+  mengurus penyajian, dan koordinator mengatur proses.
+
+
+----------------------------------------------------------------
+4. PRINSIP YANG MENDUKUNG MVC
+----------------------------------------------------------------
+- Separation of concerns: data, tampilan, dan alur kontrol
+  ditempatkan pada komponen berbeda.
+- Reusability: Model yang sama dapat menyuplai data ke lebih dari
+  satu View, misalnya halaman web dan API.
+- Maintainability: perubahan desain tidak harus mengubah logika
+  bisnis, dan sebaliknya.
+- Parallel development: pengembang back-end dan perancang front-end
+  dapat bekerja paralel dengan kesepakatan antarmuka yang jelas.
+
+Catatan penting: pemisahan bukan sekadar membuat banyak file; yang
+utama adalah menjaga batas tanggung jawab.
+
+
+----------------------------------------------------------------
+5. GAMBARAN UMUM TIGA KOMPONEN MVC
+----------------------------------------------------------------
+MODEL - Data & logika bisnis
+  Mengambil, menyimpan, memvalidasi, dan mengolah data.
+
+VIEW - Antarmuka pengguna
+  Menyajikan data dalam bentuk yang dapat dibaca pengguna.
+
+CONTROLLER - Pengatur alur
+  Menerima request, memanggil Model, dan memilih View.
+
+INGAT:
+- Model tidak mengatur HTML.
+- View tidak mengambil data dari database secara langsung.
+- Controller tidak seharusnya menampung logika bisnis yang rumit.
+
+
+----------------------------------------------------------------
+6. HUBUNGAN MVC (slide bergambar)
+----------------------------------------------------------------
+Gambar menunjukkan tiga blok dihubungkan panah dua arah
+(View <-> Controller <-> Model/Database).
+
+Blok View (hijau):
+- Bagian yang bertugas menyajikan kepada pengguna.
+- Menampilkan data dalam bentuk User Interface (GUI).
+- Fokus pada apa yang dilihat dan berinteraksi langsung dengan user.
+
+Blok Controller (oranye):
+- Otak yang menghubungkan Model dan View.
+- Menerima request (permintaan) dari pengguna (melalui View).
+- Menentukan data apa yang harus diambil dari Model dan bagaimana
+  data tersebut ditampilkan kembali.
+
+Blok Model (biru):
+- Bagian yang mengelola dan berhubungan langsung dengan database.
+- Bertugas untuk menyiapkan, mengatur, dan mengorganisasikan data.
+- Pusat kebenaran (source of truth) dari sebuah aplikasi.
+
+
+----------------------------------------------------------------
+7. ANALOGI RESTORAN (2 slide bergambar)
+----------------------------------------------------------------
+Konsep abstrak MVC paling mudah dipahami dengan membayangkan
+sebuah restoran: ada pelanggan yang memesan, pelayan yang mencatat
+dan mengantar, serta koki yang memasak di dapur.
+
+- Pelanggan = VIEW
+  Pelanggan berinteraksi dengan buku menu dan meja makan. Ini sama
+  dengan user yang mengakses antarmuka website.
+- Pelayan = CONTROLLER
+  Menerima pesanan pelanggan dan meneruskannya ke dapur. Mewakili
+  Controller yang merespons request dari View.
+- Koki = MODEL
+  Menerima catatan dari pelayan, mencari bahan di kulkas
+  (Database), dan mengolah makanan (Data).
+
+
+----------------------------------------------------------------
+8. KOMPONEN 1 - MODEL
+----------------------------------------------------------------
+Model mengelola data dan aturan bisnis aplikasi.
+
+- Berhubungan dengan data: mengambil atau menyimpan informasi
+  melalui database.
+- Menjalankan aturan: memvalidasi data dan menjalankan
+  perhitungan/aturan aplikasi.
+- Tidak mengatur presentasi: Model tidak perlu mengetahui warna
+  tombol atau susunan HTML.
+- Contoh: mengambil daftar mahasiswa, menyimpan pesanan, menghitung
+  total belanja.
+
+Contoh pemikiran Model (pertanyaan yang dijawab):
+- "Data mahasiswa apa yang tersedia?"
+- "Apakah input memenuhi aturan?"
+- "Berapa total belanja yang benar?"
+
+Bentuk umum: kelas/objek yang mewakili data atau menyediakan
+operasi terhadap data.
+
+Intinya: Model berfokus pada apa yang diketahui dan aturan apa
+yang berlaku pada data.
+
+
+----------------------------------------------------------------
+9. KOMPONEN 2 - VIEW
+----------------------------------------------------------------
+View bertugas menyajikan data kepada pengguna.
+
+- Bentuk umum: HTML, CSS, dan sedikit logika presentasi.
+- Menerima data: data disiapkan oleh Controller lalu ditampilkan
+  oleh View.
+- Tidak mengakses database langsung: View tidak seharusnya
+  menjalankan query SQL.
+- Contoh: tabel daftar mahasiswa, form input, halaman login.
+
+Pertanyaan yang dijawab View:
+- "Bagaimana daftar mahasiswa ditampilkan?"
+- "Kolom apa yang terlihat?"
+- "Bagaimana form ditata agar mudah dipakai?"
+
+Contoh file: views/mahasiswa/index.php
+Pada Laravel dapat berupa template Blade (.blade.php).
+
+Intinya: View berfokus pada bagaimana informasi disajikan, bukan
+dari mana data diperoleh.
+
+
+----------------------------------------------------------------
+10. KOMPONEN 3 - CONTROLLER
+----------------------------------------------------------------
+Controller menjadi perantara antara request pengguna, Model, dan View.
+
+- Menerima request: misalnya pengguna membuka halaman atau mengirim
+  form.
+- Memilih tindakan: menentukan Model/method yang perlu dipanggil.
+- Meneruskan hasil: mengirim data yang diperlukan kepada View.
+- Tetap tipis: logika bisnis kompleks sebaiknya berada di Model,
+  bukan menumpuk di Controller.
+
+Pertanyaan yang dijawab Controller:
+- "Request ini harus melakukan apa?"
+- "Model mana yang dibutuhkan?"
+- "View mana yang sesuai?"
+
+Contoh tindakan: membaca input form, meminta Model menyimpan data,
+lalu mengarahkan pengguna ke halaman hasil.
+
+Intinya: Controller mengatur urutan kerja, bukan menjadi tempat
+semua pekerjaan dilakukan.
+
+
+----------------------------------------------------------------
+11. BATAS TANGGUNG JAWAB: BOLEH DAN TIDAK BOLEH
+----------------------------------------------------------------
+Komponen   | Tanggung jawab utama                     | Hindari
+-----------|------------------------------------------|----------------------------------
+Model      | Data, query, validasi, aturan bisnis     | Menyusun HTML atau mengatur tampilan
+View       | Menampilkan data yang disediakan         | Menjalankan query database langsung
+Controller | Menerima request, memanggil Model,       | Menampung logika bisnis yang rumit
+           | memilih View                             |
+
+Tes cepat:
+- Tugasnya menjawab "bagaimana tampilan?"  -> pikirkan VIEW.
+- Tugasnya menjawab "apa aturan datanya?"  -> pikirkan MODEL.
+- Tugasnya menjawab "apa langkah berikutnya?" -> pikirkan CONTROLLER.
+
+
+----------------------------------------------------------------
+12. ALUR KERJA REQUEST-RESPONSE PADA MVC
+----------------------------------------------------------------
+Contoh: pengguna membuka URL /mahasiswa untuk melihat daftar
+mahasiswa.
+
+1. Browser     : mengirim request
+2. Router      : mencocokkan URL
+3. Controller  : memanggil Model
+4. Model       : menjalankan query
+5. Database    : mengembalikan hasil
+6. Controller  : meneruskan data ke View
+7. View        : merender HTML
+
+Hasil akhir: server mengirim response berupa HTML ke browser.
+Browser menampilkan halaman kepada pengguna.
+
+
+----------------------------------------------------------------
+13. PERAN ROUTER DALAM APLIKASI WEB
+----------------------------------------------------------------
+Apa yang dilakukan Router?
+- Router mencocokkan URL dan metode request dengan
+  tindakan/Controller yang sesuai.
+- Contoh: /mahasiswa diarahkan ke MahasiswaController.
+
+Apakah Router termasuk MVC?
+- Router BUKAN salah satu dari tiga komponen inti MVC.
+- Namun, Router hampir selalu ada pada framework web untuk
+  menentukan ke mana request diarahkan.
+
+Skema sederhana:
+  Browser: GET /mahasiswa -> Router -> MahasiswaController@index
+  -> Model -> View
+
+Routing membantu aplikasi berkembang tanpa menumpuk banyak kondisi
+URL dalam satu file.
+
+
+----------------------------------------------------------------
+14. IMPLEMENTASI PHP NATIVE: STRUKTUR FOLDER
+----------------------------------------------------------------
+Contoh kasus: menampilkan daftar mahasiswa dari database tanpa
+framework.
+
+  project/
+  |-- index.php
+  |-- config/
+  |   `-- database.php
+  |-- models/
+  |   `-- Mahasiswa.php
+  |-- controllers/
+  |   `-- MahasiswaController.php
+  `-- views/
+      `-- mahasiswa/
+          `-- index.php
+
+Fungsi tiap file:
+- config/database.php
+    Konfigurasi koneksi database; menghasilkan objek PDO.
+- models/Mahasiswa.php
+    Mengambil data mahasiswa dari database.
+- controllers/MahasiswaController.php
+    Memanggil Model dan menyiapkan data untuk View.
+- views/mahasiswa/index.php
+    Menyajikan daftar mahasiswa dalam bentuk tabel HTML.
+
+
+----------------------------------------------------------------
+15. KODE MODEL - MENGAMBIL DATA
+----------------------------------------------------------------
+File: models/Mahasiswa.php
+
+  <?php
+  class Mahasiswa {
+      private $db;
+
+      public function __construct($db) {
+          $this->db = $db;
+      }
+
+      public function semua() {
+          $stmt = $this->db->query(
+              'SELECT nim, nama, prodi FROM mahasiswa'
+          );
+          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      }
+  }
+
+Apa yang dilakukan? Menyimpan koneksi PDO dan menyediakan method
+semua() untuk mengambil data.
+Apa yang dikembalikan? Array asosiatif berisi kolom nim, nama, dan
+prodi untuk setiap baris.
+Catatan: Model tidak menentukan apakah data ditampilkan sebagai
+tabel atau kartu.
+
+
+----------------------------------------------------------------
+16. KODE CONTROLLER - MENGHUBUNGKAN MODEL DAN VIEW
+----------------------------------------------------------------
+File: controllers/MahasiswaController.php
+
+  <?php
+  require_once 'models/Mahasiswa.php';
+
+  class MahasiswaController {
+      private $model;
+
+      public function __construct($db) {
+          $this->model = new Mahasiswa($db);
+      }
+
+      public function index() {
+          $daftar = $this->model->semua();
+          require 'views/mahasiswa/index.php';
+      }
+  }
+
+- Langkah 1: Controller membuat objek Mahasiswa dan memberinya
+  koneksi database.
+- Langkah 2: method index() meminta data lewat semua(), lalu
+  memuat View.
+Catatan: variabel $daftar tersedia saat file View dimuat dengan
+require.
+
+
+----------------------------------------------------------------
+17. KODE VIEW - MENAMPILKAN DATA
+----------------------------------------------------------------
+File: views/mahasiswa/index.php
+
+  <h1>Daftar Mahasiswa</h1>
+  <table border="1">
+    <tr><th>NIM</th><th>Nama</th><th>Prodi</th></tr>
+    <?php foreach ($daftar as $m): ?>
+      <tr>
+        <td><?= htmlspecialchars($m['nim']) ?></td>
+        <td><?= htmlspecialchars($m['nama']) ?></td>
+        <td><?= htmlspecialchars($m['prodi']) ?></td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+
+- Perulangan foreach: mengulang setiap baris mahasiswa dan
+  membentuk satu baris tabel.
+- htmlspecialchars(): mengubah karakter khusus agar input tidak
+  ditafsirkan sebagai HTML/script saat ditampilkan.
+Catatan: View hanya menyajikan data yang telah disiapkan; tidak
+melakukan query SQL.
+
+
+----------------------------------------------------------------
+18. FRONT CONTROLLER - PINTU MASUK APLIKASI
+----------------------------------------------------------------
+File: index.php (contoh router sederhana)
+
+  <?php
+  require 'config/database.php'; // menghasilkan objek PDO: $db
+  require 'controllers/MahasiswaController.php';
+
+  $halaman = $_GET['page'] ?? 'mahasiswa';
+
+  if ($halaman === 'mahasiswa') {
+      $controller = new MahasiswaController($db);
+      $controller->index();
+  } else {
+      http_response_code(404);
+      echo 'Halaman tidak ditemukan';
+  }
+
+- Pintu masuk: request aplikasi diarahkan melalui satu file awal.
+- Parameter page: jika page tidak diberikan, aplikasi memilih
+  mahasiswa sebagai nilai default.
+Catatan: router ini disederhanakan untuk pembelajaran; framework
+menyediakan routing lebih lengkap.
+
+(Catatan: isi config/database.php tidak ditampilkan di slide;
+slide hanya menyebut file itu menghasilkan objek PDO bernama $db.)
+
+
+----------------------------------------------------------------
+19. MENYATUKAN KODE: APA YANG TERJADI SAAT DIBUKA?
+----------------------------------------------------------------
+1. Browser          : pengguna membuka index.php?page=mahasiswa.
+2. Front controller : index.php memuat konfigurasi database dan
+                      controller.
+3. Controller       : MahasiswaController dibuat lalu method
+                      index() dipanggil.
+4. Model            : method semua() mengambil data dari tabel
+                      mahasiswa.
+5. View             : variabel $daftar digunakan untuk membuat
+                      tabel HTML.
+6. Response         : HTML dikirim ke browser dan ditampilkan.
+
+Kunci pemahaman: data mengalir dari Model -> Controller -> View;
+request masuk melalui routing/controller.
+
+
+----------------------------------------------------------------
+20. CATATAN KEAMANAN PADA CONTOH
+----------------------------------------------------------------
+Mengurangi risiko XSS:
+- View menggunakan htmlspecialchars() untuk menampilkan nilai data
+  sebagai teks, bukan membiarkannya diperlakukan sebagai markup
+  HTML/script.
+
+Mengurangi risiko SQL injection:
+- PDO mendukung prepared statement. Untuk query yang menerima input
+  pengguna, gunakan parameter terikat, bukan menggabungkan input
+  langsung ke string SQL.
+
+Penting untuk mahasiswa:
+- Contoh query pada Model di materi tidak menerima input pengguna
+  secara langsung.
+- Jika menambahkan pencarian berdasarkan NIM, gunakan prepared
+  statement dengan parameter.
+- Keamanan bukan hanya urusan satu file; validasi input,
+  otorisasi, dan penanganan error juga perlu dirancang.
+
+Kesimpulan: MVC membantu mengorganisasi kode, tetapi tidak otomatis
+membuat aplikasi aman.
+
+
+----------------------------------------------------------------
+21. KELEBIHAN DAN KEKURANGAN MVC
+----------------------------------------------------------------
+KELEBIHAN:
+- Kode lebih rapi dan mudah dicari/dirawat.
+- Front-end dan back-end dapat bekerja paralel.
+- Model dan Controller dapat diuji secara terpisah.
+- Satu Model dapat digunakan oleh beberapa View.
+- Pola yang banyak dipakai dalam framework.
+
+KEKURANGAN:
+- Jumlah file dan folder bertambah.
+- Perlu kesepakatan penamaan dan struktur tim.
+- Pengujian otomatis untuk View bisa lebih sulit.
+- Batas peran bisa kabur jika logika bocor ke Controller.
+- Kurva belajar awal lebih curam; berlebihan untuk halaman statis
+  sangat sederhana.
+
+Kesimpulan: MVC sangat berguna saat aplikasi mulai berkembang,
+tetapi tetap perlu diterapkan secara proporsional.
+
+
+----------------------------------------------------------------
+22. FRAMEWORK YANG MENGGUNAKAN MVC ATAU VARIASINYA
+----------------------------------------------------------------
+- Laravel (PHP): Eloquent ORM untuk Model; Blade untuk View;
+  Controller umumnya di app/Http/Controllers.
+- CodeIgniter (PHP): framework relatif ringan dan sering digunakan
+  untuk mempelajari MVC.
+- Django (Python): menggunakan pola MTV (Model-Template-View), yang
+  secara konsep sebanding dengan MVC.
+- Ruby on Rails (Ruby): mempopulerkan pendekatan convention over
+  configuration.
+- Spring MVC (Java): digunakan pada berbagai aplikasi berbasis
+  Java, termasuk lingkungan enterprise.
+- ASP.NET Core MVC (C#): terintegrasi dengan ekosistem .NET.
+
+Catatan: nama folder dan istilah dapat berbeda; pahami tanggung
+jawabnya, bukan hanya nama filenya.
+
+
+----------------------------------------------------------------
+23. MVC DAN POLA YANG BERKAITAN
+----------------------------------------------------------------
+- MVC: Controller mengatur alur request, memanggil Model, lalu
+  memilih View untuk menampilkan hasil.
+- MVP: Presenter menggantikan Controller dan mengendalikan View
+  secara lebih langsung; View cenderung lebih pasif.
+- MVVM: ViewModel menyediakan data/keadaan yang diikat ke View
+  melalui data binding; umum pada sejumlah aplikasi modern.
+- MTV pada Django: Template berperan sebagai View, sedangkan
+  komponen yang disebut View di Django memiliki peran yang mirip
+  Controller pada MVC.
+
+Saran: pelajari MVC terlebih dahulu sebagai fondasi; setelah itu,
+variasi lebih mudah dibandingkan.
+
+
+----------------------------------------------------------------
+24. KESALAHAN PEMAHAMAN YANG PERLU DIHINDARI
+----------------------------------------------------------------
+Anggapan salah                                  | Yang benar
+------------------------------------------------|---------------------------------------------
+"Model adalah tampilan tabel."                  | Tidak. Model mengelola data dan aturan;
+                                                | tampilan tabel adalah tugas View.
+"View boleh query database karena lebih         | Tidak disarankan. View sebaiknya menerima
+ praktis."                                      | data dari Controller.
+"Semua logika harus ditulis di Controller."     | Tidak. Controller mengatur alur; aturan
+                                                | bisnis kompleks sebaiknya ditempatkan pada
+                                                | Model.
+"Router adalah komponen keempat MVC."           | Router umum pada aplikasi web, tetapi bukan
+                                                | salah satu dari tiga komponen inti MVC.
+"Memakai MVC otomatis membuat aplikasi aman."   | Tidak. MVC membantu struktur; keamanan tetap
+                                                | memerlukan validasi, query berparameter,
+                                                | output escaping, dan kontrol akses.
+
+
+----------------------------------------------------------------
+RINGKASAN SUPER SINGKAT (untuk diingat)
+----------------------------------------------------------------
+- MODEL      = data + aturan bisnis ("apa aturan datanya?")
+- VIEW       = tampilan ("bagaimana tampilannya?")
+- CONTROLLER = pengatur alur ("apa langkah berikutnya?"), tetap tipis
+- ROUTER     = bukan bagian inti MVC, tapi mengarahkan URL ke Controller
+- Aliran data: Model -> Controller -> View
+- Aliran request: Browser -> Router -> Controller -> Model -> DB
+  -> Controller -> View -> HTML ke browser
+- Keamanan: htmlspecialchars() di View, prepared statement (PDO)
+  di Model, plus validasi input, otorisasi, dan penanganan error
+- MVC bukan jaminan aman, dan tidak perlu dipaksakan untuk halaman
+  statis yang sangat sederhana
+
+================================================================
+AKHIR FILE
+================================================================
