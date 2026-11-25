@@ -617,6 +617,7 @@
       overlay.classList.remove('is-open');
       document.body.style.overflow = '';
       setTimeout(function () { iframe.src = ''; }, 220);
+      window.dispatchEvent(new CustomEvent('lostnfound:modal-closed'));
     }
 
     document.addEventListener('click', function (e) {

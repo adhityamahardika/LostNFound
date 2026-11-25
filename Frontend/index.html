@@ -128,76 +128,30 @@
           <a href="pages/laporan/laporan_page/laporan.html" class="btn btn--secondary">Lihat semua</a>
         </div>
 
-        <div class="grid">
-          <!-- Card 1 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=1'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/dompet.jpg" alt="Dompet Kulit">
-            </div>
+        <div class="grid" id="latest-reports-grid" aria-live="polite">
+          <!-- Skeleton Loading Cards (diganti dinamis oleh index.js) -->
+          <article class="item-card" aria-hidden="true">
+            <div class="item-card__image skeleton-shimmer"></div>
             <div class="item-card__body">
-              <span class="badge badge--hilang">Hilang</span>
-              <h3 class="item-card__title">Dompet Kulit</h3>
-              <p class="item-card__meta">Gedung Administrasi · 5 Oktober 2026</p>
+              <span class="skeleton-shimmer skeleton-line--badge"></span>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--meta"></div>
             </div>
           </article>
-
-          <!-- Card 2 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=4'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/tumbler.jpg" alt="Tumbler Hitam">
-            </div>
+          <article class="item-card" aria-hidden="true">
+            <div class="item-card__image skeleton-shimmer"></div>
             <div class="item-card__body">
-              <span class="badge badge--ditemukan">Ditemukan</span>
-              <h3 class="item-card__title">Botol Hijau</h3>
-              <p class="item-card__meta">Perpustakaan · 4 Oktober 2026</p>
+              <span class="skeleton-shimmer skeleton-line--badge"></span>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--meta"></div>
             </div>
           </article>
-
-          <!-- Card 3 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=2'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/kunci.jpg" alt="Kunci Motor">
-            </div>
+          <article class="item-card" aria-hidden="true">
+            <div class="item-card__image skeleton-shimmer"></div>
             <div class="item-card__body">
-              <span class="badge badge--ditemukan">Ditemukan</span>
-              <h3 class="item-card__title">Kunci Motor</h3>
-              <p class="item-card__meta">Parkiran · 4 Oktober 2026</p>
-            </div>
-          </article>
-
-          <!-- Card 4 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=6'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/charger.jpg" alt="Charger Laptop">
-            </div>
-            <div class="item-card__body">
-              <span class="badge badge--hilang">Hilang</span>
-              <h3 class="item-card__title">Charger Laptop</h3>
-              <p class="item-card__meta">Lab Komputer · 3 Oktober 2026</p>
-            </div>
-          </article>
-
-          <!-- Card 5 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=3'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/ktm.jpg" alt="Kartu Mahasiswa">
-            </div>
-            <div class="item-card__body">
-              <span class="badge badge--hilang">Hilang</span>
-              <h3 class="item-card__title">Kartu Mahasiswa</h3>
-              <p class="item-card__meta">Gedung B · 2 Oktober 2026</p>
-            </div>
-          </article>
-
-          <!-- Card 6 -->
-          <article class="item-card" onclick="window.location.href='pages/laporan/detail_barang/detail_barang.html?id=5'" style="cursor: pointer;">
-            <div class="item-card__image">
-              <img src="assets/items/tas.jpg" alt="Tas Ransel Hitam">
-            </div>
-            <div class="item-card__body">
-              <span class="badge badge--ditemukan">Ditemukan</span>
-              <h3 class="item-card__title">Tas Ransel Hitam</h3>
-              <p class="item-card__meta">Kantin Utama · 1 Oktober 2026</p>
+              <span class="skeleton-shimmer skeleton-line--badge"></span>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-shimmer skeleton-line skeleton-line--meta"></div>
             </div>
           </article>
         </div>
@@ -263,5 +217,6 @@
   </footer>
 
   <script src="core/js/auth.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
