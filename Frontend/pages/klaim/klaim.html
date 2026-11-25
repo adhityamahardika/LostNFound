@@ -198,7 +198,7 @@
     async function fetchItemForClaim(id) {
       // 1. Coba fetch dari API Backend PHP / MySQL
       try {
-        const res = await fetch(`../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`);
+        const res = await fetch(`../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`, { credentials: 'include' });
         if (res.ok) {
           const result = await res.json();
           if (result && result.success && result.data) {

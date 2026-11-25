@@ -7,7 +7,21 @@ Modul backend ini menangani penyimpanan data pelaporan barang hilang dan temuan 
 ## 1. Struktur Database
 
 - **Nama Database**: `lostnfound_db`
-- **Tabel**: `laporan`
+- **Tabel**: `users` dan `laporan`
+
+### Kolom Tabel `users`
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| `id` | `INT AUTO_INCREMENT PRIMARY KEY` | ID unik pengguna |
+| `nim` | `VARCHAR(30) UNIQUE` | NIM/NIP atau username (`admin`, `satpam`) |
+| `name` | `VARCHAR(100)` | Nama lengkap |
+| `initials` | `VARCHAR(5)` | Inisial avatar (maks. 2 huruf) |
+| `email` | `VARCHAR(100) UNIQUE` | Email kampus |
+| `password_hash` | `VARCHAR(255)` | Hash bcrypt (`password_hash()`) |
+| `role` | `VARCHAR(50)` | Label peran (`Mahasiswa`, `Administrator`, dll.) |
+| `access_role` | `ENUM('user', 'petugas', 'admin')` | Hak akses sistem |
+| `prodi` / `fakultas` | `VARCHAR(100)` | Informasi akademik |
+| `phone` | `VARCHAR(30) NULL` | Nomor telepon (privat) |
 
 ### Kolom Tabel `laporan`
 | Kolom | Tipe Data | Keterangan |
@@ -145,7 +159,7 @@ Semua endpoint mengembalikan respon berformat **JSON**.
 
 ### F. Mengubah Status Laporan
 - **URL**: `Backend/api/update_status.php`
-- **Metode**: `POST` / `PATCH`
+- **Metode**: `POST` / `PATCH` / `PUT` (memerlukan sesi login Admin, Petugas, atau pembuat laporan)
 - **Body**:
   ```json
   {
@@ -153,3 +167,9 @@ Semua endpoint mengembalikan respon berformat **JSON**.
     "status": "Dikembalikan"
   }
   ```
+
+### G. Autentikasi Pengguna (`auth.php`)
+- **Cek Sesi Aktif**: `GET Backend/api/auth.php?action=me`
+- **Masuk (Login)**: `POST Backend/api/auth.php?action=login` dengan body `{ "identifier": "<nim/email>", "password": "..." }`
+- **Daftar (Register)**: `POST Backend/api/auth.php?action=register` dengan body `{ "nama": "...", "nim": "...", "email": "...", "password": "...", "phone": "..." }`
+- **Keluar (Logout)**: `POST Backend/api/auth.php?action=logout` atau `DELETE Backend/api/auth.php`

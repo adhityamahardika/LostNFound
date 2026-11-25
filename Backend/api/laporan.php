@@ -129,12 +129,13 @@ if ($method === 'GET') {
 // 2. POST: Tambah Laporan Baru
 // ==============================================================================
 if ($method === 'POST') {
-    $pelaporEmail = trim($inputData['pelapor_email'] ?? $inputData['email'] ?? '');
-    $pelaporName  = trim($inputData['pelapor_name'] ?? $inputData['pelapor'] ?? $inputData['name'] ?? 'Civitas Kampus');
-
-    if (empty($pelaporEmail)) {
+    $sessionUser = getSessionUser();
+    if (!$sessionUser || empty($sessionUser['email'])) {
         sendJsonError(401, 'Anda harus login terlebih dahulu sebelum dapat membuat laporan.');
     }
+
+    $pelaporEmail = trim($sessionUser['email']);
+    $pelaporName  = trim($sessionUser['name'] ?? 'Civitas Kampus');
 
     $tipe        = trim($inputData['tipe'] ?? $inputData['tipe-laporan'] ?? 'Hilang');
     $namaBarang  = trim($inputData['nama_barang'] ?? $inputData['nama-barang'] ?? $inputData['nama'] ?? '');
@@ -212,7 +213,7 @@ if ($method === 'PUT' || $method === 'PATCH') {
         sendJsonError(400, 'ID laporan tidak valid atau tidak disertakan.');
     }
 
-    $caller   = getCallerIdentity($inputData);
+    $caller   = getCallerIdentity();
     $existing = requireAuthorizedLaporan($pdo, $id, $caller, 'mengubah');
 
     $tipe        = pickField($inputData, ['tipe', 'tipe-laporan'], $existing['tipe']);
@@ -298,7 +299,7 @@ if ($method === 'DELETE') {
         sendJsonError(400, 'ID laporan tidak valid atau tidak disertakan.');
     }
 
-    $caller = getCallerIdentity($inputData);
+    $caller = getCallerIdentity();
     $item   = requireAuthorizedLaporan($pdo, $id, $caller, 'menghapus');
 
     try {
@@ -368,13 +369,17 @@ function extractLaporanId($inputData) {
 }
 
 /**
- * Ambil identitas pemohon (email & role) dari query, body, atau header
+ * Ambil identitas pemohon (email & role) secara aman dari $_SESSION server
  */
-function getCallerIdentity($inputData = []) {
-    return [
-        'email' => trim($_GET['user_email'] ?? $inputData['user_email'] ?? $_SERVER['HTTP_X_USER_EMAIL'] ?? ''),
-        'role'  => trim($_GET['user_role'] ?? $inputData['user_role'] ?? $_SERVER['HTTP_X_USER_ROLE'] ?? '')
-    ];
+function getCallerIdentity() {
+    $sessionUser = getSessionUser();
+    if ($sessionUser) {
+        return [
+            'email' => trim($sessionUser['email'] ?? ''),
+            'role'  => trim($sessionUser['accessRole'] ?? 'user')
+        ];
+    }
+    return ['email' => '', 'role' => ''];
 }
 
 /**

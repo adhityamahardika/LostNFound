@@ -2,7 +2,7 @@
 // ==============================================================================
 // API Update Status Laporan
 // Endpoint:
-//   POST / PATCH Backend/api/update_status.php
+//   POST / PATCH / PUT Backend/api/update_status.php
 // Body (JSON atau Form):
 //   { "id": 1, "status": "Dikembalikan" }
 // ==============================================================================
@@ -19,6 +19,16 @@ if ($method !== 'POST' && $method !== 'PATCH' && $method !== 'PUT') {
     echo json_encode([
         'success' => false,
         'message' => 'Metode HTTP harus POST, PUT, atau PATCH.'
+    ]);
+    exit;
+}
+
+$sessionUser = getSessionUser();
+if (!$sessionUser || empty($sessionUser['email'])) {
+    http_response_code(401);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Akses ditolak: Silakan login terlebih dahulu.'
     ]);
     exit;
 }
@@ -49,22 +59,34 @@ if ($id <= 0 || !in_array($status, $allowedStatuses, true)) {
 }
 
 try {
+    $check = $pdo->prepare("SELECT `id`, `pelapor_email` FROM `laporan` WHERE `id` = ?");
+    $check->execute([$id]);
+    $item = $check->fetch();
+
+    if (!$item) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Laporan dengan ID ' . $id . ' tidak ditemukan.'
+        ]);
+        exit;
+    }
+
+    $role = strtolower($sessionUser['accessRole'] ?? 'user');
+    $isPrivileged = in_array($role, ['admin', 'petugas'], true);
+    $isOwner = !empty($item['pelapor_email']) && strtolower($sessionUser['email']) === strtolower($item['pelapor_email']);
+
+    if (!$isPrivileged && !$isOwner) {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Akses ditolak: Hanya Admin, Petugas, atau pembuat laporan yang berhak mengubah status.'
+        ]);
+        exit;
+    }
+
     $stmt = $pdo->prepare("UPDATE `laporan` SET `status` = ? WHERE `id` = ?");
     $stmt->execute([$status, $id]);
-
-    if ($stmt->rowCount() === 0) {
-        // Cek apakah item memang ada
-        $check = $pdo->prepare("SELECT `id` FROM `laporan` WHERE `id` = ?");
-        $check->execute([$id]);
-        if (!$check->fetch()) {
-            http_response_code(404);
-            echo json_encode([
-                'success' => false,
-                'message' => 'Laporan dengan ID ' . $id . ' tidak ditemukan.'
-            ]);
-            exit;
-        }
-    }
 
     echo json_encode([
         'success' => true,
