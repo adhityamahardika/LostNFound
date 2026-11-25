@@ -23,12 +23,16 @@ class AuthController extends Controller
         }
 
         $sukses = getFlash('sukses');
+        $error = getFlash('error');
 
         if (isset($_GET['keluar'])) {
             $sukses = 'Anda telah keluar dari akun.';
         }
 
-        $this->renderAuth('masuk', ['sukses' => $sukses]);
+        $this->renderAuth('masuk', [
+            'sukses' => $sukses,
+            'error'  => $error,
+        ]);
     }
 
     public function prosesLogin(): void
@@ -90,7 +94,7 @@ class AuthController extends Controller
             redirect($tujuan);
         }
 
-        redirect(url('home'));
+        redirect(isAdmin() ? url('admin') : url('home'));
     }
 
     public function register(): void

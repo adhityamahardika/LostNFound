@@ -8,8 +8,13 @@
 
 declare(strict_types=1);
 
+// Jangan tampilkan error mentah ke pengguna; detail tetap masuk error log.
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 ini_set('session.use_strict_mode', '1');
 ini_set('session.use_only_cookies', '1');
+ini_set('session.gc_maxlifetime', '7200');
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     $secure = !empty($_SERVER['HTTPS']) && strtolower((string) $_SERVER['HTTPS']) !== 'off';
@@ -24,6 +29,15 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
     session_start();
 }
+
+header_remove('X-Powered-By');
+header('Content-Type: text/html; charset=UTF-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: SAMEORIGIN');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
 
 require_once __DIR__ . '/config/helpers.php';
 require_once __DIR__ . '/config/koneksi.php';
@@ -42,6 +56,21 @@ spl_autoload_register(static function (string $class): void {
         }
     }
 });
+
+set_exception_handler(static function (Throwable $e): void {
+    error_log('[LostNFound] ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+
+    if (headers_sent()) {
+        echo 'Terjadi kesalahan pada server.';
+        return;
+    }
+
+    http_response_code(500);
+    (new ErrorController())->serverError();
+});
+
+// Cek status akun & idle timeout sekali per request.
+refreshSessionUser();
 
 /**
  * Peta route.
@@ -88,6 +117,23 @@ $routes = [
             'baru'   => 'baru',
             'simpan' => 'simpan',
             'hapus'  => 'hapus',
+        ],
+    ],
+    'admin' => [
+        'controller' => AdminController::class,
+        'default'    => 'index',
+        'aksi'       => [
+            'index'        => 'index',
+            'updateStatus' => 'updateStatus',
+            'toggleUser'   => 'toggleUser',
+        ],
+    ],
+    'admin/laporan' => [
+        'controller' => AdminLaporanController::class,
+        'default'    => 'index',
+        'aksi'       => [
+            'index'  => 'index',
+            'export' => 'export',
         ],
     ],
 ];

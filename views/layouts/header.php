@@ -8,6 +8,9 @@
  * - $cssTambahan
  */
 $pengguna = currentUser();
+$onAdminPage = ($halamanAktif ?? '') === 'admin';
+$cssDasar = $cssDasar ?? ['variables.css', 'base.css', 'navbar.css'];
+$cssTambahan = $cssTambahan ?? [];
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -19,9 +22,9 @@ $pengguna = currentUser();
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="<?= esc(asset('css/variables.css')) ?>">
-  <link rel="stylesheet" href="<?= esc(asset('css/base.css')) ?>">
-  <link rel="stylesheet" href="<?= esc(asset('css/navbar.css')) ?>">
+<?php foreach ($cssDasar as $css): ?>
+  <link rel="stylesheet" href="<?= esc(asset('css/' . $css)) ?>">
+<?php endforeach; ?>
 <?php foreach ($cssTambahan as $css): ?>
   <link rel="stylesheet" href="<?= esc(asset('css/' . $css)) ?>">
 <?php endforeach; ?>
@@ -50,10 +53,19 @@ $pengguna = currentUser();
           <span class="chat-notif-dot" id="chat-notif-badge"></span>
         </a>
 <?php if ($pengguna !== null): ?>
-        <span class="nav-user-badge" title="<?= isAdmin() ? 'Dashboard Admin' : 'Profil Saya' ?>">
+<?php if (!$onAdminPage): ?>
+<?php if (isAdmin()): ?>
+        <a class="nav-user-badge" href="<?= esc(url('admin')) ?>" title="Dashboard Admin">
           <span class="nav-user-avatar"><?= esc($pengguna['inisial'] ?? '?') ?></span>
-          <span><?= isAdmin() ? 'Dashboard Admin' : 'Profil Saya' ?></span>
+          <span>Dashboard Admin</span>
+        </a>
+<?php else: ?>
+        <span class="nav-user-badge" title="Profil Saya">
+          <span class="nav-user-avatar"><?= esc($pengguna['inisial'] ?? '?') ?></span>
+          <span>Profil Saya</span>
         </span>
+<?php endif; ?>
+<?php endif; ?>
         <form method="post" action="<?= esc(url('auth/logout')) ?>" style="display: contents;">
           <?= csrfField() ?>
           <button type="submit" class="btn-nav-action btn-nav-outline" id="btn-nav-logout" title="Keluar Akun">Keluar</button>

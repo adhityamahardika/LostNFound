@@ -20,6 +20,7 @@ abstract class Controller
 
         $judul = $data['judul'] ?? 'LostNFound';
         $halamanAktif = $data['halamanAktif'] ?? '';
+        $cssDasar = $data['cssDasar'] ?? ['variables.css', 'base.css', 'navbar.css'];
         $cssTambahan = $data['cssTambahan'] ?? [];
         $layout = $data['layout'] ?? 'default';
 
@@ -35,6 +36,7 @@ abstract class Controller
 
         $footer = match ($layout) {
             'auth'    => 'auth-footer.php',
+            'admin'   => 'admin-footer.php',
             'minimal' => 'minimal-footer.php',
             default   => 'footer.php',
         };

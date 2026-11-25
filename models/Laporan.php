@@ -44,7 +44,9 @@ class Laporan extends Model
     {
         [$where, $params] = $this->filterSql($filter);
 
-        $sql = 'SELECT COUNT(*) FROM `laporan` l';
+        $sql = 'SELECT COUNT(*)
+                FROM `laporan` l
+                JOIN `users` u ON u.id = l.pelapor_id';
 
         if ($where !== '') {
             $sql .= ' WHERE ' . $where;
@@ -138,6 +140,19 @@ class Laporan extends Model
         return $stmt->rowCount() > 0;
     }
 
+    public function updateStatus(int $id, string $status): bool
+    {
+        $stmt = $this->db()->prepare(
+            'UPDATE `laporan` SET `status` = :status WHERE `id` = :id'
+        );
+        $stmt->execute([
+            ':status' => $status,
+            ':id'     => $id,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
     /**
      * @param array<string, string> $filter
      * @return array{0:string, 1:array<string, string>}
@@ -146,6 +161,12 @@ class Laporan extends Model
     {
         $where = [];
         $params = [];
+
+        $tipe = trim((string) ($filter['tipe'] ?? 'Semua'));
+        if ($tipe !== '' && $tipe !== 'Semua') {
+            $where[] = 'l.tipe = :tipe';
+            $params[':tipe'] = $tipe;
+        }
 
         $status = trim((string) ($filter['status'] ?? 'Semua'));
         if ($status !== '' && $status !== 'Semua') {
@@ -179,9 +200,10 @@ class Laporan extends Model
 
         $q = trim((string) ($filter['q'] ?? ''));
         if ($q !== '') {
-            $where[] = '(l.nama_barang LIKE :q_nama OR l.deskripsi LIKE :q_deskripsi)';
+            $where[] = '(l.nama_barang LIKE :q_nama OR l.deskripsi LIKE :q_deskripsi OR u.nama LIKE :q_pelapor)';
             $params[':q_nama'] = '%' . $q . '%';
             $params[':q_deskripsi'] = '%' . $q . '%';
+            $params[':q_pelapor'] = '%' . $q . '%';
         }
 
         return [implode(' AND ', $where), $params];

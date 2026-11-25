@@ -75,6 +75,66 @@ function sudahLogin(): bool
     return currentUser() !== null;
 }
 
+/**
+ * Validasi ulang user dari database sekali per request.
+ *
+ * - Akun yang dinonaktifkan/dihapus langsung kehilangan sesi.
+ * - Role/nama/email disegarkan dari DB.
+ * - Sesi idle lebih dari 2 jam diakhiri.
+ * - Jika database sedang mati, sesi tidak dipaksa logout agar halaman
+ *   bisa menampilkan pesan database dengan jelas.
+ */
+function refreshSessionUser(): void
+{
+    static $sudahDiperiksa = false;
+
+    if ($sudahDiperiksa) {
+        return;
+    }
+
+    $sudahDiperiksa = true;
+
+    $user = $_SESSION['user'] ?? null;
+
+    if (!is_array($user) || empty($user['id'])) {
+        return;
+    }
+
+    $timeout = 7200;
+    $terakhir = (int) ($_SESSION['last_activity'] ?? 0);
+
+    if ($terakhir > 0 && (time() - $terakhir) > $timeout) {
+        unset($_SESSION['user'], $_SESSION['last_activity']);
+        session_regenerate_id(true);
+        setFlash('error', 'Sesi berakhir karena tidak aktif. Silakan masuk kembali.');
+        return;
+    }
+
+    $_SESSION['last_activity'] = time();
+
+    try {
+        $row = (new User())->findById((int) $user['id']);
+    } catch (RuntimeException $e) {
+        return;
+    }
+
+    if ($row === null || ($row['status'] ?? '') !== 'aktif') {
+        unset($_SESSION['user'], $_SESSION['last_activity']);
+        session_regenerate_id(true);
+        setFlash('error', 'Akun kamu tidak aktif. Silakan hubungi administrator.');
+        return;
+    }
+
+    $_SESSION['user'] = [
+        'id'       => (int) $row['id'],
+        'username' => (string) $row['username'],
+        'nama'     => (string) $row['nama'],
+        'email'    => (string) $row['email'],
+        'role'     => (string) $row['role'],
+        'inisial'  => inisial((string) $row['nama']),
+    ];
+}
+
 function isAdmin(): bool
 {
     return (currentUser()['role'] ?? '') === 'admin';
@@ -95,6 +155,8 @@ function loginUser(array $user): void
         'role'     => (string) $user['role'],
         'inisial'  => inisial($user['nama']),
     ];
+
+    $_SESSION['last_activity'] = time();
 }
 
 /**
@@ -286,6 +348,59 @@ function hapusFotoLaporan(?string $path): void
     if (is_file($file)) {
         @unlink($file);
     }
+}
+
+/**
+ * Kirim data sebagai file CSV lalu hentikan eksekusi.
+ *
+ * - UTF-8 BOM agar Excel membaca karakter Indonesia dengan benar
+ * - Delimiter titik koma
+ * - Nilai yang berpotensi menjadi formula Excel dinetralkan
+ *
+ * @param array<int, string>       $header
+ * @param array<int, array<mixed>> $baris
+ */
+function kirimCsv(string $namaFile, array $header, array $baris): never
+{
+    $namaFile = preg_replace('/[^A-Za-z0-9._-]+/', '-', $namaFile) ?: 'laporan.csv';
+
+    if (!str_ends_with(strtolower($namaFile), '.csv')) {
+        $namaFile .= '.csv';
+    }
+
+    header('Content-Type: text/csv; charset=UTF-8');
+    header('Content-Disposition: attachment; filename="' . $namaFile . '"');
+    header('Cache-Control: no-store, no-cache, must-revalidate');
+    header('Pragma: no-cache');
+
+    $keluaran = fopen('php://output', 'w');
+
+    if ($keluaran === false) {
+        exit;
+    }
+
+    fwrite($keluaran, "\xEF\xBB\xBF");
+    fputcsv($keluaran, $header, ';', '"', '');
+
+    foreach ($baris as $row) {
+        $fields = [];
+
+        foreach ((array) $row as $nilai) {
+            $teks = (string) $nilai;
+
+            // Cegah CSV/formula injection saat dibuka di Excel.
+            if ($teks !== '' && in_array($teks[0], ['=', '+', '-', '@', "\t", "\r"], true)) {
+                $teks = "'" . $teks;
+            }
+
+            $fields[] = $teks;
+        }
+
+        fputcsv($keluaran, $fields, ';', '"', '');
+    }
+
+    fclose($keluaran);
+    exit;
 }
 
 /**

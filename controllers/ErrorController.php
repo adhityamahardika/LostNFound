@@ -24,4 +24,13 @@ class ErrorController extends Controller
             'cssTambahan'  => ['components.css', 'home.css'],
         ], 403);
     }
+
+    public function serverError(): void
+    {
+        $this->view('500', [
+            'judul'        => 'Terjadi Kesalahan - LostnFound',
+            'halamanAktif' => '',
+            'cssTambahan'  => ['components.css', 'home.css'],
+        ], 500);
+    }
 }

@@ -27,6 +27,54 @@ class User extends Model
         return $row ?: null;
     }
 
+    /**
+     * Ambil data pengguna yang aman ditampilkan (tanpa password_hash).
+     *
+     * @return array<string, mixed>|null
+     */
+    public function findById(int $id): ?array
+    {
+        $stmt = $this->db()->prepare(
+            'SELECT `id`, `username`, `nama`, `nim`, `email`, `phone`, `role`, `status`, `created_at`
+             FROM `users`
+             WHERE `id` = :id
+             LIMIT 1'
+        );
+        $stmt->execute([':id' => $id]);
+
+        $row = $stmt->fetch();
+
+        return $row ?: null;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function semua(): array
+    {
+        $stmt = $this->db()->prepare(
+            'SELECT `id`, `username`, `nama`, `nim`, `email`, `phone`, `role`, `status`, `created_at`
+             FROM `users`
+             ORDER BY `id` ASC'
+        );
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+
+    public function setStatus(int $id, string $status): bool
+    {
+        $stmt = $this->db()->prepare(
+            'UPDATE `users` SET `status` = :status WHERE `id` = :id'
+        );
+        $stmt->execute([
+            ':status' => $status,
+            ':id'     => $id,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
     public function usernameExists(string $username): bool
     {
         $stmt = $this->db()->prepare(
