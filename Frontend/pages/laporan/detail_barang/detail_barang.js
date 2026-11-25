@@ -285,9 +285,10 @@ if (hapusBtn) {
                 user_role: user.accessRole || 'user'
             });
 
-            // Request DELETE ke backend PHP (MySQL) dengan verifikasi akses
+            // Request DELETE ke backend PHP (MySQL) dengan verifikasi akses sesi
             const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: 'include'
             });
             const result = await res.json().catch(() => null);
 
@@ -374,7 +375,7 @@ async function loadItemDetailAsync() {
 
     // 1. Coba ambil dari Backend MySQL via PHP API
     try {
-        const res = await fetch(`../../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`);
+        const res = await fetch(`../../../../Backend/api/laporan.php?id=${encodeURIComponent(id)}`, { credentials: 'include' });
         if (res.ok) {
             const json = await res.json();
             if (json && json.success && json.data) {

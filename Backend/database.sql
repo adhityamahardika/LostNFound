@@ -7,8 +7,31 @@ COLLATE utf8mb4_unicode_ci;
 
 USE `lostnfound_db`;
 
--- Hapus tabel jika sudah ada sebelumnya (opsional untuk reset)
--- DROP TABLE IF EXISTS `laporan`;
+-- Tabel: users
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `nim` VARCHAR(30) DEFAULT NULL UNIQUE,
+    `name` VARCHAR(100) NOT NULL,
+    `initials` VARCHAR(5) NOT NULL DEFAULT 'US',
+    `email` VARCHAR(100) NOT NULL UNIQUE,
+    `password_hash` VARCHAR(255) NOT NULL,
+    `role` VARCHAR(50) NOT NULL DEFAULT 'Mahasiswa',
+    `access_role` ENUM('user', 'petugas', 'admin') NOT NULL DEFAULT 'user',
+    `prodi` VARCHAR(100) DEFAULT 'Teknologi Informasi',
+    `fakultas` VARCHAR(100) DEFAULT 'Teknik',
+    `phone` VARCHAR(30) DEFAULT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Data Awal Pengguna (Password demo: admin123 / password123 / petugas123)
+INSERT IGNORE INTO `users` (`id`, `nim`, `name`, `initials`, `email`, `password_hash`, `role`, `access_role`, `prodi`, `fakultas`, `phone`) VALUES
+(1, 'admin', 'Admin LostnFound', 'AD', 'admin@kampus.ac.id', '$2y$10$Iecx0e0bxazYuWh6NFFV..ttRsPxbKm73c63Bwu/uQgiPZPkezRTa', 'Administrator', 'admin', '-', '-', '-'),
+(2, '2408561089', 'Made Wirawan', 'MW', '2408561089@student.kampus.ac.id', '$2y$10$O3mqyKrkIzSxgHttPiQ26eVLU.tbfNgCppp43/64LCYPDWVGBvvl6', 'Mahasiswa', 'user', 'Informatika', 'MIPA', '0812-3456-7890'),
+(3, '2505551106', 'Detuy Mahardika', 'DM', 'deta@student.kampus.ac.id', '$2y$10$O3mqyKrkIzSxgHttPiQ26eVLU.tbfNgCppp43/64LCYPDWVGBvvl6', 'Mahasiswa', 'user', 'Teknologi Informasi', 'Teknik', '0812-3456-7890'),
+(4, '2408561012', 'Rizky', 'RZ', 'rizky@student.kampus.ac.id', '$2y$10$O3mqyKrkIzSxgHttPiQ26eVLU.tbfNgCppp43/64LCYPDWVGBvvl6', 'Mahasiswa', 'user', 'Teknik Elektro', 'Teknik', '0813-2222-3333'),
+(5, '2408561034', 'Budi', 'BD', 'budi@student.kampus.ac.id', '$2y$10$O3mqyKrkIzSxgHttPiQ26eVLU.tbfNgCppp43/64LCYPDWVGBvvl6', 'Mahasiswa', 'user', 'Sistem Informasi', 'Teknik', '0814-4444-5555'),
+(6, 'satpam', 'Petugas Satpam', 'PS', 'satpam@kampus.ac.id', '$2y$10$0Kt7vzO5C6i58LEAUsu8cethOS.0aQLCvMb7GiTDjD45yjj0xjHAu', 'Petugas Pos Satpam', 'petugas', '-', '-', '0811-0000-1111');
 
 -- Tabel: laporan
 CREATE TABLE IF NOT EXISTS `laporan` (
@@ -30,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `laporan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Data Awal / Dummy untuk Pengujian
-INSERT INTO `laporan` (`id`, `tipe`, `nama_barang`, `jenis_barang`, `tanggal`, `lokasi`, `penitipan`, `deskripsi`, `ciri_rahasia`, `foto`, `status`, `pelapor_email`, `pelapor_name`) VALUES
+INSERT IGNORE INTO `laporan` (`id`, `tipe`, `nama_barang`, `jenis_barang`, `tanggal`, `lokasi`, `penitipan`, `deskripsi`, `ciri_rahasia`, `foto`, `status`, `pelapor_email`, `pelapor_name`) VALUES
 (1, 'Hilang', 'Dompet kulit', 'Aksesoris', '2026-09-27', 'Kantin Utama', NULL, 'Dompet kulit cokelat dengan kancing. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.', 'Ada uang tunai dan kartu member di kantong dalam', 'assets/items/dompet.jpg', 'Hilang', 'deta@student.kampus.ac.id', 'Detuy Mahardika'),
 (2, 'Ditemukan', 'Kunci motor', 'Kendaraan', '2026-09-28', 'Gedung B', 'Tata Usaha', 'Kunci dengan gantungan karakter. Ciri lain sengaja tidak ditampilkan untuk verifikasi pemilik.', 'Gantungan kunci bertuliskan Honda dengan pita merah', 'assets/items/kunci.jpg', 'Ditemukan', 'rizky@student.kampus.ac.id', 'Rizky'),
 (3, 'Ditemukan', 'Kartu Mahasiswa', 'Dokumen', '2026-09-28', 'Perpustakaan', 'Pos Satpam Depan', 'Kartu mahasiswa atas nama Made Wirawan. Hubungi untuk verifikasi lebih lanjut.', 'NIM berakhiran 106', 'assets/items/ktm.jpg', 'Ditemukan', 'rizky@student.kampus.ac.id', 'Rizky'),

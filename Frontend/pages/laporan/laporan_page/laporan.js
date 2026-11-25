@@ -181,7 +181,10 @@ function openModal(idBarang) {
                     user_email: (user && user.email) ? user.email : '',
                     user_role: (user && user.accessRole) ? user.accessRole : 'user'
                 });
-                const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, { method: 'DELETE' });
+                const res = await fetch(`../../../../Backend/api/laporan.php?${queryParams.toString()}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
                 const result = await res.json().catch(() => null);
 
                 if (!res.ok || (result && !result.success)) {
@@ -219,7 +222,7 @@ function closeModal() {
 // 5. Muat Data dari Backend API (MySQL via PHP)
 async function loadLaporanData() {
     try {
-        const res = await fetch('../../../../Backend/api/laporan.php');
+        const res = await fetch('../../../../Backend/api/laporan.php', { credentials: 'include' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const result = await res.json();
         if (result.success && Array.isArray(result.data) && result.data.length > 0) {
