@@ -56,6 +56,49 @@
   color: var(--kembali);
 }
 
+.badge--diklaim {
+  background: #fef7e6;
+  color: #966909;
+  border-color: #fae4b5;
+}
+
+/* Skeleton Loader for Cards */
+@keyframes card-skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #e6eef1 25%, #f6fafb 50%, #e6eef1 75%) !important;
+  background-size: 200% 100% !important;
+  animation: card-skeleton-shimmer 1.5s infinite ease-in-out !important;
+  border-color: transparent !important;
+  color: transparent !important;
+  user-select: none;
+  pointer-events: none;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+}
+
+.skeleton-line--title {
+  height: 20px;
+  width: 72%;
+}
+
+.skeleton-line--meta {
+  height: 14px;
+  width: 58%;
+}
+
+.skeleton-line--badge {
+  height: 22px;
+  width: 78px;
+  border-radius: 6px;
+}
+
 /* Item Cards */
 .grid {
   display: grid;
