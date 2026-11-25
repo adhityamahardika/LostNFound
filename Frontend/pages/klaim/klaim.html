@@ -302,6 +302,8 @@
 
         const ciriRahasia = document.getElementById("ciri-rahasia").value.trim();
         const catatan = document.getElementById("catatan").value.trim();
+        let activeUser = null;
+        try { activeUser = JSON.parse(currentUser); } catch (_) {}
 
         const dataKlaim = {
           idBarang: item.id,
@@ -313,10 +315,16 @@
           ciriRahasia: ciriRahasia,
           catatan: catatan,
           pelapor: item.pelapor || 'Penemu Anonim',
+          pengklaimEmail: (activeUser && activeUser.email) ? activeUser.email : '',
           waktuKlaim: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
         };
 
         localStorage.setItem("klaim_terbaru", JSON.stringify(dataKlaim));
+        try {
+          const riwayat = JSON.parse(localStorage.getItem("lostnfound_user_claims_v1") || "[]");
+          riwayat.unshift(dataKlaim);
+          localStorage.setItem("lostnfound_user_claims_v1", JSON.stringify(riwayat));
+        } catch (_) {}
 
         // Arahkan ke halaman chat dengan parameter lengkap agar sesi chat otomatis terhubung
         const chatParams = new URLSearchParams({
